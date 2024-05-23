@@ -19,7 +19,11 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="email" type="varchar(64)" defaultValue="test@test.com">
+            <column name="email" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="active" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
 

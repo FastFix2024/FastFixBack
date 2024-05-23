@@ -10,6 +10,9 @@
 
     <include file="create-table-user.xml" relativeToChangelogFile="true"/>
     <include file="create-table-role.xml" relativeToChangelogFile="true"/>
-    <include file="create_foreign_keys_user_role.xml" relativeToChangelogFile="true"/>
+    <include file="create-table-user-role.xml" relativeToChangelogFile="true"/>
+    <include file="create-foreign-keys-user-role.xml" relativeToChangelogFile="true"/>
+    <include file="add-test-users.xml" relativeToChangelogFile="true"/>
+    <include file="add-roles.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

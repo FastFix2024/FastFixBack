@@ -50,6 +50,7 @@ public class Role implements GrantedAuthority {
     public int hashCode() {
         return Objects.hash(id, title);
     }
+
     @Override
     public String toString() {
         return String.format("Role: ID - %d, title - %s",
