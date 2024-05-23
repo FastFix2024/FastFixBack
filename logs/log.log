@@ -1,0 +1,18 @@
+2024-05-23T11:40:25.360+02:00  INFO 7452 --- [main] fast_fix.FastFixApplication              : Starting FastFixApplication using Java 17.0.9 with PID 7452 (/Users/loogatip/Desktop/FastFix/FastFixBack/target/classes started by loogatip in /Users/loogatip/Desktop/FastFix/FastFixBack)
+2024-05-23T11:40:25.366+02:00  INFO 7452 --- [main] fast_fix.FastFixApplication              : No active profile set, falling back to 1 default profile: "default"
+2024-05-23T11:40:25.687+02:00  WARN 7452 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2024-05-23T11:40:26.800+02:00 ERROR 7452 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web application could not be started as there was no org.springframework.boot.web.servlet.server.ServletWebServerFactory bean defined in the context.
+
+Action:
+
+Check your application's dependencies for a supported servlet web server.
+Check the configured web application type.
+
