@@ -5,11 +5,13 @@ import jakarta.mail.MessagingException;
 
 public interface EmailService {
 
-    void sendVerificationEmail(User user, String token) throws MessagingException;
+    void sendConfirmationEmail(User user);
 
-    void sendPasswordResetEmail(User user, String token);
-
-    void sendPromoEmail(User user, String token);
-
-    void sendReminderEmail(User user, String token);
+//    void sendVerificationEmail(User user, String token) throws MessagingException;
+//
+//    void sendPasswordResetEmail(User user, String token);
+//
+//    void sendPromoEmail(User user, String token);
+//
+//    void sendReminderEmail(User user, String token);
 }
