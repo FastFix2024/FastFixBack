@@ -3,7 +3,9 @@ package fast_fix.domain.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
@@ -39,6 +41,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
 
     public Long getId() {
         return id;
