@@ -3,22 +3,14 @@ package fast_fix.service;
 import fast_fix.domain.entity.User;
 import fast_fix.service.interfaces.ConfirmationService;
 import fast_fix.service.interfaces.EmailService;
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-
-import freemarker.template.Configuration;
-//import java.lang.module.Configuration;
-//import jdk.jfr.Configuration;
-//import org.hibernate.cfg.Configuration;
-//import jakarta.validation.Configuration;
-
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-
-//import freemarker.cache.ClassTemplateLoader;
-//import freemarker.template.Template;
-//import jakarta.mail.internet.MimeMessage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,10 +22,9 @@ public class EmailServiceImpl implements EmailService {
     private Configuration mailConfiguration;
     private ConfirmationService confirmationService;
 
-    public EmailServiceImpl(
-            JavaMailSender sender,
-            Configuration mailConfiguration,
-            ConfirmationService confirmationService
+    public EmailServiceImpl(JavaMailSender sender,
+                            Configuration mailConfiguration,
+                            ConfirmationService confirmationService
     ) {
         this.sender = sender;
         this.mailConfiguration = mailConfiguration;
@@ -51,7 +42,7 @@ public class EmailServiceImpl implements EmailService {
         String text = generateMessageText(user);
 
         try {
-            helper.setFrom("looga.jury@gmail.com");
+            helper.setFrom("mail.test.er.anny@gmail.com");
             helper.setTo(user.getEmail());
             helper.setSubject("Registration");
             helper.setText(text, true);
@@ -77,8 +68,6 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 }
-
-
 
 //import fast_fix.domain.entity.User;
 //import fast_fix.service.interfaces.EmailService;
