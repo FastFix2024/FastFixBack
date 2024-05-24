@@ -1,18 +1,34 @@
 package fast_fix.domain.entity;
 
-import java.time.LocalDate;
+
+import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
+@Table(name = "confirm_code")
 public class ConfirmationCode {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "code")
     private String code;
-    private LocalDate expired;
+
+    @Column(name = "expired")
+    private LocalDateTime expired;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public ConfirmationCode() {
     }
 
-    public ConfirmationCode(String code, LocalDate expired, User user) {
+    public ConfirmationCode(String code, LocalDateTime expired, User user) {
         this.code = code;
         this.expired = expired;
         this.user = user;
@@ -30,10 +46,10 @@ public class ConfirmationCode {
     public void setCode(String code) {
         this.code = code;
     }
-    public LocalDate getExpired() {
+    public LocalDateTime getExpired() {
         return expired;
     }
-    public void setExpired(LocalDate expired) {
+    public void setExpired(LocalDateTime expired) {
         this.expired = expired;
     }
     public User getUser() {

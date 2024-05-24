@@ -28,21 +28,20 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserServiceImpl(UserRepository repository, BCryptPasswordEncoder encoder, RoleService roleService, EmailService emailService) {
+
         this.repository = repository;
         this.encoder = encoder;
         this.roleService = roleService;
         this.emailService = emailService;
     }
 
-
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = repository.findByUsername(username);
-
-        if (user == null) {
+        if (user == null){
             throw new UsernameNotFoundException("User not found");
         }
-
-        return (UserDetails) user;
+        return user;
     }
 
     @Override
@@ -54,8 +53,5 @@ public class UserServiceImpl implements UserService {
         user.setActive(false);
 
         repository.save(user);
-
-        String token = UUID.randomUUID().toString();
-        emailService.sendVerificationEmail(user, token);
-    }
+        emailService.sendConfirmationEmail(user);
 }

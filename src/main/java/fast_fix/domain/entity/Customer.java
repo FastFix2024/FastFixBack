@@ -63,5 +63,3 @@ public class Customer {
                 id, name, isActive ? "yes" : "no");
     }
 }
-
-

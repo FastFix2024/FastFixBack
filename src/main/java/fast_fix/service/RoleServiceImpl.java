@@ -21,7 +21,6 @@ public class RoleServiceImpl implements RoleService {
         if (role == null) {
             throw new RuntimeException("Database doesn't contain ROLE_USER");
         }
-
         return role;
     }
 }

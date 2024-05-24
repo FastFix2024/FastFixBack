@@ -3,20 +3,16 @@ package fast_fix.service;
 import fast_fix.domain.entity.User;
 import fast_fix.service.interfaces.ConfirmationService;
 import fast_fix.service.interfaces.EmailService;
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import freemarker.template.Configuration;
-//import java.lang.module.Configuration;
-//import jdk.jfr.Configuration;
-//import org.hibernate.cfg.Configuration;
-//import jakarta.validation.Configuration;
-
-    private JavaMailSender mailSender;
-
-//import freemarker.cache.ClassTemplateLoader;
-//import freemarker.template.Template;
-//import jakarta.mail.internet.MimeMessage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,11 +24,7 @@ public class EmailServiceImpl implements EmailService {
     private Configuration mailConfiguration;
     private ConfirmationService confirmationService;
 
-    public EmailServiceImpl(
-            JavaMailSender sender,
-            Configuration mailConfiguration,
-            ConfirmationService confirmationService
-    ) {
+    public EmailServiceImpl(JavaMailSender sender, Configuration mailConfiguration, ConfirmationService confirmationService){
         this.sender = sender;
         this.mailConfiguration = mailConfiguration;
         this.confirmationService = confirmationService;
@@ -49,7 +41,7 @@ public class EmailServiceImpl implements EmailService {
         String text = generateMessageText(user);
 
         try {
-            helper.setFrom("looga.jury@gmail.com");
+            helper.setFrom("mail.test.er.anny@gmail.com");
             helper.setTo(user.getEmail());
             helper.setSubject("Registration");
             helper.setText(text, true);
@@ -75,50 +67,3 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 }
-
-
-
-//import fast_fix.domain.entity.User;
-//import fast_fix.service.interfaces.EmailService;
-//import jakarta.mail.MessagingException;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.mail.SimpleMailMessage;
-//import org.springframework.mail.javamail.JavaMailSender;
-//import org.springframework.stereotype.Service;
-//
-//@Service
-//public class EmailServiceImpl implements EmailService {
-//
-//    @Autowired
-//    private JavaMailSender mailSender;
-//
-//
-//    @Override
-//    public void sendVerificationEmail(User user, String token) throws MessagingException {
-//        String subject = "Подтверждение регистрации";
-//        String confirmationUrl = "http://localhost:8080/confirm?token=" + token;
-//        String message = "Перейдите по ссылке для подтверждения регистрации: " + confirmationUrl;
-//
-//        SimpleMailMessage email = new SimpleMailMessage();
-//        email.setTo(user.getEmail());
-//        email.setSubject(subject);
-//        email.setText(message);
-//
-//        mailSender.send(email);
-//    }
-//
-//    @Override
-//    public void sendPasswordResetEmail(User user, String token) {
-//
-//    }
-//
-//    @Override
-//    public void sendPromoEmail(User user, String token) {
-//
-//    }
-//
-//    @Override
-//    public void sendReminderEmail(User user, String token) {
-//
-//    }
-//}
