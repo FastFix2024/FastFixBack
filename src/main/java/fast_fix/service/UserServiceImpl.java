@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = repository.findByUsername(username);
-        if (user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         return user;
@@ -54,4 +54,5 @@ public class UserServiceImpl implements UserService {
 
         repository.save(user);
         emailService.sendConfirmationEmail(user);
+    }
 }

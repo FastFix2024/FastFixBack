@@ -120,9 +120,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
-
 }
