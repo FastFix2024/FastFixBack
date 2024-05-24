@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+
 import java.util.Objects;
 import java.util.Set;
 
@@ -44,6 +45,9 @@ public class User implements UserDetails {
     )
     private Set<Role> roles;
 
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
 
     public Long getId() {
         return id;
@@ -122,5 +126,3 @@ public class User implements UserDetails {
     }
 
 }
-
-
