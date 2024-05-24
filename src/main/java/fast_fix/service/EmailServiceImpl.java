@@ -12,9 +12,7 @@ import freemarker.template.Configuration;
 //import org.hibernate.cfg.Configuration;
 //import jakarta.validation.Configuration;
 
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+    private JavaMailSender mailSender;
 
 //import freemarker.cache.ClassTemplateLoader;
 //import freemarker.template.Template;
