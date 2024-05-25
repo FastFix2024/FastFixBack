@@ -10,5 +10,4 @@
 
     <include file="add-users-roles.xml" relativeToChangelogFile="true"/>
 
-
 </databaseChangeLog>
