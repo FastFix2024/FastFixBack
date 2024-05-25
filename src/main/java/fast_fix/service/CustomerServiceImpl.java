@@ -16,32 +16,25 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto save(CustomerDto dto) {
         return null;
     }
-
     @Override
     public List<CustomerDto> getAllActiveCustomers() {
         return List.of();
     }
-
     @Override
     public CustomerDto getActiveCustomerById(Long id) {
         return null;
     }
-
     @Override
     public CustomerDto update(CustomerDto dto) {
         return null;
     }
-
     @Override
     public void deleteById(Long id) {
-
     }
-
     @Override
     public void deleteByName(String name) {
 
     }
-
     @Override
     public void restoreById(Long id) {
 
