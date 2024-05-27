@@ -24,6 +24,7 @@ public class SecurityConfig {
         this.filter = filter;
     }
 
+
     @Bean
     public BCryptPasswordEncoder encoder(){
         return new BCryptPasswordEncoder();
@@ -37,14 +38,9 @@ public class SecurityConfig {
                 .sessionManagement(x -> x
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(x -> x
-                        .requestMatchers(HttpMethod.GET,"/customers").permitAll()
-//                        .requestMatchers(HttpMethod.GET,"/products/all").permitAll()
-//                        .requestMatchers(HttpMethod.POST,"/products").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/auth/login", "/auth/access").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/register").permitAll()
-//                        .requestMatchers(HttpMethod.POST,"/files").hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.GET,"/system/products").hasRole("SUPPLIER")
-//                        .anyRequest().authenticated())
+                        .requestMatchers(HttpMethod.POST,"/api/auth/login", "/api/auth/access").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/auth/logout").hasAnyRole("Admin","User")
+                        .requestMatchers(HttpMethod.POST,"/api/register").permitAll()
                         .anyRequest().permitAll())
                 .addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class)
                 .build();

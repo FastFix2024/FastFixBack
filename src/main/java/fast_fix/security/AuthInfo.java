@@ -65,6 +65,7 @@ public class AuthInfo implements Authentication {
         result = 31 * result + Objects.hashCode(roles);
         return result;
     }
+
     @Override
     public String toString() {
         return "AuthInfo{" +

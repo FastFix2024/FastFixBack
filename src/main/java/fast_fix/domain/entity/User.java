@@ -101,7 +101,7 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return String.format("User: ID - %d, username - %s, password - %s, email - %s",
-                id, username, email, password);
+                id, username, password, email);
     }
 
     @Override
