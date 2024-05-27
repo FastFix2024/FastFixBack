@@ -41,7 +41,7 @@ public class EmailServiceImpl implements EmailService {
         String text = generateMessageText(user);
 
         try {
-            helper.setFrom("mail.test.er.anny@gmail.com");
+            helper.setFrom("fastfix2024project@gmail.com");
             helper.setTo(user.getEmail());
             helper.setSubject("Registration");
             helper.setText(text, true);
