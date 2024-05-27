@@ -33,19 +33,19 @@ public class AuthController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping(name = "/access")
-    public ResponseEntity<Object> getNewAccessToken(@RequestBody RefreshRequestDto request, HttpServletResponse response){
-        try {
-            TokenResponseDto tokenDto = service.getAccessToken(request.getRefreshToken());
-            Cookie cookie = new Cookie("Access-Token", tokenDto.getAccessToken());
-            cookie.setPath("/");
-            cookie.setHttpOnly(true);
-            response.addCookie(cookie);
-            return ResponseEntity.ok(tokenDto);
-        }catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @PostMapping(name = "/access")
+//    public ResponseEntity<Object> getNewAccessToken(@RequestBody RefreshRequestDto request, HttpServletResponse response){
+//        try {
+//            TokenResponseDto tokenDto = service.getAccessToken(request.getRefreshToken());
+//            Cookie cookie = new Cookie("Access-Token", tokenDto.getAccessToken());
+//            cookie.setPath("/");
+//            cookie.setHttpOnly(true);
+//            response.addCookie(cookie);
+//            return ResponseEntity.ok(tokenDto);
+//        }catch (Exception e){
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+//        }
+//    }
     @GetMapping("/logout")
     public void logout(HttpServletResponse response){
         Cookie cookie = new Cookie("Access-Token", null);
