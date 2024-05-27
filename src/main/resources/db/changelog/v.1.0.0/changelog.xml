@@ -8,11 +8,13 @@
         <tagDatabase tag="v.1.0.0"/>
     </changeSet>
 
-    <include file="create-table-user.xml" relativeToChangelogFile="true"/>
-    <include file="create-table-role.xml" relativeToChangelogFile="true"/>
-    <include file="create-table-user-role.xml" relativeToChangelogFile="true"/>
-    <include file="create-foreign-keys-user-role.xml" relativeToChangelogFile="true"/>
+    <include file="create-table-users.xml" relativeToChangelogFile="true"/>
     <include file="add-test-users.xml" relativeToChangelogFile="true"/>
-    <include file="add-roles.xml" relativeToChangelogFile="true"/>
+    <include file="create-table-role.xml" relativeToChangelogFile="true"/>
+    <include file="add-role.xml" relativeToChangelogFile="true"/>
+    <include file="create-table-users-role.xml" relativeToChangelogFile="true"/>
+    <include file="create-foreign-keys-users-role.xml" relativeToChangelogFile="true"/>
+
+
 
 </databaseChangeLog>

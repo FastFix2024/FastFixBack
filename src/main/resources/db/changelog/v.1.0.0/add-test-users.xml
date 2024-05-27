@@ -5,14 +5,14 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="2" author="annymee">
-        <insert tableName="user">
+    <changeSet id="2" author="ffdev">
+        <insert tableName="users">
             <column name="username" value="testuser1"/>
             <column name="email" value="testuser1@example.com"/>
             <column name="password" value="1111"/>
             <column name="active" valueBoolean="true"/>
         </insert>
-        <insert tableName="user">
+        <insert tableName="users">
             <column name="username" value="testuser2"/>
             <column name="email" value="testuser2@example.com"/>
             <column name="password" value="2222"/>

@@ -4,26 +4,18 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
-    <changeSet id="create_table_user" author="juri">
-        <createTable tableName="user">
+    <changeSet id="create_table_bookmarks" author="ffdev">
+        <createTable tableName="bookmarks">
 
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
-            <column name="username" type="varchar(64)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-
-            <column name="password" type="char(60)">
+            <column name="service_name" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
 
-            <column name="email" type="varchar(64)">
-                <constraints nullable="false"/>
-            </column>
-
-            <column name="active" type="BOOLEAN">
+            <column name="service_address" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
 
