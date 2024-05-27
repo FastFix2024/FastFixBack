@@ -2838,3 +2838,123 @@ fast_fix.security.sec_controller.AuthController#getNewAccessToken(RefreshRequest
 2024-05-27T14:22:21.401+02:00  INFO 7449 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-05-27T14:22:21.436+02:00  INFO 7449 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2024-05-27T14:22:21.461+02:00  INFO 7449 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-05-27T14:54:59.165+02:00  INFO 8695 --- [main] fast_fix.FastFixApplication              : Starting FastFixApplication using Java 17.0.9 with PID 8695 (/Users/loogatip/Desktop/FastFix/FastFixBack/target/classes started by loogatip in /Users/loogatip/Desktop/FastFix/FastFixBack)
+2024-05-27T14:54:59.168+02:00  INFO 8695 --- [main] fast_fix.FastFixApplication              : No active profile set, falling back to 1 default profile: "default"
+2024-05-27T14:55:00.627+02:00  INFO 8695 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-27T14:55:00.739+02:00  INFO 8695 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 100 ms. Found 4 JPA repository interfaces.
+2024-05-27T14:55:01.679+02:00  INFO 8695 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-05-27T14:55:01.696+02:00  INFO 8695 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-05-27T14:55:01.697+02:00  INFO 8695 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.20]
+2024-05-27T14:55:01.779+02:00  INFO 8695 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-05-27T14:55:01.780+02:00  INFO 8695 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2542 ms
+2024-05-27T14:55:01.966+02:00  INFO 8695 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-05-27T14:55:02.276+02:00  INFO 8695 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@59018eed
+2024-05-27T14:55:02.279+02:00  INFO 8695 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-05-27T14:55:02.595+02:00  INFO 8695 --- [main] liquibase.database                       : Set default schema name to public
+2024-05-27T14:55:03.727+02:00  INFO 8695 --- [main] liquibase.changelog                      : Reading from public.databasechangelog
+2024-05-27T14:55:03.816+02:00  INFO 8695 --- [main] liquibase.changelog                      : Reading from public.databasechangelog
+2024-05-27T14:55:03.830+02:00  INFO 8695 --- [main] liquibase.util                           : UPDATE SUMMARY
+2024-05-27T14:55:03.831+02:00  INFO 8695 --- [main] liquibase.util                           : Run:                          0
+2024-05-27T14:55:03.831+02:00  INFO 8695 --- [main] liquibase.util                           : Previously run:              12
+2024-05-27T14:55:03.831+02:00  INFO 8695 --- [main] liquibase.util                           : Filtered out:                 0
+2024-05-27T14:55:03.831+02:00  INFO 8695 --- [main] liquibase.util                           : -------------------------------
+2024-05-27T14:55:03.832+02:00  INFO 8695 --- [main] liquibase.util                           : Total change sets:           12
+2024-05-27T14:55:03.832+02:00  INFO 8695 --- [main] liquibase.util                           : Update summary generated
+2024-05-27T14:55:03.900+02:00  INFO 8695 --- [main] liquibase.lockservice                    : Successfully released change log lock
+2024-05-27T14:55:03.902+02:00  INFO 8695 --- [main] liquibase.command                        : Command execution complete
+2024-05-27T14:55:04.170+02:00  INFO 8695 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-27T14:55:04.418+02:00  INFO 8695 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-05-27T14:55:04.538+02:00  INFO 8695 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-05-27T14:55:05.348+02:00  INFO 8695 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-05-27T14:55:08.169+02:00  INFO 8695 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-05-27T14:55:08.175+02:00  INFO 8695 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-27T14:55:09.175+02:00  WARN 8695 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-05-27T14:55:09.747+02:00  INFO 8695 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@c359413, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3e2d5b6, org.springframework.security.web.context.SecurityContextHolderFilter@1d88414a, org.springframework.security.web.header.HeaderWriterFilter@7b601e55, org.springframework.web.filter.CorsFilter@25618246, org.springframework.security.web.authentication.logout.LogoutFilter@7d59e8d4, fast_fix.security.sec_filter.TokenFilter@60c44f6f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6636e1dd, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@279063c7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@345b558f, org.springframework.security.web.session.SessionManagementFilter@159e8432, org.springframework.security.web.access.ExceptionTranslationFilter@6d8948b2, org.springframework.security.web.access.intercept.AuthorizationFilter@4159c03b]
+2024-05-27T14:55:10.116+02:00  WARN 8695 --- [main] o.s.b.a.f.FreeMarkerAutoConfiguration    : Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.check-template-location=false)
+2024-05-27T14:55:10.243+02:00  INFO 8695 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2024-05-27T14:55:10.259+02:00  INFO 8695 --- [main] fast_fix.FastFixApplication              : Started FastFixApplication in 12.162 seconds (process running for 14.16)
+2024-05-27T14:55:45.499+02:00  INFO 8695 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-05-27T14:55:45.501+02:00  INFO 8695 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-05-27T14:55:45.503+02:00  INFO 8695 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2024-05-27T14:57:54.382+02:00  INFO 8695 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-27T14:57:54.393+02:00  INFO 8695 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-05-27T14:57:54.402+02:00  INFO 8695 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-05-27T15:03:04.774+02:00  INFO 8957 --- [main] fast_fix.FastFixApplication              : Starting FastFixApplication using Java 17.0.9 with PID 8957 (/Users/loogatip/Desktop/FastFix/FastFixBack/target/classes started by loogatip in /Users/loogatip/Desktop/FastFix/FastFixBack)
+2024-05-27T15:03:04.777+02:00  INFO 8957 --- [main] fast_fix.FastFixApplication              : No active profile set, falling back to 1 default profile: "default"
+2024-05-27T15:03:06.149+02:00  INFO 8957 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-27T15:03:06.260+02:00  INFO 8957 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 90 ms. Found 3 JPA repository interfaces.
+2024-05-27T15:03:07.217+02:00  INFO 8957 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-05-27T15:03:07.234+02:00  INFO 8957 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-05-27T15:03:07.235+02:00  INFO 8957 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.20]
+2024-05-27T15:03:07.322+02:00  INFO 8957 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-05-27T15:03:07.322+02:00  INFO 8957 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2483 ms
+2024-05-27T15:03:07.519+02:00  INFO 8957 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-05-27T15:03:07.850+02:00  INFO 8957 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7f5614f9
+2024-05-27T15:03:07.853+02:00  INFO 8957 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-05-27T15:03:08.161+02:00  INFO 8957 --- [main] liquibase.database                       : Set default schema name to public
+2024-05-27T15:03:09.200+02:00  INFO 8957 --- [main] liquibase.changelog                      : Reading from public.databasechangelog
+2024-05-27T15:03:09.287+02:00  INFO 8957 --- [main] liquibase.changelog                      : Reading from public.databasechangelog
+2024-05-27T15:03:09.304+02:00  INFO 8957 --- [main] liquibase.util                           : UPDATE SUMMARY
+2024-05-27T15:03:09.304+02:00  INFO 8957 --- [main] liquibase.util                           : Run:                          0
+2024-05-27T15:03:09.305+02:00  INFO 8957 --- [main] liquibase.util                           : Previously run:              12
+2024-05-27T15:03:09.305+02:00  INFO 8957 --- [main] liquibase.util                           : Filtered out:                 0
+2024-05-27T15:03:09.305+02:00  INFO 8957 --- [main] liquibase.util                           : -------------------------------
+2024-05-27T15:03:09.305+02:00  INFO 8957 --- [main] liquibase.util                           : Total change sets:           12
+2024-05-27T15:03:09.306+02:00  INFO 8957 --- [main] liquibase.util                           : Update summary generated
+2024-05-27T15:03:09.412+02:00  INFO 8957 --- [main] liquibase.lockservice                    : Successfully released change log lock
+2024-05-27T15:03:09.426+02:00  INFO 8957 --- [main] liquibase.command                        : Command execution complete
+2024-05-27T15:03:09.687+02:00  INFO 8957 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-27T15:03:09.905+02:00  INFO 8957 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-05-27T15:03:10.025+02:00  INFO 8957 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-05-27T15:03:10.807+02:00  INFO 8957 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-05-27T15:03:13.523+02:00  INFO 8957 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-05-27T15:03:13.530+02:00  INFO 8957 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-27T15:03:14.645+02:00  WARN 8957 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-05-27T15:03:15.254+02:00  INFO 8957 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@402ceac2, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1613e5ab, org.springframework.security.web.context.SecurityContextHolderFilter@369bd5ca, org.springframework.security.web.header.HeaderWriterFilter@2f71cdc0, org.springframework.web.filter.CorsFilter@580930b7, org.springframework.security.web.authentication.logout.LogoutFilter@3ce3b8d3, fast_fix.security.sec_filter.TokenFilter@8936d23, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@735b638, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@baee849, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1e55ee99, org.springframework.security.web.session.SessionManagementFilter@67e9d8cb, org.springframework.security.web.access.ExceptionTranslationFilter@607fa188, org.springframework.security.web.access.intercept.AuthorizationFilter@391dfe82]
+2024-05-27T15:03:15.614+02:00  WARN 8957 --- [main] o.s.b.a.f.FreeMarkerAutoConfiguration    : Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.check-template-location=false)
+2024-05-27T15:03:15.747+02:00  INFO 8957 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2024-05-27T15:03:15.764+02:00  INFO 8957 --- [main] fast_fix.FastFixApplication              : Started FastFixApplication in 11.993 seconds (process running for 13.486)
+2024-05-27T15:03:19.378+02:00  INFO 8957 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-27T15:03:19.382+02:00  INFO 8957 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-05-27T15:03:19.386+02:00  INFO 8957 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-05-27T19:04:06.744+02:00  INFO 13558 --- [main] fast_fix.FastFixApplication              : Starting FastFixApplication using Java 17.0.9 with PID 13558 (/Users/loogatip/Desktop/FastFix/FastFixBack/target/classes started by loogatip in /Users/loogatip/Desktop/FastFix/FastFixBack)
+2024-05-27T19:04:06.748+02:00  INFO 13558 --- [main] fast_fix.FastFixApplication              : No active profile set, falling back to 1 default profile: "default"
+2024-05-27T19:04:08.189+02:00  INFO 13558 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-27T19:04:08.340+02:00  INFO 13558 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 135 ms. Found 3 JPA repository interfaces.
+2024-05-27T19:04:09.361+02:00  INFO 13558 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-05-27T19:04:09.381+02:00  INFO 13558 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-05-27T19:04:09.382+02:00  INFO 13558 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.20]
+2024-05-27T19:04:09.480+02:00  INFO 13558 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-05-27T19:04:09.480+02:00  INFO 13558 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2634 ms
+2024-05-27T19:04:09.705+02:00  INFO 13558 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-05-27T19:04:10.032+02:00  INFO 13558 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1a7cb3a4
+2024-05-27T19:04:10.036+02:00  INFO 13558 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-05-27T19:04:10.636+02:00  INFO 13558 --- [main] liquibase.database                       : Set default schema name to public
+2024-05-27T19:04:11.887+02:00  INFO 13558 --- [main] liquibase.changelog                      : Reading from public.databasechangelog
+2024-05-27T19:04:12.058+02:00  INFO 13558 --- [main] liquibase.changelog                      : Reading from public.databasechangelog
+2024-05-27T19:04:12.076+02:00  INFO 13558 --- [main] liquibase.util                           : UPDATE SUMMARY
+2024-05-27T19:04:12.076+02:00  INFO 13558 --- [main] liquibase.util                           : Run:                          0
+2024-05-27T19:04:12.077+02:00  INFO 13558 --- [main] liquibase.util                           : Previously run:              12
+2024-05-27T19:04:12.077+02:00  INFO 13558 --- [main] liquibase.util                           : Filtered out:                 0
+2024-05-27T19:04:12.077+02:00  INFO 13558 --- [main] liquibase.util                           : -------------------------------
+2024-05-27T19:04:12.077+02:00  INFO 13558 --- [main] liquibase.util                           : Total change sets:           12
+2024-05-27T19:04:12.078+02:00  INFO 13558 --- [main] liquibase.util                           : Update summary generated
+2024-05-27T19:04:12.159+02:00  INFO 13558 --- [main] liquibase.lockservice                    : Successfully released change log lock
+2024-05-27T19:04:12.176+02:00  INFO 13558 --- [main] liquibase.command                        : Command execution complete
+2024-05-27T19:04:12.430+02:00  INFO 13558 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-27T19:04:12.653+02:00  INFO 13558 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-05-27T19:04:12.771+02:00  INFO 13558 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-05-27T19:04:13.520+02:00  INFO 13558 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-05-27T19:04:16.159+02:00  INFO 13558 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-05-27T19:04:16.166+02:00  INFO 13558 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-27T19:04:17.349+02:00  WARN 13558 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-05-27T19:04:18.046+02:00  INFO 13558 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4ea0ec5e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@25dee62, org.springframework.security.web.context.SecurityContextHolderFilter@674502f9, org.springframework.security.web.header.HeaderWriterFilter@247c43c6, org.springframework.web.filter.CorsFilter@18182680, org.springframework.security.web.authentication.logout.LogoutFilter@134a27c1, fast_fix.security.sec_filter.TokenFilter@2dd631c5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@786a4eb2, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@607fa188, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@18abaf2c, org.springframework.security.web.session.SessionManagementFilter@7803a877, org.springframework.security.web.access.ExceptionTranslationFilter@413d15d5, org.springframework.security.web.access.intercept.AuthorizationFilter@5163ba42]
+2024-05-27T19:04:18.526+02:00  WARN 13558 --- [main] o.s.b.a.f.FreeMarkerAutoConfiguration    : Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.check-template-location=false)
+2024-05-27T19:04:18.659+02:00  INFO 13558 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2024-05-27T19:04:18.676+02:00  INFO 13558 --- [main] fast_fix.FastFixApplication              : Started FastFixApplication in 13.143 seconds (process running for 15.033)
+2024-05-27T19:05:22.793+02:00  INFO 13558 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-05-27T19:05:22.796+02:00  INFO 13558 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-05-27T19:05:22.802+02:00  INFO 13558 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2024-05-27T19:07:40.980+02:00  INFO 13558 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-27T19:07:40.986+02:00  INFO 13558 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-05-27T19:07:40.989+02:00  INFO 13558 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

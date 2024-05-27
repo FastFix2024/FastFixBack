@@ -1,6 +1,6 @@
 package fast_fix.exception_handling;
 
-import fast_fix.exception_handling.exceptions.CustomerNotFoundException;
+import fast_fix.exception_handling.exceptions.UserNotFoundException;
 import fast_fix.exception_handling.exceptions.FourthTestException;
 import fast_fix.exception_handling.exceptions.ThirdTestException;
 import org.springframework.http.HttpStatus;
@@ -21,8 +21,8 @@ public class GlobalExceptionHandler {
         Response response = new Response(e.getMessage(), e.getCause().getMessage());
         return new ResponseEntity<>(response, HttpStatus.I_AM_A_TEAPOT);
     }
-    @ExceptionHandler(CustomerNotFoundException.class)
-    public ResponseEntity<Response> handleException(CustomerNotFoundException e){
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Response> handleException(UserNotFoundException e){
         Response response = new Response(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }

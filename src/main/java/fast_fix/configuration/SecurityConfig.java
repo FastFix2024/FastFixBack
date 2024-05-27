@@ -24,6 +24,7 @@ public class SecurityConfig {
         this.filter = filter;
     }
 
+
     @Bean
     public BCryptPasswordEncoder encoder(){
         return new BCryptPasswordEncoder();
@@ -37,8 +38,7 @@ public class SecurityConfig {
                 .sessionManagement(x -> x
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(x -> x
-                        .requestMatchers(HttpMethod.GET,"/api/customers").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/api/auth/login", "/api/auth/refresh-Token").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/auth/login", "/api/auth/access").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/auth/logout").hasAnyRole("Admin","User")
                         .requestMatchers(HttpMethod.POST,"/api/register").permitAll()
                         .anyRequest().permitAll())

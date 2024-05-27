@@ -33,7 +33,7 @@ public class AuthController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/refresh-Token")
+    @PostMapping("/access")
     public ResponseEntity<Object> getNewAccessToken(@RequestBody RefreshRequestDto request, HttpServletResponse response){
         try {
             TokenResponseDto tokenDto = service.getAccessToken(request.getRefreshToken());
