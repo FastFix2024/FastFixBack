@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="add_insurances" author="ffdev">
+
+        <insert tableName="insurance_companies">
+            <column name="company_name" value="Allianz SE"/>
+            <column name="address" value="Königinstrasse 28, 80802 Munich, Germany"/>
+            <column name="phone" value="+49 89 38000"/>
+            <column name="email" value=""/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="company_name" value="AXA Versicherung AG"/>
+            <column name="address" value="Colonia-Allee 10-20, 51067 Cologne, Germany"/>
+            <column name="phone" value="+49 221 1480"/>
+            <column name="email" value=""/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="company_name" value="Generali Deutschland AG"/>
+            <column name="address" value="Adenauerring 7, 81737 Munich, Germany"/>
+            <column name="phone" value="+49 89 51210"/>
+            <column name="email" value=""/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="company_name" value="Ergo Group AG"/>
+            <column name="address" value="Victoriaplatz 2, 40477 Düsseldorf, Germany"/>
+            <column name="phone" value="+49 211 4770"/>
+            <column name="email" value=""/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="company_name" value="HDI Versicherung AG"/>
+            <column name="address" value="HDI-Platz 1, 30659 Hannover, Germany"/>
+            <column name="phone" value="+49 511 6450"/>
+            <column name="email" value=""/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="company_name" value="Debeka Versicherungsgruppe"/>
+            <column name="address" value="Debeka-Platz 1, 56058 Koblenz, Germany"/>
+            <column name="phone" value="+49 261 4980"/>
+            <column name="email" value="info@debeka.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="company_name" value="R+V Versicherung AG"/>
+            <column name="address" value="Raiffeisenplatz 1, 65189 Wiesbaden, Germany"/>
+            <column name="phone" value="+49 611 5330"/>
+            <column name="email" value=""/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="company_name" value="Signal Iduna Group"/>
+            <column name="address" value="Joseph-Scherer-Str. 3, 44139 Dortmund, Germany"/>
+            <column name="phone" value="+49 231 1350"/>
+            <column name="email" value="info@signal-iduna.de"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>
