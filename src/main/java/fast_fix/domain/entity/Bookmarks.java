@@ -13,13 +13,13 @@ public class Bookmarks {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "service_name")
     private String serviceName;
-    @Column(name = "serviceAddress")
+    @Column(name = "service_address")
     private String serviceAddress;
 
     public Bookmarks() {}
@@ -71,11 +71,6 @@ public class Bookmarks {
 
     @Override
     public String toString() {
-        return "Favorites{" +
-                "id=" + id +
-                ", user=" + user +
-                ", serviceName='" + serviceName + '\'' +
-                ", serviceAddress='" + serviceAddress + '\'' +
-                '}';
+        return String.format("Bookmark: ID - %d, User - %s", id, user);
     }
 }

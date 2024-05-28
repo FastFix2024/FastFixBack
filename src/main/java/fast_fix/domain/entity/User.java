@@ -41,8 +41,8 @@ public class User implements UserDetails {
     )
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Bookmarks> bookmarks = new HashSet<>();
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private Bookmarks bookmarks;
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
@@ -98,14 +98,13 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public Set<Bookmarks> getFavorites() {
+    public Bookmarks getBookmarks() {
         return bookmarks;
     }
 
-    public void setBookmarks(Set<Bookmarks> bookmarks) {
+    public void setBookmarks(Bookmarks bookmarks) {
         this.bookmarks = bookmarks;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -135,5 +134,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("User: ID - %d, Username - %s, Email - %s, Active - %s, ", id, username, email, active ? "Yes" : "No");
     }
 }

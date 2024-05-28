@@ -1,26 +1,26 @@
 package fast_fix.domain.dto;
 
+public class BookmarksDto {
 
-public class BookmarksRequest {
-    private Long userId;
+    private Long id;
     private String serviceName;
     private String serviceAddress;
 
-    public BookmarksRequest() {
+    public BookmarksDto() {
     }
 
-    public BookmarksRequest(Long userId, String serviceName, String serviceAddress) {
-        this.userId = userId;
+    public BookmarksDto(Long id, String serviceName, String serviceAddress) {
+        this.id = id;
         this.serviceName = serviceName;
         this.serviceAddress = serviceAddress;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getServiceName() {
@@ -41,10 +41,6 @@ public class BookmarksRequest {
 
     @Override
     public String toString() {
-        return "FavoriteRequest{" +
-                "userId=" + userId +
-                ", serviceName='" + serviceName + '\'' +
-                ", serviceAddress='" + serviceAddress + '\'' +
-                '}';
+        return String.format("Bookmark: ID - %d, Service name - %s, Service address - %s", id, serviceName, serviceAddress);
     }
 }

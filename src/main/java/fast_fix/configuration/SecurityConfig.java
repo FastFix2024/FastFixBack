@@ -24,7 +24,6 @@ public class SecurityConfig {
         this.filter = filter;
     }
 
-
     @Bean
     public BCryptPasswordEncoder encoder(){
         return new BCryptPasswordEncoder();
@@ -38,9 +37,18 @@ public class SecurityConfig {
                 .sessionManagement(x -> x
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(x -> x
-                        .requestMatchers(HttpMethod.POST,"/api/auth/login", "/api/auth/access").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/api/auth/logout").hasAnyRole("Admin","User")
                         .requestMatchers(HttpMethod.POST,"/api/register").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/auth/login", "/api/auth/access").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/auth/logout").hasAnyRole("ADMIN","USER")
+// TODO                   .requestMatchers(HttpMethod.POST, "/api/bookmarks/add").hasAnyRole("Admin","User")
+// TODO                   .requestMatchers(HttpMethod.GET, "/api/bookmarks/user/{userId}").hasRole("Admin")
+                        .requestMatchers(HttpMethod.GET, "/api/insurance-companies/all").hasAnyRole("ADMIN","USER")
+                        .requestMatchers(HttpMethod.GET, "/api/insurance-companies").hasAnyRole("ADMIN","USER")
+                        .requestMatchers(HttpMethod.POST, "/api/insurance-companies").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/insurance-companies/update").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/insurance-companies/delete").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/users/all").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/users").hasAnyRole("ADMIN","USER")
                         .anyRequest().permitAll())
                 .addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class)
                 .build();

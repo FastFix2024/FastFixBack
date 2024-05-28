@@ -12,19 +12,15 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
-            <column name="company_name" type="varchar(64)">
+            <column name="name" type="varchar(64)">
                 <constraints nullable="false" unique="true"/>
-            </column>
-
-            <column name="address" type="text">
-                <constraints nullable="false"/>
             </column>
 
             <column name="phone" type="varchar(64)">
                 <constraints nullable="true"/>
             </column>
 
-            <column name="email" type="varchar(64)">
+            <column name="website" type="varchar(64)">
                 <constraints nullable="true"/>
             </column>
 

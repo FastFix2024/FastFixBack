@@ -4,8 +4,10 @@ import fast_fix.domain.entity.User;
 import fast_fix.security.AuthInfo;
 import fast_fix.security.sec_dto.TokenResponseDto;
 import fast_fix.service.interfaces.UserService;
+import fast_fix.service.mapping.UserMappingService;
 import io.jsonwebtoken.Claims;
 import jakarta.security.auth.message.AuthException;
+import org.springframework.context.annotation.Bean;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -60,8 +62,5 @@ public class AuthService {
         return new TokenResponseDto(null,null);
     }
 
-//    если нужна будет инфа о пользователе из самого SpringSecurity
-//public AuthInfo getAuthInfo(){
-//    return (AuthInfo) SecurityContextHolder.getContext().getAuthentication();
-//}
+
 }

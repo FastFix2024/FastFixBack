@@ -1,6 +1,6 @@
 package fast_fix.controller;
 
-import fast_fix.domain.dto.BookmarksRequest;
+import fast_fix.domain.dto.BookmarksDto;
 import fast_fix.domain.entity.Bookmarks;
 import fast_fix.domain.entity.User;
 import fast_fix.repository.BookmarksRepository;
@@ -23,8 +23,8 @@ public class BookmarksController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addFavorite(@RequestBody BookmarksRequest favoriteRequest) {
-        User user = userRepository.findById(favoriteRequest.getUserId())
+    public ResponseEntity<?> addFavorite(@RequestBody BookmarksDto bookmarksDto) {
+        User user = userRepository.findById(bookmarksDto.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Bookmarks bookmarks = new Bookmarks();
@@ -36,8 +36,8 @@ public class BookmarksController {
         return ResponseEntity.ok("Bookmark added successfully");
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Bookmarks>> getFavoritesByUser(@PathVariable Long userId) {
+    @GetMapping("/user")
+    public ResponseEntity<List<Bookmarks>> getFavoritesByUser(@RequestParam Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         List<Bookmarks> favorites = bookmarksRepository.findByUser(user);

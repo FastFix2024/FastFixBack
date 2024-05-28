@@ -1,9 +1,11 @@
 package fast_fix.security.sec_controller;
 
+import fast_fix.domain.dto.UserDto;
 import fast_fix.domain.entity.User;
 import fast_fix.security.sec_dto.RefreshRequestDto;
 import fast_fix.security.sec_dto.TokenResponseDto;
 import fast_fix.security.sec_service.AuthService;
+import fast_fix.service.mapping.UserMappingService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -16,13 +18,17 @@ public class AuthController {
 
     private AuthService service;
 
-    public AuthController(AuthService service) {
+    private UserMappingService userMappingService;
+
+    public AuthController(AuthService service, UserMappingService userMappingService) {
         this.service = service;
+        this.userMappingService = userMappingService;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody User user, HttpServletResponse response){
+    public ResponseEntity<Object> login(@RequestBody UserDto dto, HttpServletResponse response){
         try {
+            User user = userMappingService.userDtoToUser(dto);
             TokenResponseDto tokenDto = service.login(user);
             Cookie cookie = new Cookie("Access-Token", tokenDto.getAccessToken());
             cookie.setPath("/");
