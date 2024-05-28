@@ -44,9 +44,6 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Bookmarks> bookmarks = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<VerificationToken> tokens = new HashSet<>();
-
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
     }
@@ -109,31 +106,18 @@ public class User implements UserDetails {
         this.bookmarks = bookmarks;
     }
 
-    public Set<VerificationToken> getTokens() {
-        return tokens;
-    }
-
-    public void setTokens(Set<VerificationToken> tokens) {
-        this.tokens = tokens;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return active == user.active && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(roles, user.roles) && Objects.equals(bookmarks, user.bookmarks) && Objects.equals(tokens, user.tokens);
+        return active == user.active && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(roles, user.roles) && Objects.equals(bookmarks, user.bookmarks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, email, active, roles, bookmarks, tokens);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("User: ID - %d, username - %s, password - %s, email - %s",
-                id, username, password, email);
+        return Objects.hash(id, username, password, email, active, roles, bookmarks);
     }
 
     @Override
