@@ -78,11 +78,6 @@ public class ConfirmationCode {
 
     @Override
     public String toString() {
-        return "ConfirmationCode{" +
-                "id=" + id +
-                ", code='" + code + '\'' +
-                ", expired=" + expired +
-                ", user=" + user +
-                '}';
+        return String.format("Confirmation code: ID - %d, Code: %s, Expired: %s", id, code, expired);
     }
 }

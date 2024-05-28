@@ -11,6 +11,10 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
             <column name="service_name" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
