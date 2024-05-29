@@ -1,15 +1,15 @@
 package fast_fix.domain.dto;
 
-public class BookmarksDto {
+public class BookmarkDto {
 
     private Long id;
     private String serviceName;
     private String serviceAddress;
 
-    public BookmarksDto() {
+    public BookmarkDto() {
     }
 
-    public BookmarksDto(Long id, String serviceName, String serviceAddress) {
+    public BookmarkDto(Long id, String serviceName, String serviceAddress) {
         this.id = id;
         this.serviceName = serviceName;
         this.serviceAddress = serviceAddress;
