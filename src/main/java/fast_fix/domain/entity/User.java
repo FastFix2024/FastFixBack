@@ -41,8 +41,8 @@ public class User implements UserDetails {
     )
     private Set<Role> roles;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private Bookmarks bookmarks;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private Set<Bookmark> bookmark;
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
@@ -98,12 +98,12 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public Bookmarks getBookmarks() {
-        return bookmarks;
+    public Set<Bookmark> getBookmark() {
+        return bookmark;
     }
 
-    public void setBookmarks(Bookmarks bookmarks) {
-        this.bookmarks = bookmarks;
+    public void setBookmark(Set<Bookmark> bookmark) {
+        this.bookmark = bookmark;
     }
 
     @Override
@@ -111,12 +111,12 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return active == user.active && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(roles, user.roles) && Objects.equals(bookmarks, user.bookmarks);
+        return active == user.active && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(roles, user.roles) && Objects.equals(bookmark, user.bookmark);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, email, active, roles, bookmarks);
+        return Objects.hash(id, username, password, email, active, roles, bookmark);
     }
 
     @Override

@@ -5,10 +5,10 @@ import fast_fix.domain.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = BookmarksMappingService.class)
+@Mapper(componentModel = "spring", uses = BookmarkMappingService.class)
 public interface UserMappingService {
 
-    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "id", ignore = true)
     UserDto userToUserDto(User user);
 
     @Mapping(target = "id", ignore = true)
