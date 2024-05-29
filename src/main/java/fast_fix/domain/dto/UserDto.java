@@ -12,7 +12,7 @@ public class UserDto {
     private String email;
     private boolean active;
     private Set<Role> roles;
-    private BookmarksDto bookmarks;
+    private Set<BookmarkDto> bookmark;
 
     public Long getId() {
         return id;
@@ -54,12 +54,12 @@ public class UserDto {
         this.roles = roles;
     }
 
-    public BookmarksDto getBookmarks() {
-        return bookmarks;
+    public Set<BookmarkDto> getBookmark() {
+        return bookmark;
     }
 
-    public void setBookmarks(BookmarksDto bookmarks) {
-        this.bookmarks = bookmarks;
+    public void setBookmark(Set<BookmarkDto> bookmark) {
+        this.bookmark = bookmark;
     }
 
     @Override
@@ -67,16 +67,16 @@ public class UserDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDto userDto = (UserDto) o;
-        return active == userDto.active && Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username) && Objects.equals(email, userDto.email) && Objects.equals(roles, userDto.roles) && Objects.equals(bookmarks, userDto.bookmarks);
+        return active == userDto.active && Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username) && Objects.equals(email, userDto.email) && Objects.equals(roles, userDto.roles) && Objects.equals(bookmark, userDto.bookmark);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email, active, roles, bookmarks);
+        return Objects.hash(id, username, email, active, roles, bookmark);
     }
 
     @Override
     public String toString() {
-        return String.format("User: ID - %d, Username - %s, Email - %s, Active - %s, Bookmark - %s", id, username, email, active ? "Yes" : "No", bookmarks == null ? "ERROR! Bookmarks are missing!" : bookmarks);
+        return String.format("User: ID - %d, Username - %s, Email - %s, Active - %s, Bookmark - %s", id, username, email, active ? "Yes" : "No", bookmark == null ? "ERROR! Bookmarks are missing!" : bookmark);
     }
 }

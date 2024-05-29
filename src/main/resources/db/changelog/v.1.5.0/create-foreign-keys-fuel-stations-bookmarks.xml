@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="create_foreign_keys_users_bookmarks" author="ffdev">
+
+        <addForeignKeyConstraint baseTableName="fuel_stations_bookmarks"
+                                 baseColumnNames="fuel_station_id"
+                                 constraintName="fk_fuel_stations_bookmarks_to_fuel_stations"
+                                 referencedTableName="fuel_stations"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="fuel_stations_bookmarks"
+                                 baseColumnNames="bookmarks_id"
+                                 constraintName="fk_fuel_stations_bookmarks_to_bookmarks"
+                                 referencedTableName="bookmarks"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+</databaseChangeLog>
