@@ -14,6 +14,8 @@ public class RefreshRequestDto {
         return refreshToken;
     }
 
+    public RefreshRequestDto() {}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
