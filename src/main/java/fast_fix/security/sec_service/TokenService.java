@@ -3,7 +3,9 @@ package fast_fix.security.sec_service;
 import fast_fix.domain.entity.User;
 import fast_fix.domain.entity.Role;
 import fast_fix.repository.RoleRepository;
+import fast_fix.repository.VerificationTokenRepository;
 import fast_fix.security.AuthInfo;
+import fast_fix.security.VerificationToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -20,21 +22,24 @@ import java.util.*;
 @Service
 public class TokenService {
 
-    private SecretKey accessKey;
-    private SecretKey refreshKey;
-    private RoleRepository roleRepository;
+    private final SecretKey accessKey;
+    private final SecretKey refreshKey;
+    private final RoleRepository roleRepository;
+    private final VerificationTokenRepository verificationTokenRepository;
 
     public TokenService(
             @Value("${key.access}") String accessKey,
             @Value("${key.refresh}") String refreshKey,
-            RoleRepository roleRepository
+            RoleRepository roleRepository,
+            VerificationTokenRepository verificationTokenRepository
     ) {
         this.accessKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(accessKey));
         this.refreshKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(refreshKey));
         this.roleRepository = roleRepository;
+        this.verificationTokenRepository = verificationTokenRepository;
     }
 
-    public String generateAccessToken(User user){
+    public String generateAccessToken(User user) {
 
         LocalDateTime currentDate = LocalDateTime.now();
         Instant expirationInstant =
@@ -42,13 +47,14 @@ public class TokenService {
         Date expirationDate = Date.from(expirationInstant);
 
         return Jwts.builder()
-                .subject(user.getUsername())
-                .expiration(expirationDate)
+                .setSubject(user.getUsername())
+                .setExpiration(expirationDate)
                 .signWith(accessKey)
                 .claim("roles", user.getAuthorities())
                 .claim("name", user.getUsername())
                 .compact();
     }
+
     public String generateRefreshToken(User user) {
 
         LocalDateTime currentDate = LocalDateTime.now();
@@ -57,50 +63,69 @@ public class TokenService {
         Date expirationDate = Date.from(expirationInstant);
 
         return Jwts.builder()
-                .subject(user.getUsername())
-                .expiration(expirationDate)
+                .setSubject(user.getUsername())
+                .setExpiration(expirationDate)
                 .signWith(refreshKey)
                 .compact();
     }
 
-    private boolean validateToken(String token, SecretKey key){
+    public String generateVerificationToken(User user) {
+        String token = UUID.randomUUID().toString();
+        VerificationToken verificationToken = new VerificationToken(user, token, LocalDateTime.now().plusDays(1));
+        verificationTokenRepository.save(verificationToken);
+        return token;
+    }
+
+    public VerificationToken findByToken(String token) {
+        return verificationTokenRepository.findByToken(token);
+    }
+
+    public void deleteVerificationToken(VerificationToken verificationToken) {
+        verificationTokenRepository.delete(verificationToken);
+    }
+
+    private boolean validateToken(String token, SecretKey key) {
         try {
             Jwts.parser()
-                    .verifyWith(key)
+                    .setSigningKey(key)
                     .build()
-                    .parseSignedClaims(token);
+                    .parseClaimsJws(token);
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
-    public boolean validateAccessToken(String accessToken){
+
+    public boolean validateAccessToken(String accessToken) {
         return validateToken(accessToken, accessKey);
     }
-    public boolean validateRefreshToken(String refreshToken){
+
+    public boolean validateRefreshToken(String refreshToken) {
         return validateToken(refreshToken, refreshKey);
     }
 
-    private Claims getClaims(String token, SecretKey key){
+    private Claims getClaims(String token, SecretKey key) {
         return Jwts.parser()
-                .verifyWith(key)
+                .setSigningKey(key)
                 .build()
-                .parseSignedClaims(token)
-                .getPayload();
+                .parseClaimsJws(token)
+                .getBody();
     }
-    public Claims getAccessClaims(String accessToken){
+
+    public Claims getAccessClaims(String accessToken) {
         return getClaims(accessToken, accessKey);
     }
-    public Claims getRefrashClaims(String refreshToken){
+
+    public Claims getRefreshClaims(String refreshToken) {
         return getClaims(refreshToken, refreshKey);
     }
 
-    public AuthInfo generateAuthInfo(Claims claims){
+    public AuthInfo generateAuthInfo(Claims claims) {
         String username = claims.getSubject();
         List<LinkedHashMap<String, String>> rolesList = (List<LinkedHashMap<String, String>>) claims.get("roles");
         Set<Role> roles = new HashSet<>();
 
-        for (LinkedHashMap<String, String> roleEntry : rolesList){
+        for (LinkedHashMap<String, String> roleEntry : rolesList) {
             String roleTitle = roleEntry.get("authority");
             Role role = roleRepository.findByTitle(roleTitle);
             roles.add(role);

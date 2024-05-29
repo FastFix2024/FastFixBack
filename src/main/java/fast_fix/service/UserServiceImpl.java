@@ -17,20 +17,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository repository;
-
-    private BCryptPasswordEncoder encoder;
-
-    private RoleService roleService;
-
-    private EmailService emailService;
-    private UserMappingService userMappingService;
+    private final UserRepository repository;
+    private final BCryptPasswordEncoder encoder;
+    private final RoleService roleService;
+    private final EmailService emailService;
+    private final UserMappingService userMappingService;
 
     @Autowired
     public UserServiceImpl(UserRepository repository, BCryptPasswordEncoder encoder, RoleService roleService, EmailService emailService, UserMappingService userMappingService) {
@@ -47,12 +43,31 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return user;
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .authorities(user.getRoles())
+                .accountExpired(false)
+                .accountLocked(false)
+                .credentialsExpired(false)
+                .disabled(!user.isActive())
+                .build();
+    }
+
+
+    @Override
+    public boolean checkPassword(User user, String rawPassword) {
+        return encoder.matches(rawPassword, user.getPassword());
+    }
+
+    @Override
+    public void changePassword(User user, String newPassword) {
+        user.setPassword(encoder.encode(newPassword));
+        repository.save(user);
     }
 
     @Override
     public void registerUser(User user) throws MessagingException {
-
         user.setId(null);
         user.setPassword(encoder.encode(user.getPassword()));
         user.setRoles(Set.of(roleService.getRoleUser()));
@@ -85,14 +100,14 @@ public class UserServiceImpl implements UserService {
     public UserDto getUsersById(Long id) {
         User user = repository.findById(id).orElse(null);
         if (user == null) {
-            throw new EntityNotFoundException("User with ID: " + id + "not found");
+            throw new EntityNotFoundException("User with ID: " + id + " not found");
         }
         return userMappingService.userToUserDto(user);
     }
 
     @Override
     public UserDto update(UserDto dto) {
-        User userToUpdate = repository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("User with ID: " + dto.getId() + "not found"));
+        User userToUpdate = repository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("User with ID: " + dto.getId() + " not found"));
 
         if (dto.getUsername() != null) {
             userToUpdate.setUsername(dto.getUsername());
@@ -110,20 +125,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteById(Long id) {
-
-        User userToDelete = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with ID: " + id + "not found"));
-
+        User userToDelete = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with ID: " + id + " not found"));
         repository.delete(userToDelete);
     }
 
     @Override
     public void deleteByName(String name) {
-
         User userToDelete = repository.findByUsername(name);
         if (userToDelete == null) {
-            throw new EntityNotFoundException("User with username: " + name + "not found");
+            throw new EntityNotFoundException("User with username: " + name + " not found");
         }
-
         repository.delete(userToDelete);
     }
 
@@ -134,16 +145,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addBookmarkToUserByIds(Long userId, Long bookmarkId) {
-
+        // Реализация добавления закладки пользователю
     }
 
     @Override
     public void deleteBookmarkFromUserByIds(Long userId, Long bookmarkId) {
-
+        // Реализация удаления закладки у пользователя
     }
 
     @Override
     public void clearBookmarksByUserId(Long id) {
-
+        // Реализация очистки всех закладок у пользователя
     }
 }
+
