@@ -10,11 +10,14 @@ import fast_fix.service.mapping.UserMappingService;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -43,6 +46,7 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
+        
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
@@ -52,6 +56,12 @@ public class UserServiceImpl implements UserService {
                 .credentialsExpired(false)
                 .disabled(!user.isActive())
                 .build();
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities(User user) {
+        return user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getTitle()))
+                .collect(Collectors.toList());
     }
 
 
@@ -156,6 +166,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public void clearBookmarksByUserId(Long id) {
         // Реализация очистки всех закладок у пользователя
+    }
+    @Override
+    public boolean existsByUsername(String username) {
+        return repository.existsByUsername(username);
+    }
+
+    @Override
+    public void save(User user) {
+        repository.save(user);
+    }
+
+    @Override
+    public String encodePassword(String rawPassword) {
+        return encoder.encode(rawPassword);
     }
 }
 

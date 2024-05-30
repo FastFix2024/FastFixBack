@@ -20,6 +20,9 @@ public interface UserService extends UserDetailsService {
     void addBookmarkToUserByIds(Long userId, Long bookmarkId);
     void deleteBookmarkFromUserByIds(Long userId, Long bookmarkId);
     void clearBookmarksByUserId(Long id);
+    boolean existsByUsername(String username);
+    void save(User user);
+    String encodePassword(String rawPassword);
 
     boolean checkPassword(User user, String rawPassword);
     void changePassword(User user, String newPassword);
