@@ -35,7 +35,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendConfirmationEmail(User user) {
+    public void sendRegistrationConfirmEmail(User user) {
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
         String text = generateMessageText(user);
@@ -54,6 +54,198 @@ public class EmailServiceImpl implements EmailService {
         try {
             Template template = mailConfiguration
                     .getTemplate("confirm_registration_mail.ftlh");
+            String code = confirmationService.generateConfirmationCode(user);
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("name", user.getUsername());
+            model.put("link", "http://localhost:8080/register?code=" + code);
+
+            return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    public void sendInsuranceChangedInfoEmail(User user) {
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
+        String text = generateInsuranceChangedMessageText(user);
+
+        try {
+            helper.setFrom("fastfix2024project@gmail.com");
+            helper.setTo(user.getEmail());
+            helper.setSubject("Insurance Changed");
+            helper.setText(text, true);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+        sender.send(message);
+    }
+    private String generateInsuranceChangedMessageText(User user) {
+        try {
+            Template template = mailConfiguration
+                    .getTemplate("info_insurance_changed.ftlh");
+            String code = confirmationService.generateConfirmationCode(user);
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("name", user.getUsername());
+            model.put("link", "http://localhost:8080/register?code=" + code);
+
+            return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    public void sendNewEmailInfoEmail(User user) {
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
+        String text = generateNewEmailMessageText(user);
+
+        try {
+            helper.setFrom("fastfix2024project@gmail.com");
+            helper.setTo(user.getEmail());
+            helper.setSubject("New Email");
+            helper.setText(text, true);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+        sender.send(message);
+    }
+    private String generateNewEmailMessageText(User user) {
+        try {
+            Template template = mailConfiguration
+                    .getTemplate("info_new_email.ftlh");
+            String code = confirmationService.generateConfirmationCode(user);
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("name", user.getUsername());
+            model.put("link", "http://localhost:8080/register?code=" + code);
+
+            return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    public void sendFuelParamInfoEmail(User user) {
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
+        String text = generateFuelParamMessageText(user);
+
+        try {
+            helper.setFrom("fastfix2024project@gmail.com");
+            helper.setTo(user.getEmail());
+            helper.setSubject("Fuel Param");
+            helper.setText(text, true);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+        sender.send(message);
+    }
+    private String generateFuelParamMessageText(User user) {
+        try {
+            Template template = mailConfiguration
+                    .getTemplate("info_new_fuel_param.ftlh");
+            String code = confirmationService.generateConfirmationCode(user);
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("name", user.getUsername());
+            model.put("link", "http://localhost:8080/register?code=" + code);
+
+            return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    public void sendTechInspectWarnEmail(User user) {
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
+        String text = generateTechInspectMessageText(user);
+
+        try {
+            helper.setFrom("fastfix2024project@gmail.com");
+            helper.setTo(user.getEmail());
+            helper.setSubject("Technical Inspection");
+            helper.setText(text, true);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+        sender.send(message);
+    }
+    private String generateTechInspectMessageText(User user) {
+        try {
+            Template template = mailConfiguration
+                    .getTemplate("warning_technical_inspection_date_due.ftlh");
+            String code = confirmationService.generateConfirmationCode(user);
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("name", user.getUsername());
+            model.put("link", "http://localhost:8080/register?code=" + code);
+
+            return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    public void sendChangePasswordRequestWarnEmail(User user) {
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
+        String text = generateChangePasswordRequestMessageText(user);
+
+        try {
+            helper.setFrom("fastfix2024project@gmail.com");
+            helper.setTo(user.getEmail());
+            helper.setSubject("New Password");
+            helper.setText(text, true);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+        sender.send(message);
+    }
+    private String generateChangePasswordRequestMessageText(User user) {
+        try {
+            Template template = mailConfiguration
+                    .getTemplate("warning_change-password-request.ftlh");
+            String code = confirmationService.generateConfirmationCode(user);
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("name", user.getUsername());
+            model.put("link", "http://localhost:8080/register?code=" + code);
+
+            return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    public void sendPasswordChangedInfoEmail(User user) {
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
+        String text = generatePasswordChangedMessageText(user);
+
+        try {
+            helper.setFrom("fastfix2024project@gmail.com");
+            helper.setTo(user.getEmail());
+            helper.setSubject("New Password");
+            helper.setText(text, true);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+        sender.send(message);
+    }
+    private String generatePasswordChangedMessageText(User user) {
+        try {
+            Template template = mailConfiguration
+                    .getTemplate("info_password_changed.ftlh");
             String code = confirmationService.generateConfirmationCode(user);
 
             Map<String, Object> model = new HashMap<>();

@@ -64,6 +64,12 @@ public class UserServiceImpl implements UserService {
     public void changePassword(User user, String newPassword) {
         user.setPassword(encoder.encode(newPassword));
         repository.save(user);
+        try {
+            emailService.sendChangePasswordRequestWarnEmail(user);
+            emailService.sendPasswordChangedInfoEmail(user);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send email", e);
+        }
     }
 
     @Override
@@ -74,7 +80,7 @@ public class UserServiceImpl implements UserService {
         user.setActive(false);
 
         repository.save(user);
-        emailService.sendConfirmationEmail(user);
+        emailService.sendRegistrationConfirmEmail(user);
     }
 
     @Override
