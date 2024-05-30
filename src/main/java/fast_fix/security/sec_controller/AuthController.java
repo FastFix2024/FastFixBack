@@ -6,6 +6,7 @@ import fast_fix.security.VerificationToken;
 import fast_fix.security.sec_dto.*;
 import fast_fix.security.sec_service.AuthService;
 import fast_fix.security.sec_service.TokenService;
+import fast_fix.service.interfaces.EmailService;
 import fast_fix.service.interfaces.UserService;
 import fast_fix.service.mapping.UserMappingService;
 import jakarta.servlet.http.Cookie;
@@ -23,12 +24,14 @@ public class AuthController {
     private final UserService userService;
     private final TokenService tokenService;
     private final UserMappingService userMappingService;
+    private EmailService emailService;
 
-    public AuthController(AuthService authService, UserService userService, TokenService tokenService, UserMappingService userMappingService) {
+    public AuthController(AuthService authService, UserService userService, TokenService tokenService, UserMappingService userMappingService, EmailService emailService) {
         this.authService = authService;
         this.userService = userService;
         this.tokenService = tokenService;
         this.userMappingService = userMappingService;
+        this.emailService = emailService;
     }
 
     @PostMapping("/register")
@@ -39,6 +42,7 @@ public class AuthController {
         User user = userMappingService.userDtoToUser(userDto);
         user.setPassword(userService.encodePassword(userDto.getPassword()));
         userService.save(user);
+        emailService.sendRegistrationConfirmEmail(user);
         return ResponseEntity.ok("User registered successfully!");
     }
 
