@@ -31,6 +31,17 @@ public class AuthController {
         this.userMappingService = userMappingService;
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<Object> registerUser(@RequestBody UserDto userDto) {
+        if (userService.existsByUsername(userDto.getUsername())) {
+            return ResponseEntity.badRequest().body("Username is already taken!");
+        }
+        User user = userMappingService.userDtoToUser(userDto);
+        user.setPassword(userService.encodePassword(userDto.getPassword()));
+        userService.save(user);
+        return ResponseEntity.ok("User registered successfully!");
+    }
+
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody UserDto dto, HttpServletResponse response){
         try {

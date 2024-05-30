@@ -9,6 +9,7 @@ public class UserDto {
 
     private Long id;
     private String username;
+    private String password;
     private String email;
     private boolean active;
     private Set<Role> roles;
@@ -28,6 +29,14 @@ public class UserDto {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
@@ -67,16 +76,17 @@ public class UserDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDto userDto = (UserDto) o;
-        return active == userDto.active && Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username) && Objects.equals(email, userDto.email) && Objects.equals(roles, userDto.roles) && Objects.equals(bookmark, userDto.bookmark);
+        return active == userDto.active && Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username) && Objects.equals(password, userDto.password) && Objects.equals(email, userDto.email) && Objects.equals(roles, userDto.roles) && Objects.equals(bookmark, userDto.bookmark);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email, active, roles, bookmark);
+        return Objects.hash(id, username, password, email, active, roles, bookmark);
     }
 
     @Override
     public String toString() {
         return String.format("User: ID - %d, Username - %s, Email - %s, Active - %s, Bookmark - %s", id, username, email, active ? "Yes" : "No", bookmark == null ? "ERROR! Bookmarks are missing!" : bookmark);
     }
+
 }

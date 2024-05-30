@@ -24,10 +24,10 @@ public class FuelStationController {
 
     @GetMapping("/nearby")
     public ResponseEntity<List<FuelStationDto>> getNearbyFuelStations(
-            @RequestParam double latitude,
-            @RequestParam double longitude,
-            @RequestParam double radius) {
-        List<FuelStationDto> nearbyFuelStations = service.findNearby(latitude, longitude, radius);
+            @RequestParam double lat,
+            @RequestParam double lng,
+            @RequestParam double rad) {
+        List<FuelStationDto> nearbyFuelStations = service.findNearby(lat, lng, rad);
         return ResponseEntity.ok(nearbyFuelStations);
     }
 }
