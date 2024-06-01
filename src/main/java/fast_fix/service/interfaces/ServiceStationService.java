@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ServiceStationService {
 
-    List<ServiceStationDto> getServiceStationsByLocation(BigDecimal latitude, BigDecimal longitude, double radius);
-    ServiceStationDto getServiceStationDetails(Long id);
+    List<ServiceStationDto> getServiceStationsByLocation(BigDecimal latitude, BigDecimal longitude, double radius, String type);
+    ServiceStationDto getServiceStationDetails(String id);
 }

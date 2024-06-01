@@ -23,5 +23,5 @@ public interface UserService {
     void sendEmailNotification(Long userId, String subject, String message);
     UserDto loginUser(String email, String password);
     void logoutUser(Long userId);
-    List<ServiceStationDto> getServiceStationsNearUser(Long userId, double radius);
+    List<ServiceStationDto> getServiceStationsNearUser(Long userId, double radius, String type);
 }

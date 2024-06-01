@@ -9,9 +9,8 @@ import java.util.Objects;
 public class ServiceStation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private String id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -25,11 +24,11 @@ public class ServiceStation {
     @Column(name = "contact_number", nullable = false)
     private String contactNumber;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -80,6 +79,6 @@ public class ServiceStation {
 
     @Override
     public String toString() {
-        return String.format("Service station: ID - %d, name - %s, type - %s, contact number - %s", id, name, serviceType, contactNumber);
+        return String.format("Service station: ID - %s, name - %s, type - %s, contact number - %s", id, name, serviceType, contactNumber);
     }
 }

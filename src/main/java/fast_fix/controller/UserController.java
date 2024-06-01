@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/service-stations")
-    public List<ServiceStationDto> getServiceStationsNearUser(@PathVariable Long userId, @RequestParam double radius) {
-        return userService.getServiceStationsNearUser(userId, radius);
+    public List<ServiceStationDto> getServiceStationsNearUser(@PathVariable Long userId, @RequestParam double radius, @RequestParam String type) {
+        return userService.getServiceStationsNearUser(userId, radius, type);
     }
 }

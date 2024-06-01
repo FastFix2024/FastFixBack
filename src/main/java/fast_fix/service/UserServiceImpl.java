@@ -127,12 +127,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<ServiceStationDto> getServiceStationsNearUser(Long userId, double radius) {
+    public List<ServiceStationDto> getServiceStationsNearUser(Long userId, double radius, String type) {
         User user = userRepository.findUserById(userId);
         if (user != null) {
             BigDecimal latitude = user.getLat();
             BigDecimal longitude = user.getLng();
-            return serviceStationService.getServiceStationsByLocation(latitude, longitude, radius);
+            return serviceStationService.getServiceStationsByLocation(latitude, longitude, radius, type);
         }
         return null;
     }

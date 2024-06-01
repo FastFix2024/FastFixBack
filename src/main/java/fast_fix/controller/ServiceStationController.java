@@ -16,12 +16,12 @@ public class ServiceStationController {
     private ServiceStationService serviceStationService;
 
     @GetMapping
-    public List<ServiceStationDto> getServiceStationsByLocation(@RequestParam BigDecimal lat, @RequestParam BigDecimal lng, @RequestParam double rad) {
-        return serviceStationService.getServiceStationsByLocation(lat, lng, rad);
+    public List<ServiceStationDto> getServiceStationsByLocation(@RequestParam BigDecimal lat, @RequestParam BigDecimal lng, @RequestParam double rad, @RequestParam String type) {
+        return serviceStationService.getServiceStationsByLocation(lat, lng, rad, type);
     }
 
     @GetMapping("/{id}")
-    public ServiceStationDto getServiceStationDetails(@PathVariable Long id) {
+    public ServiceStationDto getServiceStationDetails(@PathVariable String id) {
         return serviceStationService.getServiceStationDetails(id);
     }
 }
