@@ -4,11 +4,12 @@ import fast_fix.domain.dto.CarInsuranceCompanyDto;
 import fast_fix.domain.dto.ServiceStationDto;
 import fast_fix.domain.dto.UserDto;
 import fast_fix.domain.entity.CarInsuranceCompany;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     UserDto registerUser(UserDto userDto);
     UserDto findUserByEmail(String email);

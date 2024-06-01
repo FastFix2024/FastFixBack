@@ -8,6 +8,8 @@ import fast_fix.domain.mapping.UserMapper;
 import fast_fix.repository.UserRepository;
 import fast_fix.service.interfaces.ServiceStationService;
 import fast_fix.service.interfaces.UserService;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -134,6 +136,11 @@ public class UserServiceImpl implements UserService {
             BigDecimal longitude = user.getLng();
             return serviceStationService.getServiceStationsByLocation(latitude, longitude, radius, type);
         }
+        return null;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
     }
 }
