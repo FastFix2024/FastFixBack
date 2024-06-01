@@ -3,9 +3,9 @@ package fast_fix.service;
 import fast_fix.domain.dto.CarInsuranceCompanyDto;
 import fast_fix.domain.entity.CarInsuranceCompany;
 import fast_fix.domain.mapping.CarInsuranceCompanyMapper;
+import fast_fix.exceptions.ResourceNotFoundException;
 import fast_fix.repository.CarInsuranceCompanyRepository;
 import fast_fix.service.interfaces.CarInsuranceCompanyService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +14,8 @@ import java.util.stream.Collectors;
 @Service
 public class CarInsuranceCompanyServiceImpl implements CarInsuranceCompanyService {
 
-    @Autowired
     private CarInsuranceCompanyRepository carInsuranceCompanyRepository;
 
-    @Autowired
     private CarInsuranceCompanyMapper carInsuranceCompanyMapper;
 
     @Override
@@ -27,7 +25,7 @@ public class CarInsuranceCompanyServiceImpl implements CarInsuranceCompanyServic
 
     @Override
     public CarInsuranceCompanyDto getCarInsuranceCompanyById(Long id) {
-        CarInsuranceCompany company = carInsuranceCompanyRepository.findById(id).orElseThrow(() -> new RuntimeException("Car insurance company not found"));
+        CarInsuranceCompany company = carInsuranceCompanyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Car insurance company not found"));
         return carInsuranceCompanyMapper.toDto(company);    }
 
     @Override
@@ -47,6 +45,9 @@ public class CarInsuranceCompanyServiceImpl implements CarInsuranceCompanyServic
 
     @Override
     public void deleteCarInsuranceCompany(Long id) {
+        if (!carInsuranceCompanyRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Car insurance company not found");
+        }
         carInsuranceCompanyRepository.deleteById(id);
     }
 }

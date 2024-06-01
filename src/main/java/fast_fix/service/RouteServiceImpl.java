@@ -5,7 +5,6 @@ import fast_fix.domain.entity.Route;
 import fast_fix.domain.mapping.RouteMapper;
 import fast_fix.repository.RouteRepository;
 import fast_fix.service.interfaces.RouteService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +13,8 @@ import java.util.stream.Collectors;
 @Service
 public class RouteServiceImpl implements RouteService {
 
-    @Autowired
     private RouteRepository routeRepository;
 
-    @Autowired
     private RouteMapper routeMapper;
 
     @Override

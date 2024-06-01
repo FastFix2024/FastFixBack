@@ -1,8 +1,10 @@
 package fast_fix.controller;
 
 import fast_fix.domain.dto.CarDetailsDto;
+import fast_fix.exception_handling.exceptions.ResourceNotFoundException;
 import fast_fix.service.interfaces.CarDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,21 +17,21 @@ public class CarDetailsController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<CarDetailsDto> getCarDetailsByUserId(@PathVariable Long userId) {
-        CarDetailsDto carDetails = carDetailsService.getCarDetailsByUserId(userId);
-        if (carDetails != null) {
+        try {
+            CarDetailsDto carDetails = carDetailsService.getCarDetailsByUserId(userId);
             return ResponseEntity.ok(carDetails);
-        } else {
-            return ResponseEntity.notFound().build();
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
     @PutMapping("/user/{userId}")
     public ResponseEntity<CarDetailsDto> updateCarDetails(@PathVariable Long userId, @RequestBody CarDetailsDto carDetailsDto) {
-        CarDetailsDto updatedCarDetails = carDetailsService.updateCarDetails(userId, carDetailsDto);
-        if (updatedCarDetails != null) {
+        try {
+            CarDetailsDto updatedCarDetails = carDetailsService.updateCarDetails(userId, carDetailsDto);
             return ResponseEntity.ok(updatedCarDetails);
-        } else {
-            return ResponseEntity.notFound().build();
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 }

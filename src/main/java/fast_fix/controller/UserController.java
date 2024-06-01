@@ -2,8 +2,11 @@ package fast_fix.controller;
 
 import fast_fix.domain.dto.ServiceStationDto;
 import fast_fix.domain.dto.UserDto;
+import fast_fix.exception_handling.exceptions.ResourceNotFoundException;
+import fast_fix.exceptions.BadRequestException;
 import fast_fix.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,28 +21,41 @@ public class UserController {
 
     @GetMapping("/{email}")
     public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
-        UserDto userDto = userService.findUserByEmail(email);
-        if (userDto != null) {
+        try {
+            UserDto userDto = userService.findUserByEmail(email);
             return ResponseEntity.ok(userDto);
-        } else {
-            return ResponseEntity.notFound().build();
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
     @PostMapping
     public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto) {
-        UserDto registeredUser = userService.registerUser(userDto);
-        return ResponseEntity.ok(registeredUser);
+        try {
+            UserDto registeredUser = userService.registerUser(userDto);
+            return ResponseEntity.ok(registeredUser);
+        } catch (BadRequestException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
-        userService.deleteUserById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            userService.deleteUserById(id);
+            return ResponseEntity.noContent().build();
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @GetMapping("/{userId}/service-stations")
-    public List<ServiceStationDto> getServiceStationsNearUser(@PathVariable Long userId, @RequestParam double radius, @RequestParam String type) {
-        return userService.getServiceStationsNearUser(userId, radius, type);
+    public ResponseEntity<List<ServiceStationDto>> getServiceStationsNearUser(@PathVariable Long userId, @RequestParam double radius, @RequestParam String type) {
+        try {
+            List<ServiceStationDto> stations = userService.getServiceStationsNearUser(userId, radius, type);
+            return ResponseEntity.ok(stations);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }

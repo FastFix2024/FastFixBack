@@ -5,7 +5,6 @@ import fast_fix.domain.dto.FuelStationDto;
 import fast_fix.domain.dto.FuelStationResponse;
 import fast_fix.domain.mapping.FuelStationMapper;
 import fast_fix.service.interfaces.FuelStationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,13 +15,10 @@ import java.util.stream.Collectors;
 @Service
 public class FuelStationServiceImpl implements FuelStationService {
 
-    @Autowired
     private RestTemplate restTemplate;
 
-    @Autowired
     private ApiKeyConfig apiConfig;
 
-    @Autowired
     private FuelStationMapper fuelStationMapper;
 
     private static final String API_BASE_URL = "https://creativecommons.tankerkoenig.de/json/list.php";

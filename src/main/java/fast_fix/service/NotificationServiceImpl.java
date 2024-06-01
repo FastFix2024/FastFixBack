@@ -3,9 +3,9 @@ package fast_fix.service;
 import fast_fix.domain.dto.NotificationDto;
 import fast_fix.domain.entity.Notification;
 import fast_fix.domain.mapping.NotificationMapper;
+import fast_fix.exception_handling.exceptions.ResourceNotFoundException;
 import fast_fix.repository.NotificationRepository;
 import fast_fix.service.interfaces.NotificationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +14,8 @@ import java.util.stream.Collectors;
 @Service
 public class NotificationServiceImpl implements NotificationService {
 
-    @Autowired
     private NotificationRepository notificationRepository;
 
-    @Autowired
     private NotificationMapper notificationMapper;
 
     @Override
@@ -28,8 +26,9 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public NotificationDto getNotificationById(Long id) {
-        Notification notification = notificationRepository.findById(id).orElse(null);
-        return notification != null ? notificationMapper.toDto(notification) : null;
+        Notification notification = notificationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Notification not found"));
+        return notificationMapper.toDto(notification);
     }
 
     @Override
@@ -42,18 +41,21 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public NotificationDto updateNotification(Long id, NotificationDto notificationDto) {
         Notification notification = notificationRepository.findById(id).orElse(null);
-        if (notification != null) {
+        if (notification == null) {
+            throw new ResourceNotFoundException("Notification not found");
+        }
             notification.setMessage(notificationDto.getMessage());
             notification.setType(notificationDto.getType());
             notification.setCreatedAt(notificationDto.getCreatedAt());
             notification = notificationRepository.save(notification);
             return notificationMapper.toDto(notification);
-        }
-        return null;
     }
 
     @Override
     public void deleteNotification(Long id) {
+        if (!notificationRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Notification not found");
+        }
         notificationRepository.deleteById(id);
     }
 }

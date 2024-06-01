@@ -5,6 +5,9 @@ import fast_fix.domain.dto.UserDto;
 import fast_fix.domain.entity.CarInsuranceCompany;
 import fast_fix.domain.entity.User;
 import fast_fix.domain.mapping.UserMapper;
+import fast_fix.exception_handling.exceptions.ResourceNotFoundException;
+import fast_fix.exceptions.BadRequestException;
+import fast_fix.exceptions.UnauthorizedException;
 import fast_fix.repository.UserRepository;
 import fast_fix.service.interfaces.ServiceStationService;
 import fast_fix.service.interfaces.UserService;
@@ -19,6 +22,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
+
     private UserRepository userRepository;
 
     private UserMapper userMapper;
@@ -27,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto registerUser(UserDto userDto) {
+        if (userRepository.findUserByEmail(userDto.getEmail()) != null) {
+            throw new BadRequestException("Email already exists");
+        }
         User user = userMapper.toEntity(userDto);
         user = userRepository.save(user);
         return userMapper.toDto(user);
@@ -35,14 +42,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto findUserByEmail(String email) {
         User user = userRepository.findUserByEmail(email);
-        if (user != null) {
-            return userMapper.toDto(user);
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
         }
-        return null;
+        return userMapper.toDto(user);
     }
 
     @Override
     public void deleteUserById(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new ResourceNotFoundException("User not found");
+        }
         userRepository.deleteById(id);
     }
 
@@ -54,21 +64,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUserEmail(Long userId, String newEmail) {
         User user = userRepository.findUserById(userId);
-        if (user != null) {
-            user.setEmail(newEmail);
-            user = userRepository.save(user);
-            return userMapper.toDto(user);
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
         }
-        return null;
+        user.setEmail(newEmail);
+        user = userRepository.save(user);
+        return userMapper.toDto(user);
     }
 
     @Override
     public void updatePassword(Long userId, String newPassword) {
         User user = userRepository.findUserById(userId);
-        if (user != null) {
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
             user.setPassword(newPassword);
             userRepository.save(user);
-        }
     }
 
     @Override
@@ -79,34 +90,34 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateFuelType(Long userId, String fuelType) {
         User user = userRepository.findUserById(userId);
-        if (user != null) {
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
             user.getCarDetails().setFuelType(fuelType);
             user = userRepository.save(user);
             return userMapper.toDto(user);
-        }
-        return null;
     }
 
     @Override
     public UserDto updateInsuranceCompany(Long userId, CarInsuranceCompany insuranceCompany) {
         User user = userRepository.findUserById(userId);
-        if (user != null) {
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
             user.getCarDetails().setInsuranceCompany(insuranceCompany);
             user = userRepository.save(user);
             return userMapper.toDto(user);
-        }
-        return null;
     }
 
     @Override
     public UserDto updateMaintenanceDate(Long userId, LocalDate nextMaintenanceDate) {
         User user = userRepository.findUserById(userId);
-        if (user != null) {
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
             user.getCarDetails().setLastMaintenanceDate(nextMaintenanceDate);
             user = userRepository.save(user);
             return userMapper.toDto(user);
-        }
-        return null;
     }
 
     @Override
@@ -117,10 +128,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto loginUser(String email, String password) {
         User user = userRepository.findByEmailAndPassword(email, password);
-        if (user != null) {
-            return userMapper.toDto(user);
+        if (user == null) {
+            throw new UnauthorizedException("Invalid email or password");
         }
-        return null;
+        return userMapper.toDto(user);
     }
 
     @Override
@@ -131,19 +142,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<ServiceStationDto> getServiceStationsNearUser(Long userId, double radius, String type) {
         User user = userRepository.findUserById(userId);
-        if (user != null) {
-            BigDecimal latitude = user.getLat();
-            BigDecimal longitude = user.getLng();
-            return serviceStationService.getServiceStationsByLocation(latitude, longitude, radius, type);
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
         }
-        return null;
+        BigDecimal latitude = user.getLat();
+        BigDecimal longitude = user.getLng();
+        return serviceStationService.getServiceStationsByLocation(latitude, longitude, radius, type);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByEmail(username);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new ResourceNotFoundException("User not found");
         }
         return (UserDetails) user;
     }

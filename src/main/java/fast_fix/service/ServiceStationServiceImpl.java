@@ -4,7 +4,6 @@ import fast_fix.domain.dto.GooglePlaceResponse;
 import fast_fix.domain.dto.ServiceStationDto;
 import fast_fix.domain.mapping.ServiceStationMapper;
 import fast_fix.service.interfaces.ServiceStationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -17,13 +16,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceStationServiceImpl implements ServiceStationService {
 
-    @Autowired
     private RestTemplate restTemplate;
 
-    @Autowired
     private ApiKeyConfig apiKeyConfig;
 
-    @Autowired
     private ServiceStationMapper serviceStationMapper;
 
     private static final String PLACES_API_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
