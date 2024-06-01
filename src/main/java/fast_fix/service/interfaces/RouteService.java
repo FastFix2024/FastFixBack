@@ -1,4 +1,4 @@
 package fast_fix.service.interfaces;
 
-public interface RoleService {
+public interface RouteService {
 }

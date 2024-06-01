@@ -1,7 +1,6 @@
 package fast_fix.domain.dto;
 
-import fast_fix.domain.entity.Role;
-
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Set;
 
@@ -9,11 +8,12 @@ public class UserDto {
 
     private Long id;
     private String username;
-    private String password;
     private String email;
-    private boolean active;
-    private Set<Role> roles;
-    private Set<BookmarkDto> bookmark;
+    private CarDetailsDto carDetails;
+    private Set<RoleDto> roles;
+    private boolean isActive;
+    private BigDecimal lat;
+    private BigDecimal lng;
 
     public Long getId() {
         return id;
@@ -31,14 +31,6 @@ public class UserDto {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -47,28 +39,44 @@ public class UserDto {
         this.email = email;
     }
 
-    public boolean isActive() {
-        return active;
+    public CarDetailsDto getCarDetails() {
+        return carDetails;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setCarDetails(CarDetailsDto carDetails) {
+        this.carDetails = carDetails;
     }
 
-    public Set<Role> getRoles() {
+    public Set<RoleDto> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Set<RoleDto> roles) {
         this.roles = roles;
     }
 
-    public Set<BookmarkDto> getBookmark() {
-        return bookmark;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setBookmark(Set<BookmarkDto> bookmark) {
-        this.bookmark = bookmark;
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public BigDecimal getLat() {
+        return lat;
+    }
+
+    public void setLat(BigDecimal lat) {
+        this.lat = lat;
+    }
+
+    public BigDecimal getLng() {
+        return lng;
+    }
+
+    public void setLng(BigDecimal lng) {
+        this.lng = lng;
     }
 
     @Override
@@ -76,17 +84,16 @@ public class UserDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDto userDto = (UserDto) o;
-        return active == userDto.active && Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username) && Objects.equals(password, userDto.password) && Objects.equals(email, userDto.email) && Objects.equals(roles, userDto.roles) && Objects.equals(bookmark, userDto.bookmark);
+        return isActive == userDto.isActive && Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username) && Objects.equals(email, userDto.email) && Objects.equals(carDetails, userDto.carDetails) && Objects.equals(roles, userDto.roles) && Objects.equals(lat, userDto.lat) && Objects.equals(lng, userDto.lng);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, email, active, roles, bookmark);
+        return Objects.hash(id, username, email, carDetails, roles, isActive, lat, lng);
     }
 
     @Override
     public String toString() {
-        return String.format("User: ID - %d, Username - %s, Email - %s, Active - %s, Bookmark - %s", id, username, email, active ? "Yes" : "No", bookmark == null ? "ERROR! Bookmarks are missing!" : bookmark);
+        return String.format("User: ID - %d, username - %s, email - %s, role - %s", id, username, email, roles);
     }
-
 }

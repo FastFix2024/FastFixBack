@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class FuelStationDto {
 
-    private Long id;
+    private String id;
     private String name;
     private String brand;
     private String street;
@@ -20,11 +20,11 @@ public class FuelStationDto {
     private String houseNumber;
     private int postCode;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -147,21 +147,6 @@ public class FuelStationDto {
 
     @Override
     public String toString() {
-        return "FuelStationDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", brand='" + brand + '\'' +
-                ", street='" + street + '\'' +
-                ", place='" + place + '\'' +
-                ", lat=" + lat +
-                ", lng=" + lng +
-                ", dist=" + dist +
-                ", diesel=" + diesel +
-                ", e5=" + e5 +
-                ", e10=" + e10 +
-                ", isOpen=" + isOpen +
-                ", houseNumber='" + houseNumber + '\'' +
-                ", postCode=" + postCode +
-                '}';
+        return String.format("Fuel station: ID - %s, name - %s, brand - %s, street - %s, place - %s, houseNumber - %s, postCode - %s, diesel - %f.2, e5 - %f.2, e10 - %f.2,", id, name, brand, street, place, houseNumber, postCode, diesel, e5, e10);
     }
 }

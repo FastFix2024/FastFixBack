@@ -1,52 +1,48 @@
 package fast_fix.domain.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @NotEmpty
-    @Column(name = "username")
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @NotEmpty
-    @Column(name = "password")
-    private String password;
-
-    @NotEmpty
-    @Email
-    @Column(name = "email", unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "active", columnDefinition = "BOOLEAN DEFAULT TRUE", nullable = false)
-    private boolean active;
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "car_details_id", referencedColumnName = "id")
+    private CarDetails carDetails;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "users_role",
+            name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private Set<Bookmark> bookmark;
+    @Column(name = "is_active")
+    private boolean isActive;
 
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
+    @Column(name = "lat")
+    private BigDecimal lat;
+
+    @Column(name = "lng")
+    private BigDecimal lng;
 
     public Long getId() {
         return id;
@@ -56,22 +52,12 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    @Override
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {
@@ -82,12 +68,20 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public boolean isActive() {
-        return active;
+    public String getPassword() {
+        return password;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public CarDetails getCarDetails() {
+        return carDetails;
+    }
+
+    public void setCarDetails(CarDetails carDetails) {
+        this.carDetails = carDetails;
     }
 
     public Set<Role> getRoles() {
@@ -98,12 +92,28 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public Set<Bookmark> getBookmark() {
-        return bookmark;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setBookmark(Set<Bookmark> bookmark) {
-        this.bookmark = bookmark;
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public BigDecimal getLat() {
+        return lat;
+    }
+
+    public void setLat(BigDecimal lat) {
+        this.lat = lat;
+    }
+
+    public BigDecimal getLng() {
+        return lng;
+    }
+
+    public void setLng(BigDecimal lng) {
+        this.lng = lng;
     }
 
     @Override
@@ -111,33 +121,16 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return active == user.active && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(roles, user.roles) && Objects.equals(bookmark, user.bookmark);
+        return isActive == user.isActive && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(carDetails, user.carDetails) && Objects.equals(roles, user.roles) && Objects.equals(lat, user.lat) && Objects.equals(lng, user.lng);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, email, active, roles, bookmark);
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-    @Override
-    public boolean isEnabled() {
-        return true;
+        return Objects.hash(id, username, email, password, carDetails, roles, isActive, lat, lng);
     }
 
     @Override
     public String toString() {
-        return String.format("User: ID - %d, Username - %s, Email - %s, Active - %s, ", id, username, email, active ? "Yes" : "No");
+        return String.format("User: ID - %d, username - %s, email - %s, active - %s, role - %s", id, username, email, isActive, roles);
     }
 }

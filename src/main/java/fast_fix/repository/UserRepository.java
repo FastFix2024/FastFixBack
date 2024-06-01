@@ -2,9 +2,11 @@ package fast_fix.repository;
 
 import fast_fix.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
-    User findByUsername(String username);
-    boolean existsByUsername(String username);
+    User findUserByEmail(String email);
+    User findByEmailAndPassword(String email, String password);
+    User findUserById(Long id);
 }

@@ -1,27 +1,45 @@
 package fast_fix.controller;
 
+import fast_fix.domain.dto.ServiceStationDto;
 import fast_fix.domain.dto.UserDto;
-import fast_fix.service.interfaces.UserService;
+import fast_fix.service.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
-    private UserService service;
+    @Autowired
+    private UserServiceImpl userService;
 
-    public UserController(UserService service) {
-        this.service = service;
+    @GetMapping("/{email}")
+    public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
+        UserDto userDto = userService.findUserByEmail(email);
+        if (userDto != null) {
+            return ResponseEntity.ok(userDto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @GetMapping("/all")
-    public List<UserDto> getAll() {
-        return service.getAllUsers();
+    @PostMapping
+    public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto) {
+        UserDto registeredUser = userService.registerUser(userDto);
+        return ResponseEntity.ok(registeredUser);
     }
-    @GetMapping
-    public UserDto getById(@RequestParam Long id) {
-        return service.getUsersById(id);
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
+        userService.deleteUserById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{userId}/service-stations")
+    public List<ServiceStationDto> getServiceStationsNearUser(@PathVariable Long userId, @RequestParam double radius) {
+        return userService.getServiceStationsNearUser(userId, radius);
     }
 }

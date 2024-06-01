@@ -1,191 +1,139 @@
 package fast_fix.service;
 
+import fast_fix.domain.dto.ServiceStationDto;
 import fast_fix.domain.dto.UserDto;
+import fast_fix.domain.entity.CarInsuranceCompany;
 import fast_fix.domain.entity.User;
+import fast_fix.domain.mapping.UserMapper;
 import fast_fix.repository.UserRepository;
-import fast_fix.service.interfaces.EmailService;
-import fast_fix.service.interfaces.RoleService;
+import fast_fix.service.interfaces.ServiceStationService;
 import fast_fix.service.interfaces.UserService;
-import fast_fix.service.mapping.UserMappingService;
-import jakarta.mail.MessagingException;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository repository;
-    private final BCryptPasswordEncoder encoder;
-    private final RoleService roleService;
-    private final EmailService emailService;
-    private final UserMappingService userMappingService;
+    private UserRepository userRepository;
 
-    @Autowired
-    public UserServiceImpl(UserRepository repository, BCryptPasswordEncoder encoder, RoleService roleService, EmailService emailService, UserMappingService userMappingService) {
-        this.repository = repository;
-        this.encoder = encoder;
-        this.roleService = roleService;
-        this.emailService = emailService;
-        this.userMappingService = userMappingService;
+    private UserMapper userMapper;
+
+    private ServiceStationService serviceStationService;
+
+    @Override
+    public UserDto registerUser(UserDto userDto) {
+        User user = userMapper.toEntity(userDto);
+        user = userRepository.save(user);
+        return userMapper.toDto(user);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = repository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+    public UserDto findUserByEmail(String email) {
+        User user = userRepository.findUserByEmail(email);
+        if (user != null) {
+            return userMapper.toDto(user);
         }
-        
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .authorities(user.getRoles())
-                .accountExpired(false)
-                .accountLocked(false)
-                .credentialsExpired(false)
-                .disabled(!user.isActive())
-                .build();
-    }
-
-    private Collection<? extends GrantedAuthority> getAuthorities(User user) {
-        return user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getTitle()))
-                .collect(Collectors.toList());
-    }
-
-
-    @Override
-    public boolean checkPassword(User user, String rawPassword) {
-        return encoder.matches(rawPassword, user.getPassword());
+        return null;
     }
 
     @Override
-    public void changePassword(User user, String newPassword) {
-        user.setPassword(encoder.encode(newPassword));
-        repository.save(user);
-        try {
-            emailService.sendChangePasswordRequestWarnEmail(user);
-            emailService.sendPasswordChangedInfoEmail(user);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to send email", e);
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public void confirmEmail(String token) {
+
+    }
+
+    @Override
+    public UserDto updateUserEmail(Long userId, String newEmail) {
+        User user = userRepository.findUserById(userId);
+        if (user != null) {
+            user.setEmail(newEmail);
+            user = userRepository.save(user);
+            return userMapper.toDto(user);
+        }
+        return null;
+    }
+
+    @Override
+    public void updatePassword(Long userId, String newPassword) {
+        User user = userRepository.findUserById(userId);
+        if (user != null) {
+            user.setPassword(newPassword);
+            userRepository.save(user);
         }
     }
 
     @Override
-    public void registerUser(User user) throws MessagingException {
-        user.setId(null);
-        user.setPassword(encoder.encode(user.getPassword()));
-        user.setRoles(Set.of(roleService.getRoleUser()));
-        user.setActive(false);
+    public void requestPasswordReset(String email) {
 
-        repository.save(user);
-        emailService.sendRegistrationConfirmEmail(user);
     }
 
     @Override
-    public UserDto save(UserDto dto) {
-        User user = userMappingService.userDtoToUser(dto);
-        if (user == null) {
-            throw new IllegalArgumentException("User cannot be null");
+    public UserDto updateFuelType(Long userId, String fuelType) {
+        User user = userRepository.findUserById(userId);
+        if (user != null) {
+            user.getCarDetails().setFuelType(fuelType);
+            user = userRepository.save(user);
+            return userMapper.toDto(user);
         }
-
-        user = repository.save(user);
-        return userMappingService.userToUserDto(user);
+        return null;
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
-        List<User> activeUsers = repository.findAll();
-        return activeUsers.stream()
-                .map(userMappingService::userToUserDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public UserDto getUsersById(Long id) {
-        User user = repository.findById(id).orElse(null);
-        if (user == null) {
-            throw new EntityNotFoundException("User with ID: " + id + " not found");
+    public UserDto updateInsuranceCompany(Long userId, CarInsuranceCompany insuranceCompany) {
+        User user = userRepository.findUserById(userId);
+        if (user != null) {
+            user.getCarDetails().setInsuranceCompany(insuranceCompany);
+            user = userRepository.save(user);
+            return userMapper.toDto(user);
         }
-        return userMappingService.userToUserDto(user);
+        return null;
     }
 
     @Override
-    public UserDto update(UserDto dto) {
-        User userToUpdate = repository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("User with ID: " + dto.getId() + " not found"));
-
-        if (dto.getUsername() != null) {
-            userToUpdate.setUsername(dto.getUsername());
+    public UserDto updateMaintenanceDate(Long userId, LocalDate nextMaintenanceDate) {
+        User user = userRepository.findUserById(userId);
+        if (user != null) {
+            user.getCarDetails().setLastMaintenanceDate(nextMaintenanceDate);
+            user = userRepository.save(user);
+            return userMapper.toDto(user);
         }
-        if (dto.getEmail() != null) {
-            userToUpdate.setEmail(dto.getEmail());
+        return null;
+    }
+
+    @Override
+    public void sendEmailNotification(Long userId, String subject, String message) {
+
+    }
+
+    @Override
+    public UserDto loginUser(String email, String password) {
+        User user = userRepository.findByEmailAndPassword(email, password);
+        if (user != null) {
+            return userMapper.toDto(user);
         }
-        if (dto.getRoles() != null) {
-            userToUpdate.setRoles(dto.getRoles());
+        return null;
+    }
+
+    @Override
+    public void logoutUser(Long userId) {
+
+    }
+
+    @Override
+    public List<ServiceStationDto> getServiceStationsNearUser(Long userId, double radius) {
+        User user = userRepository.findUserById(userId);
+        if (user != null) {
+            BigDecimal latitude = user.getLat();
+            BigDecimal longitude = user.getLng();
+            return serviceStationService.getServiceStationsByLocation(latitude, longitude, radius);
         }
-
-        userToUpdate = repository.save(userToUpdate);
-        return userMappingService.userToUserDto(userToUpdate);
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        User userToDelete = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with ID: " + id + " not found"));
-        repository.delete(userToDelete);
-    }
-
-    @Override
-    public void deleteByName(String name) {
-        User userToDelete = repository.findByUsername(name);
-        if (userToDelete == null) {
-            throw new EntityNotFoundException("User with username: " + name + " not found");
-        }
-        repository.delete(userToDelete);
-    }
-
-    @Override
-    public long getUsersTotalCount() {
-        return repository.count();
-    }
-
-    @Override
-    public void addBookmarkToUserByIds(Long userId, Long bookmarkId) {
-        // Реализация добавления закладки пользователю
-    }
-
-    @Override
-    public void deleteBookmarkFromUserByIds(Long userId, Long bookmarkId) {
-        // Реализация удаления закладки у пользователя
-    }
-
-    @Override
-    public void clearBookmarksByUserId(Long id) {
-        // Реализация очистки всех закладок у пользователя
-    }
-    @Override
-    public boolean existsByUsername(String username) {
-        return repository.existsByUsername(username);
-    }
-
-    @Override
-    public void save(User user) {
-        repository.save(user);
-    }
-
-    @Override
-    public String encodePassword(String rawPassword) {
-        return encoder.encode(rawPassword);
+        return null;
     }
 }
-
