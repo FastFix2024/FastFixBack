@@ -2,6 +2,7 @@ package fast_fix.service;
 
 import fast_fix.domain.dto.GooglePlaceResponse;
 import fast_fix.domain.dto.ServiceStationDto;
+import fast_fix.domain.mapping.ServiceStationMapper;
 import fast_fix.service.interfaces.ServiceStationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
@@ -22,6 +23,9 @@ public class ServiceStationServiceImpl implements ServiceStationService {
     @Autowired
     private ApiKeyConfig apiKeyConfig;
 
+    @Autowired
+    private ServiceStationMapper serviceStationMapper;
+
     private static final String PLACES_API_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
     private static final String PLACE_DETAILS_API_URL = "https://maps.googleapis.com/maps/api/place/details/json";
 
@@ -35,22 +39,14 @@ public class ServiceStationServiceImpl implements ServiceStationService {
                 type,
                 apiKeyConfig.getGoogleApiKey());
         GooglePlaceResponse response = restTemplate.getForObject(url, GooglePlaceResponse.class);
-        return response.getResults().stream().map(this::mapToServiceStationDto).collect(Collectors.toList());
-    }
-
-    private ServiceStationDto mapToServiceStationDto(GooglePlaceResponse.Result result) {
-        ServiceStationDto dto = new ServiceStationDto();
-        dto.setId(result.getPlaceId());
-        dto.setName(result.getName());
-        dto.setAddress(result.getVicinity());
-        dto.setLatitude(result.getGeometry().getLocation().getLat());
-        dto.setLongitude(result.getGeometry().getLocation().getLng());
-        return dto;
+        return response.getResults().stream()
+                .map(serviceStationMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public ServiceStationDto getServiceStationDetails(String id) {
-        String url = String.format("%s?place_id=%d&key=%s",
+        String url = String.format("%s?place_id=%s&key=%s",
                 PLACE_DETAILS_API_URL,
                 id,
                 apiKeyConfig.getGoogleApiKey());

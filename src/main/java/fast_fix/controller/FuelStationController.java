@@ -25,7 +25,7 @@ public class FuelStationController {
             @RequestParam BigDecimal longitude,
             @RequestParam double radius,
             @RequestParam String type) {
-        List<FuelStationDto> fuelStations = fuelStationService.getNearbyFuelStations(latitude, longitude, radius, type);
+        List<FuelStationDto> fuelStations = fuelStationService.getFuelStationsByLocation(latitude, longitude, radius, type);
         return ResponseEntity.ok(fuelStations);
     }
 }
