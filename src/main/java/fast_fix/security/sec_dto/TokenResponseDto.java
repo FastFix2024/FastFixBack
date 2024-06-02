@@ -16,26 +16,29 @@ public class TokenResponseDto {
         return accessToken;
     }
 
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
     public String getRefreshToken() {
         return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         TokenResponseDto that = (TokenResponseDto) o;
-
-        if (!Objects.equals(accessToken, that.accessToken)) return false;
-        return Objects.equals(refreshToken, that.refreshToken);
+        return Objects.equals(accessToken, that.accessToken) && Objects.equals(refreshToken, that.refreshToken);
     }
 
     @Override
     public int hashCode() {
-        int result = accessToken != null ? accessToken.hashCode() : 0;
-        result = 31 * result + (refreshToken != null ? refreshToken.hashCode() : 0);
-        return result;
+        return Objects.hash(accessToken, refreshToken);
     }
 
     @Override

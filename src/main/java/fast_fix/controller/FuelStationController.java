@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/fuel-stations")
+@RequestMapping("/fuel-stations")
 public class FuelStationController {
 
     @Autowired

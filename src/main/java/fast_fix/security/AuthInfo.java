@@ -58,20 +58,13 @@ public class AuthInfo implements Authentication {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         AuthInfo authInfo = (AuthInfo) o;
-
-        if (authenticated != authInfo.authenticated) return false;
-        if (!Objects.equals(username, authInfo.username)) return false;
-        return Objects.equals(roles, authInfo.roles);
+        return authenticated == authInfo.authenticated && Objects.equals(username, authInfo.username) && Objects.equals(roles, authInfo.roles);
     }
 
     @Override
     public int hashCode() {
-        int result = (authenticated ? 1 : 0);
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (roles != null ? roles.hashCode() : 0);
-        return result;
+        return Objects.hash(authenticated, username, roles);
     }
 
     @Override

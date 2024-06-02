@@ -32,26 +32,6 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public NotificationDto createNotification(NotificationDto notificationDto) {
-        Notification notification = notificationMapper.toEntity(notificationDto);
-        notification = notificationRepository.save(notification);
-        return notificationMapper.toDto(notification);
-    }
-
-    @Override
-    public NotificationDto updateNotification(Long id, NotificationDto notificationDto) {
-        Notification notification = notificationRepository.findById(id).orElse(null);
-        if (notification == null) {
-            throw new ResourceNotFoundException("Notification not found");
-        }
-            notification.setMessage(notificationDto.getMessage());
-            notification.setType(notificationDto.getType());
-            notification.setCreatedAt(notificationDto.getCreatedAt());
-            notification = notificationRepository.save(notification);
-            return notificationMapper.toDto(notification);
-    }
-
-    @Override
     public void deleteNotification(Long id) {
         if (!notificationRepository.existsById(id)) {
             throw new ResourceNotFoundException("Notification not found");

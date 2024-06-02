@@ -4,7 +4,6 @@ import fast_fix.domain.entity.Role;
 import fast_fix.domain.entity.User;
 import fast_fix.repository.RoleRepository;
 import fast_fix.security.AuthInfo;
-import fast_fix.security.sec_dto.TokenResponseDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -31,75 +30,75 @@ public class TokenService {
             RoleRepository roleRepository
     ) {
         this.accessKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(accessKey));
-        this.refreshKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(refreshKey));
+        this.refreshKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(refreshKey));
         this.roleRepository = roleRepository;
     }
 
-    public String generateAccessToken(User user){
+    public String generateAccessToken(User user) {
         LocalDateTime currentDate = LocalDateTime.now();
         Instant expirationInstant = currentDate.plusDays(7).atZone(ZoneId.systemDefault()).toInstant();
         Date expirationDate = Date.from(expirationInstant);
 
         return Jwts.builder()
-                .setSubject(user.getUsername())
-                .setExpiration(expirationDate)
+                .subject(user.getUsername())
+                .expiration(expirationDate)
                 .signWith(accessKey)
                 .claim("roles", user.getAuthorities())
                 .claim("name", user.getUsername())
                 .compact();
     }
 
-    public String generateRefreshToken(User user){
+    public String generateRefreshToken(User user) {
         LocalDateTime currentDate = LocalDateTime.now();
         Instant expirationInstant = currentDate.plusDays(30).atZone(ZoneId.systemDefault()).toInstant();
         Date expirationDate = Date.from(expirationInstant);
 
         return Jwts.builder()
-                .setSubject(user.getUsername())
-                .setExpiration(expirationDate)
+                .subject(user.getUsername())
+                .expiration(expirationDate)
                 .signWith(refreshKey)
                 .compact();
     }
 
-    public boolean validateAccessToken(String accessToken){
+    public boolean validateAccessToken(String accessToken) {
         return validateToken(accessToken, accessKey);
     }
 
-    public boolean validateRefreshToken(String refreshToken){
+    public boolean validateRefreshToken(String refreshToken) {
         return validateToken(refreshToken, refreshKey);
     }
 
-    private boolean validateToken(String token, SecretKey key){
+    private boolean validateToken(String token, SecretKey key) {
         try {
             Jwts.parser()
-                    .setSigningKey(key)
+                    .verifyWith(key)
                     .build()
-                    .parseClaimsJws(token);
+                    .parseSignedClaims(token);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
 
-    public Claims getAccessClaims(String accessToken){
+    public Claims getAccessClaims(String accessToken) {
         return getClaims(accessToken, accessKey);
     }
 
-    public Claims getRefreshClaims(String refreshToken){
+    public Claims getRefreshClaims(String refreshToken) {
         return getClaims(refreshToken, refreshKey);
     }
 
-    private Claims getClaims(String token, SecretKey key){
+    private Claims getClaims(String token, SecretKey key) {
         return Jwts.parser()
-                .setSigningKey(key)
+                .verifyWith(key)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
-    public AuthInfo generateAuthInfo(Claims claims){
+    public AuthInfo generateAuthInfo(Claims claims) {
         String username = claims.getSubject();
-        List<LinkedHashMap<String, String>> rolesList = (List<LinkedHashMap<String, String>>) claims.get("roles");
+        List<LinkedHashMap<String, String>> rolesList = claims.get("roles", List.class);
         Set<Role> roles = new HashSet<>();
 
         for (LinkedHashMap<String, String> roleEntry : rolesList) {

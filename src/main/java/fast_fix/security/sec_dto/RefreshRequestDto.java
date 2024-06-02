@@ -18,15 +18,13 @@ public class RefreshRequestDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         RefreshRequestDto that = (RefreshRequestDto) o;
-
         return Objects.equals(refreshToken, that.refreshToken);
     }
 
     @Override
     public int hashCode() {
-        return refreshToken != null ? refreshToken.hashCode() : 0;
+        return Objects.hashCode(refreshToken);
     }
 
     @Override

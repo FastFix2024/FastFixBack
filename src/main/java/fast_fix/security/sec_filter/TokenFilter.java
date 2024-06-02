@@ -17,19 +17,18 @@ import java.io.IOException;
 @Component
 public class TokenFilter extends GenericFilterBean {
 
-    private final TokenService service;
+    private final TokenService tokenService;
 
-    public TokenFilter(TokenService service) {
-        this.service = service;
+    public TokenFilter(TokenService tokenService) {
+        this.tokenService = tokenService;
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-
         String token = getTokenFromRequest((HttpServletRequest) request);
-        if (token != null && service.validateAccessToken(token)){
-            Claims claims = service.getAccessClaims(token);
-            AuthInfo authInfo = service.generateAuthInfo(claims);
+        if (token != null && tokenService.validateAccessToken(token)){
+            Claims claims = tokenService.getAccessClaims(token);
+            AuthInfo authInfo = tokenService.generateAuthInfo(claims);
             authInfo.setAuthenticated(true);
             SecurityContextHolder.getContext().setAuthentication(authInfo);
         }
@@ -38,7 +37,7 @@ public class TokenFilter extends GenericFilterBean {
 
     private String getTokenFromRequest(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        if (token != null && token.startsWith("Bearer ")){
+        if (token != null && token.startsWith("Bearer ")) {
             return token.substring(7);
         }
         return null;

@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final AuthService service;
+    private final AuthService authService;
 
-    public AuthController(AuthService service) {
-        this.service = service;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody User user) {
         try {
-            TokenResponseDto response = service.login(user);
+            TokenResponseDto response = authService.login(user);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -31,7 +31,7 @@ public class AuthController {
     @PostMapping("/access")
     public ResponseEntity<Object> getNewAccessToken(@RequestBody RefreshRequestDto request) {
         try {
-            TokenResponseDto response = service.getAccessToken(request.getRefreshToken());
+            TokenResponseDto response = authService.getAccessToken(request.getRefreshToken());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

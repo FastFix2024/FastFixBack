@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/notifications")
+@RequestMapping("/notifications")
 public class NotificationController {
 
     @Autowired
@@ -35,21 +35,6 @@ public class NotificationController {
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-    }
-
-    @PostMapping
-    public ResponseEntity<NotificationDto> createNotification(@RequestBody NotificationDto notificationDto) {
-        NotificationDto createdNotification = notificationService.createNotification(notificationDto);
-        return ResponseEntity.ok(createdNotification);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<NotificationDto> updateNotification(@PathVariable Long id, @RequestBody NotificationDto notificationDto) {
-        NotificationDto updatedNotification = notificationService.updateNotification(id, notificationDto);
-        if (updatedNotification == null) {
-            throw new ResourceNotFoundException("Notification with id " + id + " not found");
-        }
-            return ResponseEntity.ok(updatedNotification);
     }
 
     @DeleteMapping("/{id}")
