@@ -2,7 +2,6 @@ package fast_fix.domain.dto;
 
 import java.math.BigDecimal;
 import java.util.Objects;
-import java.util.Set;
 
 public class UserDto {
 
@@ -10,7 +9,6 @@ public class UserDto {
     private String username;
     private String email;
     private CarDetailsDto carDetails;
-    private Set<RoleDto> roles;
     private boolean isActive;
     private BigDecimal lat;
     private BigDecimal lng;
@@ -47,14 +45,6 @@ public class UserDto {
         this.carDetails = carDetails;
     }
 
-    public Set<RoleDto> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<RoleDto> roles) {
-        this.roles = roles;
-    }
-
     public boolean isActive() {
         return isActive;
     }
@@ -84,16 +74,16 @@ public class UserDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDto userDto = (UserDto) o;
-        return isActive == userDto.isActive && Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username) && Objects.equals(email, userDto.email) && Objects.equals(carDetails, userDto.carDetails) && Objects.equals(roles, userDto.roles) && Objects.equals(lat, userDto.lat) && Objects.equals(lng, userDto.lng);
+        return isActive == userDto.isActive && Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username) && Objects.equals(email, userDto.email) && Objects.equals(carDetails, userDto.carDetails) && Objects.equals(lat, userDto.lat) && Objects.equals(lng, userDto.lng);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email, carDetails, roles, isActive, lat, lng);
+        return Objects.hash(id, username, email, carDetails, isActive, lat, lng);
     }
 
     @Override
     public String toString() {
-        return String.format("User: ID - %d, username - %s, email - %s, role - %s", id, username, email, roles);
+        return String.format("User: ID - %d, username - %s, email - %s", id, username, email);
     }
 }

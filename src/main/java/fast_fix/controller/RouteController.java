@@ -1,15 +1,14 @@
 package fast_fix.controller;
 
 import fast_fix.domain.dto.RouteDto;
-import fast_fix.domain.dto.ServiceStationDto;
+import fast_fix.exceptions.ApiRequestException;
+import fast_fix.exceptions.ResourceNotFoundException;
 import fast_fix.service.interfaces.RouteService;
-import fast_fix.service.interfaces.ServiceStationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -19,33 +18,49 @@ public class RouteController {
     @Autowired
     private RouteService routeService;
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<RouteDto>> getAllRoutesByUser(@PathVariable Long userId) {
-        List<RouteDto> routes = routeService.getAllRoutesByUser(userId);
-        return new ResponseEntity<>(routes, HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<RouteDto> getRouteById(@PathVariable Long id) {
+        try {
+            RouteDto route = routeService.getRouteById(id);
+            return ResponseEntity.ok(route);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @PostMapping
     public ResponseEntity<RouteDto> createRoute(@RequestBody RouteDto routeDto) {
         RouteDto createdRoute = routeService.createRoute(routeDto);
-        return new ResponseEntity<>(createdRoute, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdRoute);
     }
 
-    @PutMapping("/{routeId}")
-    public ResponseEntity<RouteDto> updateRoute(@PathVariable Long routeId, @RequestBody RouteDto routeDto) {
-        RouteDto updatedRoute = routeService.updateRoute(routeId, routeDto);
-        return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<RouteDto> updateRoute(@PathVariable Long id, @RequestBody RouteDto routeDto) {
+        try {
+            RouteDto updatedRoute = routeService.updateRoute(id, routeDto);
+            return ResponseEntity.ok(updatedRoute);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
-    @DeleteMapping("/{routeId}")
-    public ResponseEntity<Void> deleteRoute(@PathVariable Long routeId) {
-        routeService.deleteRoute(routeId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRoute(@PathVariable Long id) {
+        try {
+            routeService.deleteRoute(id);
+            return ResponseEntity.noContent().build();
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
-    @GetMapping("/{routeId}")
-    public ResponseEntity<RouteDto> getRouteById(@PathVariable Long routeId) {
-        RouteDto route = routeService.getRouteById(routeId);
-        return new ResponseEntity<>(route, HttpStatus.OK);
+    @GetMapping("/from-api")
+    public ResponseEntity<List<RouteDto>> getRoutesFromAPI(@RequestParam String startLocation, @RequestParam String endLocation) {
+        try {
+            List<RouteDto> routes = routeService.getRoutesFromAPI(startLocation, endLocation);
+            return ResponseEntity.ok(routes);
+        } catch (ApiRequestException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }

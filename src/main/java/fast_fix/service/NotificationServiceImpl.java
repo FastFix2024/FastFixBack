@@ -3,7 +3,7 @@ package fast_fix.service;
 import fast_fix.domain.dto.NotificationDto;
 import fast_fix.domain.entity.Notification;
 import fast_fix.domain.mapping.NotificationMapper;
-import fast_fix.exception_handling.exceptions.ResourceNotFoundException;
+import fast_fix.exceptions.ResourceNotFoundException;
 import fast_fix.repository.NotificationRepository;
 import fast_fix.service.interfaces.NotificationService;
 import org.springframework.stereotype.Service;

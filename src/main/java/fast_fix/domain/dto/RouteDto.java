@@ -8,6 +8,7 @@ public class RouteDto {
     private String startLocation;
     private String endLocation;
     private String duration;
+    private String distance;
 
     public Long getId() {
         return id;
@@ -41,17 +42,25 @@ public class RouteDto {
         this.duration = duration;
     }
 
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RouteDto routeDto = (RouteDto) o;
-        return Objects.equals(id, routeDto.id) && Objects.equals(startLocation, routeDto.startLocation) && Objects.equals(endLocation, routeDto.endLocation) && Objects.equals(duration, routeDto.duration);
+        return Objects.equals(id, routeDto.id) && Objects.equals(startLocation, routeDto.startLocation) && Objects.equals(endLocation, routeDto.endLocation) && Objects.equals(duration, routeDto.duration) && Objects.equals(distance, routeDto.distance);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, startLocation, endLocation, duration);
+        return Objects.hash(id, startLocation, endLocation, duration, distance);
     }
 
     @Override

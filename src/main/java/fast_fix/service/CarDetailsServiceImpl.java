@@ -5,7 +5,6 @@ import fast_fix.domain.entity.CarDetails;
 import fast_fix.domain.entity.User;
 import fast_fix.domain.mapping.CarDetailsMapper;
 import fast_fix.domain.mapping.CarInsuranceCompanyMapper;
-import fast_fix.exception_handling.exceptions.UserNotFoundException;
 import fast_fix.exceptions.ResourceNotFoundException;
 import fast_fix.repository.CarDetailsRepository;
 import fast_fix.repository.CarInsuranceCompanyRepository;

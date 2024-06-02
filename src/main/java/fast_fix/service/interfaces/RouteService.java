@@ -5,9 +5,9 @@ import fast_fix.domain.dto.RouteDto;
 import java.util.List;
 
 public interface RouteService {
-    List<RouteDto> getAllRoutesByUser(Long userId);
+    RouteDto getRouteById(Long id);
     RouteDto createRoute(RouteDto routeDto);
-    RouteDto updateRoute(Long routeId, RouteDto routeDto);
-    void deleteRoute(Long routeId);
-    RouteDto getRouteById(Long routeId);
+    RouteDto updateRoute(Long id, RouteDto routeDto);
+    void deleteRoute(Long id);
+    List<RouteDto> getRoutesFromAPI(String startLocation, String endLocation);
 }

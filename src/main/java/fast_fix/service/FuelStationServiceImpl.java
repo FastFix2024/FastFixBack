@@ -4,6 +4,8 @@ import fast_fix.config.ApiKeyConfig;
 import fast_fix.domain.dto.FuelStationDto;
 import fast_fix.domain.dto.FuelStationResponse;
 import fast_fix.domain.mapping.FuelStationMapper;
+import fast_fix.exceptions.ApiRequestException;
+import fast_fix.exceptions.ResourceNotFoundException;
 import fast_fix.service.interfaces.FuelStationService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -32,9 +34,14 @@ public class FuelStationServiceImpl implements FuelStationService {
                 radius,
                 fuelType,
                 apiConfig.getTankerkoenigApiKey());
-        FuelStationResponse response = restTemplate.getForObject(url, FuelStationResponse.class);
-        return response.getStations().stream()
-                .map(fuelStationMapper::toDto)
-                .collect(Collectors.toList());
+        try {
+            FuelStationResponse response = restTemplate.getForObject(url, FuelStationResponse.class);
+            if (response == null || response.getStations() == null) {
+                throw new ResourceNotFoundException("No fuel stations found");
+            }
+            return response.getStations().stream().map(fuelStationMapper::toDto).collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new ApiRequestException("Failed to fetch fuel stations from API", e);
+        }
     }
 }

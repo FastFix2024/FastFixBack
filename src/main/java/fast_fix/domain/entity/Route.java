@@ -26,6 +26,9 @@ public class Route {
     @Column(name = "duration", nullable = false)
     private String duration;
 
+    @Column(name = "distance", nullable = false)
+    private String distance;
+
     public Long getId() {
         return id;
     }
@@ -61,9 +64,16 @@ public class Route {
     public String getDuration() {
         return duration;
     }
-
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
     }
 
     @Override
@@ -71,16 +81,16 @@ public class Route {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Route route = (Route) o;
-        return Objects.equals(id, route.id) && Objects.equals(user, route.user) && Objects.equals(startLocation, route.startLocation) && Objects.equals(endLocation, route.endLocation) && Objects.equals(duration, route.duration);
+        return Objects.equals(id, route.id) && Objects.equals(user, route.user) && Objects.equals(startLocation, route.startLocation) && Objects.equals(endLocation, route.endLocation) && Objects.equals(duration, route.duration) && Objects.equals(distance, route.distance);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, startLocation, endLocation, duration);
+        return Objects.hash(id, user, startLocation, endLocation, duration, distance);
     }
 
     @Override
     public String toString() {
-        return String.format("Route: ID - %d, user - %s, start location - %s, end location - %s, duration - %s", id, user, startLocation, endLocation, duration);
+        return String.format("Route: ID - %d, user - %s, start location - %s, end location - %s, duration - %s, distance - %s", id, user, startLocation, endLocation, duration, distance);
     }
 }

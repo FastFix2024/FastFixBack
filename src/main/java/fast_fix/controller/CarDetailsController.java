@@ -1,7 +1,7 @@
 package fast_fix.controller;
 
 import fast_fix.domain.dto.CarDetailsDto;
-import fast_fix.exception_handling.exceptions.ResourceNotFoundException;
+import fast_fix.exceptions.ResourceNotFoundException;
 import fast_fix.service.interfaces.CarDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
