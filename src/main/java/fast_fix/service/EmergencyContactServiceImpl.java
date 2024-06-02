@@ -16,10 +16,9 @@ public class EmergencyContactServiceImpl implements EmergencyContactService {
 
     @Override
     public EmergencyContactDto getEmergencyContact() {
-        //TODO Предполагается, что эти данные заданы системой и не меняются
         EmergencyContactDto contact = new EmergencyContactDto();
-        contact.setName("Roadside Assistance");
-        contact.setPhoneNumber("+1-800-123-4567");
+        contact.setName("ADAC");
+        contact.setPhoneNumber("+49 89 222222");
         return contact;
     }
 }
