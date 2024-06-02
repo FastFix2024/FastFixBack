@@ -1,7 +1,5 @@
 package fast_fix.service.interfaces;
 
-import fast_fix.domain.dto.CarInsuranceCompanyDto;
-import fast_fix.domain.dto.ServiceStationDto;
 import fast_fix.domain.dto.UserDto;
 import fast_fix.domain.entity.CarInsuranceCompany;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,5 +22,4 @@ public interface UserService extends UserDetailsService {
     void sendEmailNotification(Long userId, String subject, String message);
     UserDto loginUser(String email, String password);
     void logoutUser(Long userId);
-    List<ServiceStationDto> getServiceStationsNearUser(Long userId, double radius, String type);
 }

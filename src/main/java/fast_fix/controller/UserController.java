@@ -1,6 +1,5 @@
 package fast_fix.controller;
 
-import fast_fix.domain.dto.ServiceStationDto;
 import fast_fix.domain.dto.UserDto;
 import fast_fix.exceptions.BadRequestException;
 import fast_fix.exceptions.ResourceNotFoundException;
@@ -29,7 +28,7 @@ public class UserController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto) {
         try {
             UserDto registeredUser = userService.registerUser(userDto);
@@ -46,16 +45,6 @@ public class UserController {
             return ResponseEntity.noContent().build();
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
-
-    @GetMapping("/{userId}/service-stations")
-    public ResponseEntity<List<ServiceStationDto>> getServiceStationsNearUser(@PathVariable Long userId, @RequestParam double radius, @RequestParam String type) {
-        try {
-            List<ServiceStationDto> stations = userService.getServiceStationsNearUser(userId, radius, type);
-            return ResponseEntity.ok(stations);
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 }

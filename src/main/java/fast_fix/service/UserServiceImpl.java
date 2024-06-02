@@ -1,6 +1,5 @@
 package fast_fix.service;
 
-import fast_fix.domain.dto.ServiceStationDto;
 import fast_fix.domain.dto.UserDto;
 import fast_fix.domain.entity.CarInsuranceCompany;
 import fast_fix.domain.entity.User;
@@ -9,15 +8,12 @@ import fast_fix.exceptions.BadRequestException;
 import fast_fix.exceptions.ResourceNotFoundException;
 import fast_fix.exceptions.UnauthorizedException;
 import fast_fix.repository.UserRepository;
-import fast_fix.service.interfaces.ServiceStationService;
 import fast_fix.service.interfaces.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,8 +22,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     private UserMapper userMapper;
-
-    private ServiceStationService serviceStationService;
 
     @Override
     public UserDto registerUser(UserDto userDto) {
@@ -137,17 +131,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void logoutUser(Long userId) {
 
-    }
-
-    @Override
-    public List<ServiceStationDto> getServiceStationsNearUser(Long userId, double radius, String type) {
-        User user = userRepository.findUserById(userId);
-        if (user == null) {
-            throw new ResourceNotFoundException("User not found");
-        }
-        BigDecimal latitude = user.getLat();
-        BigDecimal longitude = user.getLng();
-        return serviceStationService.getServiceStationsByLocation(latitude, longitude, radius, type);
     }
 
     @Override
