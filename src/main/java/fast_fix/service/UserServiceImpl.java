@@ -1,19 +1,19 @@
 package fast_fix.service;
 
-import fast_fix.domain.dto.CarInsuranceCompanyDto;
 import fast_fix.domain.dto.UserDto;
 import fast_fix.domain.entity.CarDetails;
 import fast_fix.domain.entity.User;
-import fast_fix.domain.mapping.UserMapper;
+import fast_fix.mapping.CarDetailsMapper;
+import fast_fix.mapping.UserMapper;
 import fast_fix.exceptions.BadRequestException;
 import fast_fix.exceptions.ResourceNotFoundException;
-import fast_fix.exceptions.UnauthorizedException;
 import fast_fix.repository.UserRepository;
 import fast_fix.service.interfaces.EmailService;
 import fast_fix.service.interfaces.RoleService;
 import fast_fix.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,6 +30,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private CarDetailsMapper carDetailsMapper;
+
+    @Autowired
     private UserMapper userMapper;
 
     private RoleService roleService;
@@ -43,7 +46,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(User user) {
         if (userRepository.findUserByEmail(user.getEmail()) != null) {
-            throw new BadRequestException("Email already exists");
+            throw new BadRequestException("User with this email already exists");
         }
         user.setId(null);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -55,100 +58,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findUserByEmail(String email) {
-        User user = userRepository.findUserByEmail(email);
-        if (user == null) {
-            throw new ResourceNotFoundException("User not found");
-        }
+    public UserDto getUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return userMapper.toDto(user);
+    }
+
+    @Override
+    public void logoutUser() {
+        SecurityContextHolder.clearContext();
     }
 
     @Override
     public void deleteUserById(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new ResourceNotFoundException("User not found");
-        }
         userRepository.deleteById(id);
-        emailService.sendDeleteAccountInfoEmail(userRepository.findUserById(id));
     }
 
     @Override
-    public UserDto updateUserEmail(Long userId, String newEmail) {
-        User user = userRepository.findUserById(userId);
-        if (user == null) {
-            throw new ResourceNotFoundException("User not found");
-        }
-        user.setEmail(newEmail);
-        user = userRepository.save(user);
-        emailService.sendNewEmailInfoEmail(user);
-        return userMapper.toDto(user);
-    }
-
-    @Override
-    public void updatePassword(Long userId, String newPassword) {
-        User user = userRepository.findUserById(userId);
-        if (user == null) {
-            throw new ResourceNotFoundException("User not found");
-        }
-        user.setPassword(passwordEncoder.encode(newPassword));
-        emailService.sendPasswordChangedInfoEmail(user);
+    public UserDto updateUser(UserDto userDto) {
+        User user = userMapper.toEntity(userDto);
         userRepository.save(user);
-    }
-
-    @Override
-    public UserDto updateFuelType(Long userId, String fuelType) {
-        User user = userRepository.findUserById(userId);
-        if (user == null) {
-            throw new ResourceNotFoundException("User not found");
-        }
-        CarDetails carDetails = user.getCarDetails();
-        if (carDetails == null) {
-            throw new ResourceNotFoundException("Car details not found");
-        }
-        carDetails.setFuelType(fuelType);
-        userRepository.save(user);
-        emailService.sendFuelParamInfoEmail(user);
         return userMapper.toDto(user);
-    }
-
-    @Override
-    public UserDto updateInsuranceCompany(Long userId, CarInsuranceCompanyDto insuranceCompanyDto) {
-        User user = userRepository.findUserById(userId);
-        if (user == null) {
-            throw new ResourceNotFoundException("User not found");
-        }
-        CarDetails carDetails = user.getCarDetails();
-        if (carDetails == null) {
-            throw new ResourceNotFoundException("Car details not found");
-        }
-        carDetails.getInsuranceCompany().setName(insuranceCompanyDto.getName());
-        carDetails.getInsuranceCompany().setPhoneNumber(insuranceCompanyDto.getPhoneNumber());
-        carDetails.getInsuranceCompany().setWebsite(insuranceCompanyDto.getWebsite());
-        userRepository.save(user);
-        emailService.sendInsuranceChangedInfoEmail(user);
-        return userMapper.toDto(user);
-    }
-
-    @Override
-    public UserDto updateMaintenanceDate(Long userId, LocalDate nextMaintenanceDate) {
-        User user = userRepository.findUserById(userId);
-        if (user == null) {
-            throw new ResourceNotFoundException("User not found");
-        }
-        CarDetails carDetails = user.getCarDetails();
-        if (carDetails == null) {
-            throw new ResourceNotFoundException("Car details not found");
-        }
-        carDetails.setLastMaintenanceDate(nextMaintenanceDate);
-        userRepository.save(user);
-        emailService.sendMaintenanceDateChangedEmail(user);
-        return userMapper.toDto(user);
-    }
-
-    //TODO
-    @Override
-    public void logoutUser(Long userId) {
-
     }
 
     @Override
@@ -164,7 +93,7 @@ public class UserServiceImpl implements UserService {
     @Scheduled(cron = "0 0 0 * * ?") // Запускается каждый день в полночь
     public void sendMaintenanceReminder() {
         LocalDate now = LocalDate.now();
-        LocalDate reminderDate = now.plusMonths(1);
+        LocalDate reminderDate = now.plusMonths(11);
 
         List<User> users = userRepository.findAll();
         for (User user : users) {

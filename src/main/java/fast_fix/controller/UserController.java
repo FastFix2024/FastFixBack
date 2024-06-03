@@ -16,52 +16,27 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/{email}")
-    public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
-        UserDto userDto = userService.findUserByEmail(email);
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserDto> getUser(@PathVariable Long userId) {
+        UserDto userDto = userService.getUser(userId);
         return ResponseEntity.ok(userDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
-        userService.deleteUserById(id);
+    @PutMapping("/")
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
+        UserDto updatedUser = userService.updateUser(userDto);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+        userService.deleteUserById(userId);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{userId}/email")
-    public ResponseEntity<UserDto> updateUserEmail(@PathVariable Long userId, @RequestParam String newEmail) {
-        UserDto updatedUser = userService.updateUserEmail(userId, newEmail);
-        return ResponseEntity.ok(updatedUser);
-    }
-
-    @PutMapping("/{userId}/password")
-    public ResponseEntity<Void> updatePassword(@PathVariable Long userId, @RequestParam String newPassword) {
-        userService.updatePassword(userId, newPassword);
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/{userId}/fuel-type")
-    public ResponseEntity<UserDto> updateFuelType(@PathVariable Long userId, @RequestParam String fuelType) {
-        UserDto updatedUser = userService.updateFuelType(userId, fuelType);
-        return ResponseEntity.ok(updatedUser);
-    }
-
-    @PutMapping("/{userId}/insurance-company")
-    public ResponseEntity<UserDto> updateInsuranceCompany(@PathVariable Long userId, @RequestBody CarInsuranceCompanyDto insuranceCompanyDto) {
-        UserDto updatedUser = userService.updateInsuranceCompany(userId, insuranceCompanyDto);
-        return ResponseEntity.ok(updatedUser);
-    }
-
-    @PutMapping("/{userId}/maintenance-date")
-    public ResponseEntity<UserDto> updateMaintenanceDate(@PathVariable Long userId, @RequestParam LocalDate nextMaintenanceDate) {
-        UserDto updatedUser = userService.updateMaintenanceDate(userId, nextMaintenanceDate);
-        return ResponseEntity.ok(updatedUser);
-    }
-
     @PostMapping("/logout")
-    public ResponseEntity<Void> logoutUser(@RequestParam Long userId) {
-//        TODO
-        userService.logoutUser(userId);
+    public ResponseEntity<Void> logout() {
+        userService.logoutUser();
         return ResponseEntity.ok().build();
     }
 }

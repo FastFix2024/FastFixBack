@@ -7,7 +7,4 @@ import java.util.List;
 public interface CarInsuranceCompanyService {
     List<CarInsuranceCompanyDto> getAllCarInsuranceCompanies();
     CarInsuranceCompanyDto getCarInsuranceCompanyById(Long id);
-    CarInsuranceCompanyDto createCarInsuranceCompany(CarInsuranceCompanyDto carInsuranceCompanyDto);
-    CarInsuranceCompanyDto updateCarInsuranceCompany(Long id, CarInsuranceCompanyDto carInsuranceCompanyDto);
-    void deleteCarInsuranceCompany(Long id);
 }
