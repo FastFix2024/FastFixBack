@@ -1,6 +1,5 @@
 package fast_fix.controller;
 
-import fast_fix.domain.dto.EmergencyContactDto;
 import fast_fix.exceptions.ResourceNotFoundException;
 import fast_fix.service.interfaces.EmergencyContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,9 @@ public class EmergencyContactController {
     private EmergencyContactService emergencyContactService;
 
     @GetMapping
-    public ResponseEntity<EmergencyContactDto> getEmergencyContact() {
+    public ResponseEntity<String> getEmergencyContact() {
         try {
-            EmergencyContactDto contact = emergencyContactService.getEmergencyContact();
+            String contact = emergencyContactService.getEmergencyContactNumber();
             return ResponseEntity.ok(contact);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

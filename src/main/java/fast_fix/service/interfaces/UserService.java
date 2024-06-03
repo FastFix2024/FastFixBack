@@ -17,6 +17,6 @@ public interface UserService extends UserDetailsService {
     UserDto updateFuelType(Long userId, String fuelType);
     UserDto updateInsuranceCompany(Long userId, CarInsuranceCompanyDto insuranceCompany);
     UserDto updateMaintenanceDate(Long userId, LocalDate nextMaintenanceDate);
-    UserDto loginUser(String email, String password);
     void logoutUser(Long userId);
+    void sendMaintenanceReminder();
 }

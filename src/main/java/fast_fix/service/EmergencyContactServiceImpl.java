@@ -1,24 +1,15 @@
 package fast_fix.service;
 
-import fast_fix.domain.dto.EmergencyContactDto;
-import fast_fix.domain.mapping.EmergencyContactMapper;
 import fast_fix.service.interfaces.EmergencyContactService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmergencyContactServiceImpl implements EmergencyContactService {
 
-    private final EmergencyContactMapper emergencyContactMapper;
-
-    public EmergencyContactServiceImpl(EmergencyContactMapper emergencyContactMapper) {
-        this.emergencyContactMapper = emergencyContactMapper;
-    }
+    private static final String EMERGENCY_CONTACT_NUMBER = "+49 89 222222";
 
     @Override
-    public EmergencyContactDto getEmergencyContact() {
-        EmergencyContactDto contact = new EmergencyContactDto();
-        contact.setName("ADAC");
-        contact.setPhoneNumber("+49 89 222222");
-        return contact;
+    public String getEmergencyContactNumber() {
+        return EMERGENCY_CONTACT_NUMBER;
     }
 }

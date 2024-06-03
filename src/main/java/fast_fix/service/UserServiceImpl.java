@@ -2,6 +2,7 @@ package fast_fix.service;
 
 import fast_fix.domain.dto.CarInsuranceCompanyDto;
 import fast_fix.domain.dto.UserDto;
+import fast_fix.domain.entity.CarDetails;
 import fast_fix.domain.entity.User;
 import fast_fix.domain.mapping.UserMapper;
 import fast_fix.exceptions.BadRequestException;
@@ -12,12 +13,14 @@ import fast_fix.service.interfaces.EmailService;
 import fast_fix.service.interfaces.RoleService;
 import fast_fix.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -66,6 +69,7 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User not found");
         }
         userRepository.deleteById(id);
+        emailService.sendDeleteAccountInfoEmail(userRepository.findUserById(id));
     }
 
     @Override
@@ -76,6 +80,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setEmail(newEmail);
         user = userRepository.save(user);
+        emailService.sendNewEmailInfoEmail(user);
         return userMapper.toDto(user);
     }
 
@@ -86,6 +91,7 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User not found");
         }
         user.setPassword(passwordEncoder.encode(newPassword));
+        emailService.sendPasswordChangedInfoEmail(user);
         userRepository.save(user);
     }
 
@@ -95,9 +101,14 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new ResourceNotFoundException("User not found");
         }
-            user.getCarDetails().setFuelType(fuelType);
-            user = userRepository.save(user);
-            return userMapper.toDto(user);
+        CarDetails carDetails = user.getCarDetails();
+        if (carDetails == null) {
+            throw new ResourceNotFoundException("Car details not found");
+        }
+        carDetails.setFuelType(fuelType);
+        userRepository.save(user);
+        emailService.sendFuelParamInfoEmail(user);
+        return userMapper.toDto(user);
     }
 
     @Override
@@ -106,10 +117,15 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new ResourceNotFoundException("User not found");
         }
-        user.getCarDetails().getInsuranceCompany().setName(insuranceCompanyDto.getName());
-        user.getCarDetails().getInsuranceCompany().setPhoneNumber(insuranceCompanyDto.getPhoneNumber());
-        user.getCarDetails().getInsuranceCompany().setWebsite(insuranceCompanyDto.getWebsite());
-        user = userRepository.save(user);
+        CarDetails carDetails = user.getCarDetails();
+        if (carDetails == null) {
+            throw new ResourceNotFoundException("Car details not found");
+        }
+        carDetails.getInsuranceCompany().setName(insuranceCompanyDto.getName());
+        carDetails.getInsuranceCompany().setPhoneNumber(insuranceCompanyDto.getPhoneNumber());
+        carDetails.getInsuranceCompany().setWebsite(insuranceCompanyDto.getWebsite());
+        userRepository.save(user);
+        emailService.sendInsuranceChangedInfoEmail(user);
         return userMapper.toDto(user);
     }
 
@@ -119,19 +135,14 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new ResourceNotFoundException("User not found");
         }
-            user.getCarDetails().setLastMaintenanceDate(nextMaintenanceDate);
-            user = userRepository.save(user);
-            return userMapper.toDto(user);
-    }
-
-    @Override
-    public UserDto loginUser(String email, String password) {
-        User user = userRepository.findByEmailAndPassword(email, password);
-        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
-            throw new UnauthorizedException("Invalid email or password");
-        } else {
-            return userMapper.toDto(user);
+        CarDetails carDetails = user.getCarDetails();
+        if (carDetails == null) {
+            throw new ResourceNotFoundException("Car details not found");
         }
+        carDetails.setLastMaintenanceDate(nextMaintenanceDate);
+        userRepository.save(user);
+        emailService.sendMaintenanceDateChangedEmail(user);
+        return userMapper.toDto(user);
     }
 
     //TODO
@@ -147,5 +158,23 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User not found");
         }
         return user;
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 0 * * ?") // Запускается каждый день в полночь
+    public void sendMaintenanceReminder() {
+        LocalDate now = LocalDate.now();
+        LocalDate reminderDate = now.plusMonths(1);
+
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            CarDetails carDetails = user.getCarDetails();
+            if (carDetails != null && carDetails.getLastMaintenanceDate() != null) {
+                LocalDate maintenanceDate = carDetails.getLastMaintenanceDate();
+                if (maintenanceDate.isEqual(reminderDate) || maintenanceDate.isBefore(reminderDate)) {
+                    emailService.sendMaintenanceReminderEmail(user);
+                }
+            }
+        }
     }
 }

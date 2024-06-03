@@ -8,8 +8,10 @@ public interface EmailService {
     void sendInsuranceChangedInfoEmail(User user);
     void sendNewEmailInfoEmail(User user);
     void sendFuelParamInfoEmail(User user);
-    void sendTechInspectWarnEmail(User user);
+    void sendMaintenanceDateChangedEmail(User user);
     void sendChangePasswordRequestWarnEmail(User user);
     void sendPasswordChangedInfoEmail(User user);
+    void sendDeleteAccountInfoEmail(User user);
+    void sendMaintenanceReminderEmail(User user);
 
 }

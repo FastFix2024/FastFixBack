@@ -156,10 +156,10 @@ public class EmailServiceImpl implements EmailService {
         }
     }
     @Override
-    public void sendTechInspectWarnEmail(User user) {
+    public void sendMaintenanceDateChangedEmail(User user) {
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
-        String text = generateTechInspectMessageText(user);
+        String text = generateMaintenanceDateMessageText(user);
 
         try {
             helper.setFrom("fastfix2024project@gmail.com");
@@ -171,10 +171,10 @@ public class EmailServiceImpl implements EmailService {
         }
         sender.send(message);
     }
-    private String generateTechInspectMessageText(User user) {
+    private String generateMaintenanceDateMessageText(User user) {
         try {
             Template template = mailConfiguration
-                    .getTemplate("warning_technical_inspection_date_due.ftlh");
+                    .getTemplate("info_maintenance_date_changed.ftlh");
 
             Map<String, Object> model = new HashMap<>();
             model.put("name", user.getUsername());
@@ -242,6 +242,68 @@ public class EmailServiceImpl implements EmailService {
 
             return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void sendDeleteAccountInfoEmail(User user) {
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
+        String text = generateDeleteAccountMessageText(user);
+
+        try {
+            helper.setFrom("fastfix2024project@gmail.com");
+            helper.setTo(user.getEmail());
+            helper.setSubject("Account Deletion");
+            helper.setText(text, true);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+        sender.send(message);
+    }
+    private String generateDeleteAccountMessageText(User user) {
+        try {
+            Template template = mailConfiguration
+                    .getTemplate("info_delete_account.ftlh");
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("name", user.getUsername());
+
+            return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void sendMaintenanceReminderEmail(User user) {
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
+        String text = generateMaintenanceReminderMessageText(user);
+
+        try {
+            helper.setFrom("fastfix2024project@gmail.com");
+            helper.setTo(user.getEmail());
+            helper.setSubject("Technical Inspection Reminder");
+            helper.setText(text, true);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        sender.send(message);
+    }
+
+    private String generateMaintenanceReminderMessageText(User user) {
+        try {
+            Template template = mailConfiguration.getTemplate("warning_maintenance_date_due.ftlh");
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("name", user.getUsername());
+            model.put("date", user.getCarDetails().getLastMaintenanceDate().toString());
+
+            return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
