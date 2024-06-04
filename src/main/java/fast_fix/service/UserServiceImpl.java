@@ -6,6 +6,7 @@ import fast_fix.mapping.CarDetailsMapper;
 import fast_fix.mapping.UserMapper;
 import fast_fix.exceptions.BadRequestException;
 import fast_fix.exceptions.ResourceNotFoundException;
+import fast_fix.repository.RoleRepository;
 import fast_fix.repository.UserRepository;
 import fast_fix.service.interfaces.EmailService;
 import fast_fix.service.interfaces.RoleService;
@@ -24,6 +25,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private CarDetailsMapper carDetailsMapper;
@@ -56,6 +60,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUser(Long userId) {
+        roleRepository.deleteById(userId);
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return userMapper.toDto(user);
     }
