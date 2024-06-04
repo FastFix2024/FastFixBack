@@ -1,6 +1,5 @@
 package fast_fix.controller;
 
-import fast_fix.domain.dto.CarInsuranceCompanyDto;
 import fast_fix.domain.dto.UserDto;
 import fast_fix.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

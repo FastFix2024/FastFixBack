@@ -1,6 +1,7 @@
 package fast_fix.controller;
 
 import fast_fix.domain.entity.User;
+import fast_fix.exceptions.ConflictException;
 import fast_fix.exceptions.Response;
 import fast_fix.service.interfaces.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,11 @@ public class RegistrationController {
 
     @PostMapping
     public fast_fix.exceptions.Response register(@RequestBody User user) {
-        service.registerUser(user);
+        try {
+            service.registerUser(user);
+        } catch (Exception e) {
+            throw new ConflictException("Username or email already exists");
+        }
         return new Response("Registration complete. Please check your email");
     }
 }

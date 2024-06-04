@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="add_insurance_companies" author="dev_fastfix">
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="Allianz"/>
+            <column name="phone_number" value="+49 89 20700 2900"/>
+            <column name="website" value="https://www.allianz.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="AXA"/>
+            <column name="phone_number" value="+49 221 148 41000"/>
+            <column name="website" value="https://www.axa.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="HUK-COBURG"/>
+            <column name="phone_number" value="+49 9561 96 0"/>
+            <column name="website" value="https://www.huk.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="R+V Versicherung"/>
+            <column name="phone_number" value="+49 611 533 0"/>
+            <column name="website" value="https://www.ruv.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="Debeka"/>
+            <column name="phone_number" value="+49 261 498 0"/>
+            <column name="website" value="https://www.debeka.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="Gothaer"/>
+            <column name="phone_number" value="+49 221 308 0"/>
+            <column name="website" value="https://www.gothaer.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="LVM Versicherung"/>
+            <column name="phone_number" value="+49 251 702 0"/>
+            <column name="website" value="https://www.lvm.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="Generali Deutschland"/>
+            <column name="phone_number" value="+49 89 5121 0"/>
+            <column name="website" value="https://www.generali.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="HanseMerkur"/>
+            <column name="phone_number" value="+49 40 4119 0"/>
+            <column name="website" value="https://www.hansemerkur.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="CosmosDirekt"/>
+            <column name="phone_number" value="+49 681 966 6800"/>
+            <column name="website" value="https://www.cosmosdirekt.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="ERGO "/>
+            <column name="phone_number" value="+49 211 477 7100"/>
+            <column name="website" value="https://www.ergo.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="Zurich"/>
+            <column name="phone_number" value="+49 69 7115 0"/>
+            <column name="website" value="https://www.zurich.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="Barmenia"/>
+            <column name="phone_number" value="+49 202 438 0"/>
+            <column name="website" value="https://www.barmenia.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="Signal Iduna"/>
+            <column name="phone_number" value="+49 231 135 0"/>
+            <column name="website" value="https://www.signal-iduna.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="DEVK"/>
+            <column name="phone_number" value="+49 221 757 0"/>
+            <column name="website" value="https://www.devk.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="Württembergische Versicherung"/>
+            <column name="phone_number" value="+49 711 662 721721"/>
+            <column name="website" value="https://www.wuerttembergische.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="VHV"/>
+            <column name="phone_number" value="+49 511 9070"/>
+            <column name="website" value="https://www.vhv.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="Die Continentale"/>
+            <column name="phone_number" value="+49 231 919 0"/>
+            <column name="website" value="https://www.continentale.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="HDI"/>
+            <column name="phone_number" value="+49 511 645 0"/>
+            <column name="website" value="https://www.hdi.de"/>
+        </insert>
+
+        <insert tableName="insurance_companies">
+            <column name="name" value="DA Direkt"/>
+            <column name="phone_number" value="+49 6196 999 2330"/>
+            <column name="website" value="https://www.da-direkt.de"/>
+        </insert>
+
+
+
+    </changeSet>
+
+</databaseChangeLog>

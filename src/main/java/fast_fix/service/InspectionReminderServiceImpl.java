@@ -20,7 +20,7 @@ public class InspectionReminderServiceImpl {
     @Autowired
     private EmailService emailService;
 
-    @Scheduled(cron = "0 0 12 * * ?") // Ежедневный запуск в 12:00
+    @Scheduled(fixedRate = 86400000) // Ежедневный запуск в 12:00
     public void sendInspectionReminders() {
         LocalDate now = LocalDate.now();
         LocalDate reminderDate = now.plusMonths(1);

@@ -1,7 +1,6 @@
 package fast_fix.service;
 
 import fast_fix.domain.dto.UserDto;
-import fast_fix.domain.entity.CarDetails;
 import fast_fix.domain.entity.User;
 import fast_fix.mapping.CarDetailsMapper;
 import fast_fix.mapping.UserMapper;
@@ -12,15 +11,12 @@ import fast_fix.service.interfaces.EmailService;
 import fast_fix.service.interfaces.RoleService;
 import fast_fix.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -35,6 +31,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
     private RoleService roleService;
 
     @Autowired
@@ -81,29 +78,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findUserByEmail(email);
         if (user == null) {
             throw new ResourceNotFoundException("User not found");
         }
         return user;
-    }
-
-    @Override
-    @Scheduled(cron = "0 0 0 * * ?") // Запускается каждый день в полночь
-    public void sendMaintenanceReminder() {
-        LocalDate now = LocalDate.now();
-        LocalDate reminderDate = now.plusMonths(11);
-
-        List<User> users = userRepository.findAll();
-        for (User user : users) {
-            CarDetails carDetails = user.getCarDetails();
-            if (carDetails != null && carDetails.getLastMaintenanceDate() != null) {
-                LocalDate maintenanceDate = carDetails.getLastMaintenanceDate();
-                if (maintenanceDate.isEqual(reminderDate) || maintenanceDate.isBefore(reminderDate)) {
-                    emailService.sendMaintenanceReminderEmail(user);
-                }
-            }
-        }
     }
 }

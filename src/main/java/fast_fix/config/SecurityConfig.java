@@ -35,26 +35,36 @@ public class SecurityConfig {
                 .sessionManagement(x -> x
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(x -> x
+                        //register
                         .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
+                        //login
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        //access
                         .requestMatchers(HttpMethod.POST, "/api/auth/access").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/users/{email}").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/users/{id}").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.PUT, "/api/users/{userId}/email").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.PUT, "/api/users/{userId}/password").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.PUT, "/api/users/{userId}/fuel-type").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.PUT, "/api/users/{userId}/insurance-company").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.PUT, "/api/users/{userId}/maintenance-date").hasAnyRole("ADMIN", "USER")
+                        //getUser
+                        .requestMatchers(HttpMethod.GET, "/api/users/{userId}").hasAnyRole("ADMIN", "USER")
+                        //updateUser - body
+                        .requestMatchers(HttpMethod.PUT, "/api/users/").hasAnyRole("ADMIN", "USER")
+                        //deleteUser
+                        .requestMatchers(HttpMethod.DELETE, "/api/users/{userId}").hasAnyRole("ADMIN", "USER")
+                        //logout
                         .requestMatchers(HttpMethod.POST, "/api/users/logout").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.GET,"/api/fuel-stations").hasAnyRole("ADMIN", "USER")
+                        //getEmergencyContact
                         .requestMatchers(HttpMethod.GET,"/api/emergency-contact").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.GET,"/api/car-insurance-companies").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.GET,"/api/car-insurance-companies/{id}").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.POST,"/api/car-insurance-companies").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT,"/api/car-insurance-companies/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE,"/api/car-insurance-companies/{id}").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.GET,"/api/car-details/user/{userId}").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.PUT,"/api/car-details/user/{userId}").hasAnyRole("ADMIN", "USER")
+                        //getCarDetails
+                        .requestMatchers(HttpMethod.GET,"/api/car-details/{userId}").hasAnyRole("ADMIN", "USER")
+                        //updateFuelType
+                        .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/fuel-type").hasAnyRole("ADMIN", "USER")
+                        //updateInsuranceCompany
+                        .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/insurance-company").hasAnyRole("ADMIN", "USER")
+                        //updateLastMaintenanceDate
+                        .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/last-maintenance-date").hasAnyRole("ADMIN", "USER")
+                        //getFuelTypes
+                        .requestMatchers(HttpMethod.GET,"/api/car-details/fuel-types").hasAnyRole("ADMIN", "USER")
+                        //getStationsNearby
+                        .requestMatchers(HttpMethod.GET,"/api/car-details/stations").hasAnyRole("ADMIN", "USER")
+                        //getInsuranceCompanies
+                        .requestMatchers(HttpMethod.GET,"/api/car-details/insurance-companies").hasAnyRole("ADMIN", "USER")
                         .anyRequest().permitAll()) //permitAll() в целях тестирования - после поменять на authenticated()
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterAfter(tokenFilter, UsernamePasswordAuthenticationFilter.class)

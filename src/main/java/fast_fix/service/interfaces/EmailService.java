@@ -6,11 +6,8 @@ public interface EmailService {
 
     void sendConfirmationEmail(User user);
     void sendInsuranceChangedInfoEmail(User user);
-    void sendNewEmailInfoEmail(User user);
     void sendFuelParamInfoEmail(User user);
     void sendMaintenanceDateChangedEmail(User user);
-    void sendChangePasswordRequestWarnEmail(User user);
-    void sendPasswordChangedInfoEmail(User user);
     void sendDeleteAccountInfoEmail(User user);
     void sendMaintenanceReminderEmail(User user);
 

@@ -51,7 +51,7 @@ public class EmailServiceImpl implements EmailService {
 
     private String generateMessageText(User user) {
         try {
-            Template template = mailConfiguration.getTemplate("confirm_registration_mail.ftlh");
+            Template template = mailConfiguration.getTemplate("confirmation_registration_mail.ftlh");
             String code = confirmationService.generateConfirmationCode(user);
 
             Map<String, Object> model = new HashMap<>();
@@ -95,36 +95,7 @@ public class EmailServiceImpl implements EmailService {
             throw new RuntimeException(e);
         }
     }
-    @Override
-    public void sendNewEmailInfoEmail(User user) {
-        MimeMessage message = sender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
-        String text = generateNewEmailMessageText(user);
 
-        try {
-            helper.setFrom("fastfix2024project@gmail.com");
-            helper.setTo(user.getEmail());
-            helper.setSubject("New Email");
-            helper.setText(text, true);
-        }catch (Exception e){
-            throw new RuntimeException(e);
-        }
-        sender.send(message);
-    }
-    private String generateNewEmailMessageText(User user) {
-        try {
-            Template template = mailConfiguration
-                    .getTemplate("info_new_email.ftlh");
-
-            Map<String, Object> model = new HashMap<>();
-            model.put("name", user.getUsername());
-
-            return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
     @Override
     public void sendFuelParamInfoEmail(User user) {
         MimeMessage message = sender.createMimeMessage();
@@ -175,67 +146,6 @@ public class EmailServiceImpl implements EmailService {
         try {
             Template template = mailConfiguration
                     .getTemplate("info_maintenance_date_changed.ftlh");
-
-            Map<String, Object> model = new HashMap<>();
-            model.put("name", user.getUsername());
-
-            return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    @Override
-    public void sendChangePasswordRequestWarnEmail(User user) {
-        MimeMessage message = sender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
-        String text = generateChangePasswordRequestMessageText(user);
-
-        try {
-            helper.setFrom("fastfix2024project@gmail.com");
-            helper.setTo(user.getEmail());
-            helper.setSubject("New Password");
-            helper.setText(text, true);
-        }catch (Exception e){
-            throw new RuntimeException(e);
-        }
-        sender.send(message);
-    }
-    private String generateChangePasswordRequestMessageText(User user) {
-        try {
-            Template template = mailConfiguration
-                    .getTemplate("warning_change-password-request.ftlh");
-
-            Map<String, Object> model = new HashMap<>();
-            model.put("name", user.getUsername());
-            model.put("link", "http://localhost:8080/{userId}/password");
-
-            return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    @Override
-    public void sendPasswordChangedInfoEmail(User user) {
-        MimeMessage message = sender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
-        String text = generatePasswordChangedMessageText(user);
-
-        try {
-            helper.setFrom("fastfix2024project@gmail.com");
-            helper.setTo(user.getEmail());
-            helper.setSubject("New Password");
-            helper.setText(text, true);
-        }catch (Exception e){
-            throw new RuntimeException(e);
-        }
-        sender.send(message);
-    }
-    private String generatePasswordChangedMessageText(User user) {
-        try {
-            Template template = mailConfiguration
-                    .getTemplate("info_password_changed.ftlh");
 
             Map<String, Object> model = new HashMap<>();
             model.put("name", user.getUsername());

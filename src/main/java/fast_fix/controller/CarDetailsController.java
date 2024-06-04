@@ -3,10 +3,8 @@ package fast_fix.controller;
 import fast_fix.domain.dto.CarDetailsDto;
 import fast_fix.domain.dto.CarInsuranceCompanyDto;
 import fast_fix.domain.dto.FuelStationDto;
-import fast_fix.exceptions.ResourceNotFoundException;
 import fast_fix.service.interfaces.CarDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

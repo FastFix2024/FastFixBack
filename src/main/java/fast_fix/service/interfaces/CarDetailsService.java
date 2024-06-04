@@ -3,8 +3,6 @@ package fast_fix.service.interfaces;
 import fast_fix.domain.dto.CarDetailsDto;
 import fast_fix.domain.dto.CarInsuranceCompanyDto;
 import fast_fix.domain.dto.FuelStationDto;
-import fast_fix.domain.dto.FuelStationResponse;
-import fast_fix.domain.entity.CarInsuranceCompany;
 
 import java.time.LocalDate;
 import java.util.List;

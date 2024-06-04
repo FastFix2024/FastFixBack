@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "tankerkoenig")
 public class TankerkoenigConfig {
 
-
     private String apiKey;
 
     public String getApiKey() {

@@ -3,7 +3,9 @@ package fast_fix.service;
 import fast_fix.domain.entity.Role;
 import fast_fix.repository.RoleRepository;
 import fast_fix.service.interfaces.RoleService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RoleServiceImpl implements RoleService {
 
     private RoleRepository repository;

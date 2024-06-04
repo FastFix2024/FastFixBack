@@ -1,13 +1,18 @@
 package fast_fix.security.sec_service;
 
 import fast_fix.domain.entity.User;
+import fast_fix.repository.UserRepository;
 import fast_fix.security.AuthInfo;
 import fast_fix.security.sec_dto.TokenResponseDto;
 import fast_fix.service.interfaces.UserService;
 import io.jsonwebtoken.Claims;
 import jakarta.security.auth.message.AuthException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,17 +35,17 @@ public class AuthService {
     }
 
     public TokenResponseDto login(@NonNull User inboundUser) throws AuthException {
-        String username = inboundUser.getUsername();
-        User foundUser = (User) userService.loadUserByUsername(username);
+        String email = inboundUser.getEmail();
+        User foundUser = (User) userService.loadUserByUsername(email);
 
         if (encoder.matches(inboundUser.getPassword(), foundUser.getPassword())) {
             String accessToken = tokenService.generateAccessToken(foundUser);
             String refreshToken = tokenService.generateRefreshToken(foundUser);
-            refreshStorage.put(username, refreshToken);
+            refreshStorage.put(email, refreshToken);
 
             return new TokenResponseDto(accessToken, refreshToken);
         } else {
-            throw new AuthException("Login or password is incorrect");
+            throw new AuthException("Email or password is incorrect");
         }
     }
 
