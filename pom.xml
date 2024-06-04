@@ -133,6 +133,12 @@
 			<artifactId>aws-java-sdk-s3</artifactId>
 			<version>1.12.720</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.5.9</version>
+		</dependency>
     
 	</dependencies>
 

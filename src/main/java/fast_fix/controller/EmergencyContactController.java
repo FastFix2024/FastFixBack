@@ -2,6 +2,7 @@ package fast_fix.controller;
 
 import fast_fix.exceptions.ResourceNotFoundException;
 import fast_fix.service.interfaces.EmergencyContactService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ public class EmergencyContactController {
     @Autowired
     private EmergencyContactService emergencyContactService;
 
+    @Operation(summary = "Получить контакт экстренной службы")
     @GetMapping
     public ResponseEntity<String> getEmergencyContact() {
         try {

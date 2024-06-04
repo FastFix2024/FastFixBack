@@ -4,6 +4,7 @@ import fast_fix.domain.entity.User;
 import fast_fix.security.sec_dto.RefreshRequestDto;
 import fast_fix.security.sec_dto.TokenResponseDto;
 import fast_fix.security.sec_service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class AuthController {
         this.authService = authService;
     }
 
+    @Operation(summary = "Залогинить пользователя")
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody User user) {
         try {
