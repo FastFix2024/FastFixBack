@@ -1,5 +1,6 @@
 package fast_fix.domain.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,28 +11,35 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+@Schema(description = "User Entity")
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
 
+    @Schema(description = "User ID", example = "15")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    @Schema(description = "User Name", example = "TestUser1")
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
+    @Schema(description = "User email", example = "looga.jury@gmail.com")
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Schema(description = "User Password", example = "111")
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Schema(description = "Car Details", example = "param1, param2")
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_details_id", referencedColumnName = "id")
     private CarDetails carDetails;
 
+    @Schema(description = "User Role", example = "USER, ADMIN")
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -39,12 +47,15 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    @Schema(description = "Active User", example = "isActive")
     @Column(name = "is_active")
     private boolean isActive;
 
+    @Schema(description = "User place in Latitud", example = "23.443.00")
     @Column(name = "lat")
     private BigDecimal lat;
 
+    @Schema(description = "User place in Long..", example = "22.542.00")
     @Column(name = "lng")
     private BigDecimal lng;
 

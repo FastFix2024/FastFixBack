@@ -3,18 +3,21 @@ package fast_fix.controller;
 import fast_fix.domain.dto.UserDto;
 import fast_fix.service.interfaces.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
+@Tag(name = "User controller", description = "Controller for some operations with available users")
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
+
 
     @Operation(summary = "Получить пользователя по id")
     @GetMapping("/{userId}")

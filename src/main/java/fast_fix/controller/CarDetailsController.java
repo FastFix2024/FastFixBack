@@ -5,6 +5,7 @@ import fast_fix.domain.dto.CarInsuranceCompanyDto;
 import fast_fix.domain.dto.FuelStationDto;
 import fast_fix.service.interfaces.CarDetailsService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@Tag(name = "CarDetails controller")
 @RestController
 @RequestMapping("/car-details")
 public class CarDetailsController {

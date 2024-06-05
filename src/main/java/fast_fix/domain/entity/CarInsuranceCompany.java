@@ -1,28 +1,35 @@
 package fast_fix.domain.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.util.Objects;
 import java.util.Set;
 
+@Schema(description = "Insurance Companies")
 @Entity
 @Table(name = "insurance_companies")
 public class CarInsuranceCompany {
 
+    @Schema(description = "Insurance company ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    @Schema(description = "Insurance company Name")
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Schema(description = "Insurance company Phone number")
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
+    @Schema(description = "Insurance company Web site")
     @Column(name = "website", nullable = false)
     private String website;
 
+    @Schema(description = "Car Details")
     @OneToMany(mappedBy = "insuranceCompany")
     private Set<CarDetails> carDetails;
 
