@@ -6,12 +6,12 @@ import io.swagger.v3.oas.annotations.info.Info;
 
     @OpenAPIDefinition(
             info = @Info(
-                    title = "JWT demo app",
+                    title = "FastFix demo app",
                     description = "Demo application for JSON web tokens",
                     version = "1.0.0",
                     contact = @Contact(
-                            name = "Juri Looga",
-                            email = "looga.jury@gmail.com",
+                            name = "Fast Fix project 2024",
+                            email = "fastfix2024project@gmail.com",
                             url = "https://www.jury.looga.de/"
                     )
             )

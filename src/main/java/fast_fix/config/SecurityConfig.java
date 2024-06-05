@@ -40,7 +40,7 @@ public class SecurityConfig {
         return new OpenAPI().addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
                 .components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()))
                 .info(new Info()
-                        .title("JWT demo app")
+                        .title("FastFix demo app")
                         .description("Demo application for JSON web tokens")
                         .version("1.0.0")
                         .contact(new Contact()
