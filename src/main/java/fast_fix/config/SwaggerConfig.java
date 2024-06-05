@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.info.Info;
                     contact = @Contact(
                             name = "Juri Looga",
                             email = "looga.jury@gmail.com",
-                            url = "https://www.jurylooga.de"
+                            url = "https://www.jury.looga.de/"
                     )
             )
     )

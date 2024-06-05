@@ -44,10 +44,10 @@ public class SecurityConfig {
                         .description("Demo application for JSON web tokens")
                         .version("1.0.0")
                         .contact(new Contact()
-                                .name("Juri Looga")
-                                .email("looga.jury@gmail.com")
-                                .url("https://www.jury.looga.de")
-                                .license(new License().name("@JuriLooga").url("https://www.jury.looga.de"))));
+                                .name("FastFix")
+                                .email("fastfix2024project@gmail.com")
+                                .url("https://www.ait-tr.de/"))
+                        .license(new License().name("@JuriLooga").url("https://www.jury.looga.de/")));
     }
 
     private SecurityScheme createAPIKeyScheme(){
