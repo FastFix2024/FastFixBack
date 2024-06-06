@@ -9,6 +9,7 @@ public interface UserService extends UserDetailsService {
 
     void registerUser(User user);
     UserDto getUserProfileByUsername(String username);
+    UserDto getUserByUsername(String username);
     UserDto updateUserProfile(UserDto userDto);
     void deleteUserById(Long id);
 }

@@ -13,12 +13,10 @@ import fast_fix.repository.CarDetailsRepository;
 import fast_fix.repository.CarInsuranceCompanyRepository;
 import fast_fix.repository.UserRepository;
 import fast_fix.service.interfaces.CarDetailsService;
-import fast_fix.service.interfaces.TankerkoenigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

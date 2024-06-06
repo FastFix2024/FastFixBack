@@ -4,6 +4,7 @@ import fast_fix.domain.dto.CarDetailsDto;
 import fast_fix.domain.dto.UserDto;
 import fast_fix.domain.entity.CarDetails;
 import fast_fix.domain.entity.User;
+import fast_fix.exceptions.ConflictException;
 import fast_fix.mapping.CarDetailsMapper;
 import fast_fix.mapping.CarInsuranceCompanyMapper;
 import fast_fix.mapping.UserMapper;
@@ -60,8 +61,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(User user) {
         if (userRepository.findUserByEmail(user.getEmail()) != null) {
-            throw new BadRequestException("User with this email already exists");
+            throw new ConflictException("User with this email already exists");
         }
+        if (userRepository.findUserByUsername(user.getUsername()) != null) {
+            throw new ConflictException("User with this username already exists");
+        }
+
         user.setId(null);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Set.of(roleService.getRoleUser()));
@@ -92,6 +97,15 @@ public class UserServiceImpl implements UserService {
         }
 
         return userDto;
+    }
+
+    @Override
+    public UserDto getUserByUsername(String username) {
+        User user = userRepository.findUserByUsername(username);
+        if (user == null) {
+            throw new RuntimeException("User not found with username: " + username);
+        }
+        return userMapper.toDto(user);
     }
 
     @Override

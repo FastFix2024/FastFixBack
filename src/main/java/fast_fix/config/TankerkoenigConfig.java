@@ -1,12 +1,13 @@
 package fast_fix.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "tankerkoenig")
 public class TankerkoenigConfig {
 
+    @Value("${tankerkoenig.apiKey}")
     private String apiKey;
 
     public String getApiKey() {

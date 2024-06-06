@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -35,13 +36,14 @@ public class User implements UserDetails {
 
     @Schema(description = "User Password", example = "111")
     @Column(name = "password", nullable = false)
-    @NotNull(message = "Password cannot be Null")
-    @NotBlank(message = "Password cannot by empty")
-    @Pattern(
-            regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*//d)(?=.*[@$!%*?&])[A-Za-z//d@$!%*?&]{8,}$",
-            message = "Password must be at least 8 characters long and contain at least one uppercase letter, " +
-                    "one lowercase letter, one digit, and one special character (@$!%*?&)"
-    )
+    @NotBlank(message = "Password is required")
+    @Size(min = 8, message = "Password must be at least 8 characters long")
+    @Pattern.List({
+            @Pattern(regexp = "(?=.*[0-9]).+", message = "Password must contain at least one digit"),
+            @Pattern(regexp = "(?=.*[a-z]).+", message = "Password must contain at least one lowercase letter"),
+            @Pattern(regexp = "(?=.*[A-Z]).+", message = "Password must contain at least one uppercase letter"),
+            @Pattern(regexp = "(?=.*[@$!%*?&]).+", message = "Password must contain at least one special character (@$!%*?&)")
+    })
     private String password;
 
     @Schema(description = "Car Details", example = "param1, param2")

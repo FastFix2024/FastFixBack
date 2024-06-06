@@ -134,8 +134,11 @@ public class CarDetailsController {
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
-            UserDto userDto = (UserDto) authentication.getPrincipal();
-            return userDto.getId();
+            Object principalObject = authentication.getPrincipal();
+            if (principalObject instanceof UserDto) {
+                UserDto userDto = (UserDto) principalObject;
+                return userDto.getId();
+            }
         }
         return null;
     }

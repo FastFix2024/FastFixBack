@@ -67,32 +67,32 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
                         //login
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        //logout
+                        .requestMatchers(HttpMethod.POST, "/api/auth/logout").authenticated()
                         //access
                         .requestMatchers(HttpMethod.POST, "/api/auth/access").permitAll()
-                        //getUser
-                        .requestMatchers(HttpMethod.GET, "/api/users/{userId}").hasAnyRole("ADMIN", "USER")
-                        //updateUser - body
-                        .requestMatchers(HttpMethod.PUT, "/api/users/").hasAnyRole("ADMIN", "USER")
+                        //getUserProfileByUsername (self)
+                        .requestMatchers(HttpMethod.GET, "/api/user/{username}").authenticated()
+                        //getUserProfile (any)
+                        .requestMatchers(HttpMethod.GET, "/api/user/profile/{username}").permitAll()
+                        //updateUserProfile
+                        .requestMatchers(HttpMethod.PUT, "/api/user/profile").authenticated()
                         //deleteUser
-                        .requestMatchers(HttpMethod.DELETE, "/api/users/{userId}").hasAnyRole("ADMIN", "USER")
-                        //logout
-                        .requestMatchers(HttpMethod.POST, "/api/users/logout").hasAnyRole("ADMIN", "USER")
-                        //getEmergencyContact
-                        .requestMatchers(HttpMethod.GET,"/api/emergency-contact").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/user/{userId}").authenticated()
                         //getCarDetails
-                        .requestMatchers(HttpMethod.GET,"/api/car-details/{userId}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/api/car-details/{userId}").authenticated()
                         //updateFuelType
-                        .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/fuel-type").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/fuel-type").authenticated()
                         //updateInsuranceCompany
-                        .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/insurance-company").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/insurance-company").authenticated()
                         //updateLastMaintenanceDate
-                        .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/last-maintenance-date").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/last-maintenance-date").authenticated()
                         //getFuelTypes
-                        .requestMatchers(HttpMethod.GET,"/api/car-details/fuel-types").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/api/car-details/fuel-types").authenticated()
                         //getStationsNearby
-                        .requestMatchers(HttpMethod.GET,"/api/car-details/stations").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/api/car-details/stations").authenticated()
                         //getInsuranceCompanies
-                        .requestMatchers(HttpMethod.GET,"/api/car-details/insurance-companies").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/api/car-details/insurance-companies").authenticated()
                         .anyRequest().permitAll()) //permitAll() в целях тестирования - после поменять на authenticated()
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterAfter(tokenFilter, UsernamePasswordAuthenticationFilter.class)

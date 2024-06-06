@@ -25,7 +25,7 @@ public class UserController {
     private UserService userService;
 
 
-    @Operation(summary = "Получить пользователя по username")
+    @Operation(summary = "Получить пользователя по username (самого себя)")
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{username}")
     public ResponseEntity<UserDto> getUserProfileByUsername(@PathVariable String username, Principal principal) {
@@ -38,7 +38,7 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
-    @Operation(summary = "Обновить пользователя")
+    @Operation(summary = "Обновить пользователя (самого себя)")
     @PutMapping("/profile")
     public ResponseEntity<UserDto> updateUserProfile(@RequestBody UserDto userDto, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -50,14 +50,14 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    @Operation(summary = "Удалить пользователя")
+    @Operation(summary = "Удалить пользователя (самого себя)")
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
         userService.deleteUserById(userId);
         return ResponseEntity.ok(new Response("User deleted successfully"));
     }
 
-    @Operation(summary = "Посмотреть пользователя")
+    @Operation(summary = "Посмотреть пользователя без аутентикации")
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile/{username}")
     public ResponseEntity<UserDto> getUserProfile(@PathVariable String username) {

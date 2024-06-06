@@ -28,8 +28,10 @@ public class RegistrationController {
         try {
             service.registerUser(user);
             return new Response("Registration complete. Please check your email");
-        } catch (Exception e) {
+        } catch (ConflictException e) {
             throw new ConflictException("Username or email already exists");
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to register user: " + e.getMessage());
         }
     }
 }

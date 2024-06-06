@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Schema(description = "Car Details")
 @Entity
@@ -72,19 +71,6 @@ public class CarDetails {
 
     public void setInsuranceCompany(CarInsuranceCompany insuranceCompany) {
         this.insuranceCompany = insuranceCompany;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CarDetails that = (CarDetails) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 
     @Override
