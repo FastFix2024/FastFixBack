@@ -1,5 +1,6 @@
 package fast_fix.domain.dto;
 
+import java.util.Objects;
 import java.util.Set;
 
 public class CarInsuranceCompanyDto {
@@ -49,6 +50,20 @@ public class CarInsuranceCompanyDto {
     public void setCarDetails(Set<CarDetailsDto> carDetails) {
         this.carDetails = carDetails;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CarInsuranceCompanyDto that = (CarInsuranceCompanyDto) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(website, that.website) && Objects.equals(carDetails, that.carDetails);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, phoneNumber, website, carDetails);
+    }
+
     @Override
     public String toString() {
         return String.format("Car insurance company: ID - %d, name - %s, phone number - %s, website - %s", id, name, phoneNumber, website);

@@ -3,6 +3,7 @@ package fast_fix.domain.entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Schema(description = "Insurance Companies")
@@ -69,6 +70,19 @@ public class CarInsuranceCompany {
 
     public void setCarDetails(Set<CarDetails> carDetails) {
         this.carDetails = carDetails;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CarInsuranceCompany that = (CarInsuranceCompany) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(website, that.website) && Objects.equals(carDetails, that.carDetails);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, phoneNumber, website, carDetails);
     }
 
     @Override

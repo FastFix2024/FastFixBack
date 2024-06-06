@@ -26,6 +26,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -147,11 +148,11 @@ public class UserServiceImpl implements UserService {
         }
 
         boolean isUpdated = false;
-        if (!existingUser.getEmail().equals(userDto.getEmail())) {
+        if (!Objects.equals(existingUser.getEmail(), userDto.getEmail())) {
             existingUser.setEmail(userDto.getEmail());
             isUpdated = true;
         }
-        if (!existingUser.getUsername().equals(userDto.getUsername())) {
+        if (!Objects.equals(existingUser.getUsername(), userDto.getUsername())) {
             existingUser.setUsername(userDto.getUsername());
             isUpdated = true;
         }
@@ -162,15 +163,15 @@ public class UserServiceImpl implements UserService {
             existingUser.setCarDetails(carDetailsMapper.toEntity(newCarDetailsDto));
             isUpdated = true;
         } else if (existingCarDetails != null && newCarDetailsDto != null) {
-            if (!existingCarDetails.getFuelType().equals(newCarDetailsDto.getFuelType())) {
+            if (!Objects.equals(existingCarDetails.getFuelType(), newCarDetailsDto.getFuelType())) {
                 existingCarDetails.setFuelType(newCarDetailsDto.getFuelType());
                 isUpdated = true;
             }
-            if (newCarDetailsDto.getInsuranceCompany() != null && !existingCarDetails.getInsuranceCompany().equals(newCarDetailsDto.getInsuranceCompany())) {
+            if (newCarDetailsDto.getInsuranceCompany() != null && !Objects.equals(existingCarDetails.getInsuranceCompany(), newCarDetailsDto.getInsuranceCompany())) {
                 existingCarDetails.setInsuranceCompany(carInsuranceCompanyMapper.toEntity(newCarDetailsDto.getInsuranceCompany()));
                 isUpdated = true;
             }
-            if (newCarDetailsDto.getLastMaintenanceDate() != null && !existingCarDetails.getLastMaintenanceDate().equals(newCarDetailsDto.getLastMaintenanceDate())) {
+            if (newCarDetailsDto.getLastMaintenanceDate() != null && !Objects.equals(existingCarDetails.getLastMaintenanceDate(), newCarDetailsDto.getLastMaintenanceDate())) {
                 existingCarDetails.setLastMaintenanceDate(newCarDetailsDto.getLastMaintenanceDate());
                 isUpdated = true;
             }
