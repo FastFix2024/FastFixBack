@@ -56,12 +56,12 @@ public class CarInsuranceCompanyDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CarInsuranceCompanyDto that = (CarInsuranceCompanyDto) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(website, that.website) && Objects.equals(carDetails, that.carDetails);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(website, that.website);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, phoneNumber, website, carDetails);
+        return Objects.hash(id, name, phoneNumber, website);
     }
 
     @Override

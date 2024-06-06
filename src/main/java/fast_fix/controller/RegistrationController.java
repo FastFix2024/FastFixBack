@@ -24,12 +24,12 @@ public class RegistrationController {
 
     @Operation(summary = "Зарегистрировать пользователя")
     @PostMapping
-    public fast_fix.exceptions.Response register(@RequestBody User user) {
+    public Response register(@RequestBody User user) {
         try {
             service.registerUser(user);
+            return new Response("Registration complete. Please check your email");
         } catch (Exception e) {
             throw new ConflictException("Username or email already exists");
         }
-        return new Response("Registration complete. Please check your email");
     }
 }

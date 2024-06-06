@@ -26,12 +26,6 @@
 
             <column name="car_details_id" type="bigint"/>
 
-            <column name="is_active" type="boolean"/>
-
-            <column name="lat" type="numeric"/>
-
-            <column name="lng" type="numeric"/>
-
         </createTable>
     </changeSet>
 

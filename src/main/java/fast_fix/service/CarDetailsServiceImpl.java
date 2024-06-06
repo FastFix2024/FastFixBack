@@ -6,6 +6,7 @@ import fast_fix.domain.dto.FuelStationDto;
 import fast_fix.domain.entity.CarDetails;
 import fast_fix.domain.entity.CarInsuranceCompany;
 import fast_fix.domain.entity.User;
+import fast_fix.exceptions.ResourceNotFoundException;
 import fast_fix.mapping.CarDetailsMapper;
 import fast_fix.mapping.CarInsuranceCompanyMapper;
 import fast_fix.repository.CarDetailsRepository;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,9 +35,6 @@ public class CarDetailsServiceImpl implements CarDetailsService {
     private CarInsuranceCompanyRepository carInsuranceCompanyRepository;
 
     @Autowired
-    private TankerkoenigService tankerkoenigService;
-
-    @Autowired
     private CarDetailsMapper carDetailsMapper;
 
     @Autowired
@@ -43,14 +42,19 @@ public class CarDetailsServiceImpl implements CarDetailsService {
 
     @Override
     public CarDetailsDto getCarDetails(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        return carDetailsMapper.toDto(user.getCarDetails());
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        CarDetails carDetails = user.getCarDetails();
+        return carDetails != null ? carDetailsMapper.toDto(carDetails) : new CarDetailsDto();
     }
 
     @Override
     public CarDetailsDto updateFuelType(Long userId, String fuelType) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         CarDetails carDetails = user.getCarDetails();
+        if (carDetails == null) {
+            carDetails = new CarDetails();
+            user.setCarDetails(carDetails);
+        }
         carDetails.setFuelType(fuelType);
         carDetailsRepository.save(carDetails);
         return carDetailsMapper.toDto(carDetails);
@@ -58,10 +62,14 @@ public class CarDetailsServiceImpl implements CarDetailsService {
 
     @Override
     public CarDetailsDto updateInsuranceCompany(Long userId, Long insuranceCompanyId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         CarDetails carDetails = user.getCarDetails();
+        if (carDetails == null) {
+            carDetails = new CarDetails();
+            user.setCarDetails(carDetails);
+        }
         CarInsuranceCompany insuranceCompany = carInsuranceCompanyRepository.findById(insuranceCompanyId)
-                .orElseThrow(() -> new RuntimeException("Insurance company not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Insurance company not found"));
         carDetails.setInsuranceCompany(insuranceCompany);
         carDetailsRepository.save(carDetails);
         return carDetailsMapper.toDto(carDetails);
@@ -69,8 +77,12 @@ public class CarDetailsServiceImpl implements CarDetailsService {
 
     @Override
     public CarDetailsDto updateLastMaintenanceDate(Long userId, LocalDate lastMaintenanceDate) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         CarDetails carDetails = user.getCarDetails();
+        if (carDetails == null) {
+            carDetails = new CarDetails();
+            user.setCarDetails(carDetails);
+        }
         carDetails.setLastMaintenanceDate(lastMaintenanceDate);
         carDetailsRepository.save(carDetails);
         return carDetailsMapper.toDto(carDetails);
@@ -78,12 +90,7 @@ public class CarDetailsServiceImpl implements CarDetailsService {
 
     @Override
     public List<String> getFuelTypes() {
-        return tankerkoenigService.getFuelTypes();
-    }
-
-    @Override
-    public List<FuelStationDto> getStationsNearby(String fuelType, double latitude, double longitude, int radius) {
-        return tankerkoenigService.getStationsNearby(fuelType, latitude, longitude, radius);
+        return List.of("diesel", "e5", "e10");
     }
 
     @Override

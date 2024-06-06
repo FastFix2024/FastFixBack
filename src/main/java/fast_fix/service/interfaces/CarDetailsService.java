@@ -13,6 +13,5 @@ public interface CarDetailsService {
     CarDetailsDto updateInsuranceCompany(Long userId, Long insuranceCompanyId);
     CarDetailsDto updateLastMaintenanceDate(Long userId, LocalDate lastMaintenanceDate);
     List<String> getFuelTypes();
-    List<FuelStationDto> getStationsNearby(String fuelType, double latitude, double longitude, int radius);
     List<CarInsuranceCompanyDto> getAllInsuranceCompanies();
 }

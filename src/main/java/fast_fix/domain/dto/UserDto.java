@@ -9,9 +9,9 @@ public class UserDto {
     private String username;
     private String email;
     private CarDetailsDto carDetails;
-    private boolean isActive;
-    private BigDecimal lat;
-    private BigDecimal lng;
+
+    public UserDto() {
+    }
 
     public Long getId() {
         return id;
@@ -45,41 +45,17 @@ public class UserDto {
         this.carDetails = carDetails;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public BigDecimal getLat() {
-        return lat;
-    }
-
-    public void setLat(BigDecimal lat) {
-        this.lat = lat;
-    }
-
-    public BigDecimal getLng() {
-        return lng;
-    }
-
-    public void setLng(BigDecimal lng) {
-        this.lng = lng;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDto userDto = (UserDto) o;
-        return isActive == userDto.isActive && Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username) && Objects.equals(email, userDto.email) && Objects.equals(carDetails, userDto.carDetails) && Objects.equals(lat, userDto.lat) && Objects.equals(lng, userDto.lng);
+        return Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username) && Objects.equals(email, userDto.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email, carDetails, isActive, lat, lng);
+        return Objects.hash(id, username, email);
     }
 
     @Override

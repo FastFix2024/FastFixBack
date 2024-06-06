@@ -1,18 +1,13 @@
 package fast_fix.security.sec_service;
 
 import fast_fix.domain.entity.User;
-import fast_fix.repository.UserRepository;
 import fast_fix.security.AuthInfo;
 import fast_fix.security.sec_dto.TokenResponseDto;
 import fast_fix.service.interfaces.UserService;
 import io.jsonwebtoken.Claims;
 import jakarta.security.auth.message.AuthException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +17,10 @@ import java.util.Map;
 @Service
 public class AuthService {
 
-    private UserService userService;
-    private TokenService tokenService;
-    private Map<String, String> refreshStorage = new HashMap<>();
-    private BCryptPasswordEncoder encoder;
+    private final UserService userService;
+    private final TokenService tokenService;
+    private final BCryptPasswordEncoder encoder;
+    private final Map<String, String> refreshStorage;
 
     public AuthService(UserService userService, TokenService tokenService, BCryptPasswordEncoder encoder) {
         this.userService = userService;

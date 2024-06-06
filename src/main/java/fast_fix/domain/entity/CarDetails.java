@@ -79,12 +79,12 @@ public class CarDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CarDetails that = (CarDetails) o;
-        return Objects.equals(id, that.id) && Objects.equals(fuelType, that.fuelType) && Objects.equals(lastMaintenanceDate, that.lastMaintenanceDate) && Objects.equals(user, that.user) && Objects.equals(insuranceCompany, that.insuranceCompany);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fuelType, lastMaintenanceDate, user, insuranceCompany);
+        return Objects.hash(id);
     }
 
     @Override

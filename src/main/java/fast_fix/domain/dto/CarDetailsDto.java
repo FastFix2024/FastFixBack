@@ -10,6 +10,9 @@ public class CarDetailsDto {
     private LocalDate lastMaintenanceDate;
     private CarInsuranceCompanyDto insuranceCompany;
 
+    public CarDetailsDto() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -47,12 +50,12 @@ public class CarDetailsDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CarDetailsDto that = (CarDetailsDto) o;
-        return Objects.equals(id, that.id) && Objects.equals(fuelType, that.fuelType) && Objects.equals(lastMaintenanceDate, that.lastMaintenanceDate) && Objects.equals(insuranceCompany, that.insuranceCompany);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fuelType, lastMaintenanceDate, insuranceCompany);
+        return Objects.hash(id);
     }
 
     @Override

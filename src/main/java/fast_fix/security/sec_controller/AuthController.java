@@ -28,25 +28,25 @@ public class AuthController {
     public ResponseEntity<Object> login(@RequestBody User user, HttpServletResponse response) {
         try {
             TokenResponseDto responseDto = authService.login(user);
-            Cookie cookie = new Cookie("Access-Token", responseDto.getAccessToken());
-            cookie.setPath("/");
-            cookie.setHttpOnly(true);
-            response.addCookie(cookie);
+            Cookie accessTokenCookie = new Cookie("Access-Token", responseDto.getAccessToken());
+            accessTokenCookie.setPath("/");
+            accessTokenCookie.setHttpOnly(true);
+            response.addCookie(accessTokenCookie);
             return ResponseEntity.ok(responseDto);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @Operation(summary = "Получить доступ")
+    @Operation(summary = "Получить новый access token")
     @PostMapping("/access")
     public ResponseEntity<Object> getNewAccessToken(@RequestBody RefreshRequestDto request, HttpServletResponse response) {
         try {
             TokenResponseDto responseDto = authService.getAccessToken(request.getRefreshToken());
-            Cookie cookie = new Cookie("Access-Token", responseDto.getAccessToken());
-            cookie.setPath("/");
-            cookie.setHttpOnly(true);
-            response.addCookie(cookie);
+            Cookie accessTokenCookie = new Cookie("Access-Token", responseDto.getAccessToken());
+            accessTokenCookie.setPath("/");
+            accessTokenCookie.setHttpOnly(true);
+            response.addCookie(accessTokenCookie);
             return ResponseEntity.ok(responseDto);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

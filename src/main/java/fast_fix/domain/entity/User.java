@@ -47,18 +47,6 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @Schema(description = "Active User", example = "isActive")
-    @Column(name = "is_active")
-    private boolean isActive;
-
-    @Schema(description = "User place in Latitud", example = "23.443.00")
-    @Column(name = "lat")
-    private BigDecimal lat;
-
-    @Schema(description = "User place in Long..", example = "22.542.00")
-    @Column(name = "lng")
-    private BigDecimal lng;
-
     public Long getId() {
         return id;
     }
@@ -132,45 +120,21 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public BigDecimal getLat() {
-        return lat;
-    }
-
-    public void setLat(BigDecimal lat) {
-        this.lat = lat;
-    }
-
-    public BigDecimal getLng() {
-        return lng;
-    }
-
-    public void setLng(BigDecimal lng) {
-        this.lng = lng;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return isActive == user.isActive && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(carDetails, user.carDetails) && Objects.equals(roles, user.roles) && Objects.equals(lat, user.lat) && Objects.equals(lng, user.lng);
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email, password, carDetails, roles, isActive, lat, lng);
+        return Objects.hash(id, username, email);
     }
 
     @Override
     public String toString() {
-        return String.format("User: ID - %d, username - %s, email - %s, active - %s, role - %s", id, username, email, isActive, roles);
+        return String.format("User: ID - %d, username - %s, email - %s, role - %s", id, username, email, roles);
     }
 }

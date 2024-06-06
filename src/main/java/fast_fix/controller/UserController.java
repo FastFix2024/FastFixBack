@@ -1,49 +1,67 @@
 package fast_fix.controller;
 
 import fast_fix.domain.dto.UserDto;
+import fast_fix.exceptions.Response;
 import fast_fix.service.interfaces.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.security.Principal;
 
 @Tag(name = "User controller", description = "Controller for some operations with available users")
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
 
-    @Operation(summary = "Получить пользователя по id")
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserDto> getUser(@PathVariable Long userId) {
-        UserDto userDto = userService.getUser(userId);
+    @Operation(summary = "Получить пользователя по username")
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{username}")
+    public ResponseEntity<UserDto> getUserProfileByUsername(@PathVariable String username, Principal principal) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (principal == null || !principal.getName().equals(username) &&
+                !authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        UserDto userDto = userService.getUserProfileByUsername(username);
         return ResponseEntity.ok(userDto);
     }
 
     @Operation(summary = "Обновить пользователя")
-    @PutMapping("/")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
-        UserDto updatedUser = userService.updateUser(userDto);
+    @PutMapping("/profile")
+    public ResponseEntity<UserDto> updateUserProfile(@RequestBody UserDto userDto, Principal principal) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        UserDto updatedUser = userService.updateUserProfile(userDto);
         return ResponseEntity.ok(updatedUser);
     }
 
     @Operation(summary = "Удалить пользователя")
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+    public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
         userService.deleteUserById(userId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(new Response("User deleted successfully"));
     }
 
-    @Operation(summary = "Вылогинить пользователя")
-    @PostMapping("/logout")
-    public ResponseEntity<Void> logout() {
-        userService.logoutUser();
-        return ResponseEntity.ok().build();
+    @Operation(summary = "Посмотреть пользователя")
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/profile/{username}")
+    public ResponseEntity<UserDto> getUserProfile(@PathVariable String username) {
+        UserDto userDto = userService.getUserProfileByUsername(username);
+        return ResponseEntity.ok(userDto);
     }
 }
