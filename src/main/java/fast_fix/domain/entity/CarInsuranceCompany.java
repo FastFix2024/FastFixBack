@@ -3,9 +3,6 @@ package fast_fix.domain.entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
-import java.util.Objects;
-import java.util.Set;
-
 @Schema(description = "Insurance Companies")
 @Entity
 @Table(name = "insurance_companies")
@@ -28,9 +25,6 @@ public class CarInsuranceCompany {
     @Schema(description = "Insurance company Web site")
     @Column(name = "website", nullable = false)
     private String website;
-
-    @OneToMany(mappedBy = "insuranceCompany")
-    private Set<CarDetails> carDetails;
 
     public Long getId() {
         return id;
@@ -62,14 +56,6 @@ public class CarInsuranceCompany {
 
     public void setWebsite(String website) {
         this.website = website;
-    }
-
-    public Set<CarDetails> getCarDetails() {
-        return carDetails;
-    }
-
-    public void setCarDetails(Set<CarDetails> carDetails) {
-        this.carDetails = carDetails;
     }
 
     @Override

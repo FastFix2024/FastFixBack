@@ -1,15 +1,11 @@
 package fast_fix.domain.dto;
 
-import java.util.Objects;
-import java.util.Set;
-
 public class CarInsuranceCompanyDto {
 
     private Long id;
     private String name;
     private String phoneNumber;
     private String website;
-    private Set<CarDetailsDto> carDetails;
 
     public Long getId() {
         return id;
@@ -41,14 +37,6 @@ public class CarInsuranceCompanyDto {
 
     public void setWebsite(String website) {
         this.website = website;
-    }
-
-    public Set<CarDetailsDto> getCarDetails() {
-        return carDetails;
-    }
-
-    public void setCarDetails(Set<CarDetailsDto> carDetails) {
-        this.carDetails = carDetails;
     }
 
     @Override
