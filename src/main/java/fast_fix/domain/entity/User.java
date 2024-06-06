@@ -2,6 +2,9 @@ package fast_fix.domain.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -32,6 +35,13 @@ public class User implements UserDetails {
 
     @Schema(description = "User Password", example = "111")
     @Column(name = "password", nullable = false)
+    @NotNull(message = "Password cannot be Null")
+    @NotBlank(message = "Password cannot by empty")
+    @Pattern(
+            regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*//d)(?=.*[@$!%*?&])[A-Za-z//d@$!%*?&]{8,}$",
+            message = "Password must be at least 8 characters long and contain at least one uppercase letter, " +
+                    "one lowercase letter, one digit, and one special character (@$!%*?&)"
+    )
     private String password;
 
     @Schema(description = "Car Details", example = "param1, param2")
