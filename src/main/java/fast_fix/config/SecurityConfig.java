@@ -64,9 +64,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(x -> x
                         .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         //register
-                        .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
-                        //login
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/register", "/api/auth/login").permitAll()
                         //logout
                         .requestMatchers(HttpMethod.POST, "/api/auth/logout").authenticated()
                         //access
@@ -81,19 +79,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/user/{userId}").authenticated()
                         //getCarDetails
                         .requestMatchers(HttpMethod.GET,"/api/car-details/{userId}").authenticated()
-                        //updateFuelType
-                        .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/fuel-type").authenticated()
-                        //updateInsuranceCompany
-                        .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/insurance-company").authenticated()
-                        //updateLastMaintenanceDate
-                        .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/last-maintenance-date").authenticated()
-                        //getFuelTypes
-                        .requestMatchers(HttpMethod.GET,"/api/car-details/fuel-types").authenticated()
-                        //getStationsNearby
-                        .requestMatchers(HttpMethod.GET,"/api/car-details/stations").authenticated()
-                        //getInsuranceCompanies
-                        .requestMatchers(HttpMethod.GET,"/api/car-details/insurance-companies").authenticated()
-                        .anyRequest().permitAll()) //permitAll() в целях тестирования - после поменять на authenticated()
+                        //updateCarDetails of User
+                        .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/**").authenticated()
+                        //getCarDetails of User
+                        .requestMatchers(HttpMethod.GET,"/api/car-details/fuel-types", "/api/car-details/stations", "/api/car-details/insurance-companies").authenticated()
+                        .anyRequest().permitAll())
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterAfter(tokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
