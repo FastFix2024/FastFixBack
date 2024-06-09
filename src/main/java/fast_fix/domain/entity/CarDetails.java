@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @Table(name = "car_details")
 public class CarDetails {
 
-    @Schema(description = "CarDetails ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

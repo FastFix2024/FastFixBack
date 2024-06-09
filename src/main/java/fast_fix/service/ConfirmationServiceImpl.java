@@ -3,7 +3,9 @@ package fast_fix.service;
 import fast_fix.domain.entity.ConfirmationCode;
 import fast_fix.domain.entity.User;
 import fast_fix.repository.ConfirmationCodeRepository;
+import fast_fix.repository.UserRepository;
 import fast_fix.service.interfaces.ConfirmationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,18 +14,29 @@ import java.util.UUID;
 @Service
 public class ConfirmationServiceImpl implements ConfirmationService {
 
-    private ConfirmationCodeRepository repository;
+    @Autowired
+    private ConfirmationCodeRepository confirmationCodeRepository;
 
-    public ConfirmationServiceImpl(ConfirmationCodeRepository repository) {
-        this.repository = repository;
+    @Autowired
+    private UserRepository userRepository;
+
+    public String generateConfirmationCode(User user) {
+        String code = UUID.randomUUID().toString();
+        ConfirmationCode confirmationCode = new ConfirmationCode(code, LocalDateTime.now().plusMinutes(15), user);
+        confirmationCodeRepository.save(confirmationCode);
+        return code;
     }
 
-    @Override
-    public String generateConfirmationCode(User user) {
-        LocalDateTime expired = LocalDateTime.now().plusMinutes(5);
-        String code = UUID.randomUUID().toString();
-        ConfirmationCode entity = new ConfirmationCode(code, expired, user);
-        repository.save(entity);
-        return code;
+    public User confirmUser(String code) {
+        ConfirmationCode confirmationCode = confirmationCodeRepository.findByCode(code);
+        if (confirmationCode == null || confirmationCode.getExpired().isBefore(LocalDateTime.now())) {
+            return null;
+        }
+
+        User user = confirmationCode.getUser();
+        user.setConfirmed(true);
+        userRepository.save(user);
+        confirmationCodeRepository.delete(confirmationCode);
+        return user;
     }
 }

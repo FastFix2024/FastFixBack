@@ -8,11 +8,11 @@ import fast_fix.exceptions.ConflictException;
 import fast_fix.mapping.CarDetailsMapper;
 import fast_fix.mapping.CarInsuranceCompanyMapper;
 import fast_fix.mapping.UserMapper;
-import fast_fix.exceptions.BadRequestException;
 import fast_fix.exceptions.ResourceNotFoundException;
 import fast_fix.repository.ConfirmationCodeRepository;
 import fast_fix.repository.RoleRepository;
 import fast_fix.repository.UserRepository;
+import fast_fix.service.interfaces.ConfirmationService;
 import fast_fix.service.interfaces.EmailService;
 import fast_fix.service.interfaces.RoleService;
 import fast_fix.service.interfaces.UserService;
@@ -39,7 +39,10 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
 
     @Autowired
-    private ConfirmationCodeRepository confirmCodeRepository;
+    private ConfirmationCodeRepository confirmationCodeRepository;
+
+    @Autowired
+    private ConfirmationService confirmationService;
 
     @Autowired
     private CarDetailsMapper carDetailsMapper;
@@ -69,11 +72,19 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setId(null);
+        user.setConfirmed(false);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Set.of(roleService.getRoleUser()));
 
         userRepository.save(user);
-        emailService.sendConfirmationEmail(user);
+
+        String confirmationCode = confirmationService.generateConfirmationCode(user);
+        emailService.sendConfirmationEmail(user, confirmationCode);
+    }
+
+    @Override
+    public User confirmUser(String code) {
+        return confirmationService.confirmUser(code);
     }
 
     @Override
@@ -126,7 +137,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // Удаляем все роли пользователя
-        confirmCodeRepository.deleteByUserId(userId);
+        confirmationCodeRepository.deleteByUserId(userId);
         roleRepository.deleteUserRolesById(userId);
 
         // Удаляем пользователя

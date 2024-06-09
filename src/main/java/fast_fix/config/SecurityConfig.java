@@ -30,6 +30,7 @@ public class SecurityConfig {
     public SecurityConfig(TokenFilter tokenFilter) {
         this.tokenFilter = tokenFilter;
     }
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -47,7 +48,7 @@ public class SecurityConfig {
                                 .name("FastFix")
                                 .email("fastfix2024project@gmail.com")
                                 .url("https://www.ait-tr.de/"))
-                        .license(new License().name("@JuriLooga").url("https://www.jury.looga.de/")));
+                        .license(new License().name("@FastFix").url("https://www.ait-tr.de/")));
     }
 
     private SecurityScheme createAPIKeyScheme(){
@@ -69,14 +70,14 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/auth/logout").authenticated()
                         //access
                         .requestMatchers(HttpMethod.POST, "/api/auth/access").permitAll()
-                        //getUserProfileByUsername (self)
-                        .requestMatchers(HttpMethod.GET, "/api/user/{username}").authenticated()
-                        //getUserProfile (any)
-                        .requestMatchers(HttpMethod.GET, "/api/user/profile/{username}").permitAll()
+                        //getUserProfile
+                        .requestMatchers(HttpMethod.GET, "/api/users/my/profile").authenticated()
                         //updateUserProfile
-                        .requestMatchers(HttpMethod.PUT, "/api/user/profile").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/users/my/profile").authenticated()
                         //deleteUser
-                        .requestMatchers(HttpMethod.DELETE, "/api/user/{userId}").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/users/my/profile").authenticated()
+                        //getUserProfile (any)
+                        .requestMatchers(HttpMethod.GET, "/api/users/{username}").hasAnyRole("USER", "ADMIN")
                         //getCarDetails
                         .requestMatchers(HttpMethod.GET,"/api/car-details/{userId}").authenticated()
                         //updateCarDetails of User

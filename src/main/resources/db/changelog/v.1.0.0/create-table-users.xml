@@ -26,6 +26,8 @@
 
             <column name="car_details_id" type="bigint"/>
 
+            <column name="is_confirmed" type="boolean"/>
+
         </createTable>
     </changeSet>
 

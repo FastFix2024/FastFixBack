@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,28 +17,26 @@ import java.security.Principal;
 
 @Tag(name = "User controller", description = "Controller for some operations with available users")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-
-    @Operation(summary = "Получить пользователя по username (самого себя)")
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/{username}")
-    public ResponseEntity<UserDto> getUserProfileByUsername(@PathVariable String username, Principal principal) {
+    @Operation(summary = "Получить текущего пользователя")
+    @GetMapping("/my/profile")
+    public ResponseEntity<UserDto> getCurrentUser(Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (principal == null || !principal.getName().equals(username) &&
-                !authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+        if (principal == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        UserDto userDto = userService.getUserProfileByUsername(username);
+
+        UserDto userDto = userService.getUserProfileByUsername(principal.getName());
         return ResponseEntity.ok(userDto);
     }
 
-    @Operation(summary = "Обновить пользователя (самого себя)")
-    @PutMapping("/profile")
+    @Operation(summary = "Обновить текущего пользователя")
+    @PutMapping("/my/profile")
     public ResponseEntity<UserDto> updateUserProfile(@RequestBody UserDto userDto, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -50,16 +47,26 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    @Operation(summary = "Удалить пользователя (самого себя)")
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
-        userService.deleteUserById(userId);
-        return ResponseEntity.ok(new Response("User deleted successfully"));
+    @Operation(summary = "Удалить текущего пользователя")
+    @DeleteMapping("/my/profile")
+    public ResponseEntity<?> deleteUser(Principal principal) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        UserDto currentUser = userService.getUserByUsername(principal.getName());
+        if (currentUser != null) {
+            userService.deleteUserById(currentUser.getId());
+            return ResponseEntity.ok(new Response("User deleted successfully"));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
-    @Operation(summary = "Посмотреть пользователя без аутентикации")
+    @Operation(summary = "Получить любого пользователя")
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/profile/{username}")
+    @GetMapping("/{username}")
     public ResponseEntity<UserDto> getUserProfile(@PathVariable String username) {
         UserDto userDto = userService.getUserProfileByUsername(username);
         return ResponseEntity.ok(userDto);

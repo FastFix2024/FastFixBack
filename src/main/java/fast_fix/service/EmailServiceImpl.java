@@ -32,31 +32,30 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendConfirmationEmail(User user) {
+    public void sendConfirmationEmail(User user, String confirmationCode) {
 
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
-        String text = generateMessageText(user);
+        String text = generateMessageText(user, confirmationCode);
 
         try {
             helper.setFrom("fastfix2024project@gmail.com");
             helper.setTo(user.getEmail());
             helper.setSubject("Registration");
-            helper.setText(text, true); //для отображения текста в html формате
+            helper.setText(text, true);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         sender.send(message);
     }
 
-    private String generateMessageText(User user) {
+    private String generateMessageText(User user, String confirmationCode) {
         try {
             Template template = mailConfiguration.getTemplate("confirmation_registration_mail.ftlh");
-            String code = confirmationService.generateConfirmationCode(user);
 
             Map<String, Object> model = new HashMap<>();
             model.put("name", user.getUsername());
-            model.put("link", "http://localhost:8080/register?code=" + code);
+            model.put("link", "http://localhost:8080/api/confirm?code=" + confirmationCode);
 
             return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         } catch (Exception e) {

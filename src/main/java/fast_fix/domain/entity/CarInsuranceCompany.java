@@ -8,21 +8,18 @@ import jakarta.persistence.*;
 @Table(name = "insurance_companies")
 public class CarInsuranceCompany {
 
-    @Schema(description = "Insurance company ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Schema(description = "Insurance company Name")
+    @Schema(description = "Insurance company name")
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Schema(description = "Insurance company Phone number")
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @Schema(description = "Insurance company Web site")
     @Column(name = "website", nullable = false)
     private String website;
 

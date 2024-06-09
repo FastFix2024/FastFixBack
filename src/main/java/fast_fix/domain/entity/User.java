@@ -2,10 +2,7 @@ package fast_fix.domain.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -20,21 +17,23 @@ import java.util.Set;
 @Table(name = "users")
 public class User implements UserDetails {
 
-    @Schema(description = "User ID", example = "15")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Schema(description = "User Name", example = "TestUser1")
+    @Schema(description = "Username", example = " ")
     @Column(name = "username", nullable = false, unique = true)
+    @Pattern(regexp = "^[A-Za-z]+$", message = "Username should contain only English letters")
     private String username;
 
-    @Schema(description = "User email", example = "looga.jury@gmail.com")
+    @Schema(description = "Email", example = " ")
     @Column(name = "email", nullable = false, unique = true)
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email should be valid")
     private String email;
 
-    @Schema(description = "User Password", example = "111")
+    @Schema(description = "User Password", example = "Ab3$Ef7*")
     @Column(name = "password", nullable = false)
     @NotBlank(message = "Password is required")
     @Size(min = 8, message = "Password must be at least 8 characters long")
@@ -46,18 +45,20 @@ public class User implements UserDetails {
     })
     private String password;
 
-    @Schema(description = "Car Details", example = "param1, param2")
+    @Schema(description = "Car details", example = "param1, param2")
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_details_id", referencedColumnName = "id")
     private CarDetails carDetails;
 
-    @Schema(description = "User Role", example = "USER, ADMIN")
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
+    @Column(name = "is_confirmed")
+    private boolean confirmed;
 
     public Long getId() {
         return id;
@@ -132,21 +133,29 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(email, user.email);
+        return confirmed == user.confirmed && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(carDetails, user.carDetails) && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email);
+        return Objects.hash(id, username, email, password, carDetails, roles, confirmed);
     }
 
     @Override
     public String toString() {
-        return String.format("User: ID - %d, username - %s, email - %s, role - %s", id, username, email, roles);
+        return String.format("User: ID - %d, username - %s, email - %s, role - %s, confirmed - %s", id, username, email, roles, confirmed ? "true" : "false");
     }
 }

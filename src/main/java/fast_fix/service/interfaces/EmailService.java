@@ -4,7 +4,7 @@ import fast_fix.domain.entity.User;
 
 public interface EmailService {
 
-    void sendConfirmationEmail(User user);
+    void sendConfirmationEmail(User user, String confirmationCode);
     void sendInsuranceChangedInfoEmail(User user);
     void sendFuelParamInfoEmail(User user);
     void sendMaintenanceDateChangedEmail(User user);
