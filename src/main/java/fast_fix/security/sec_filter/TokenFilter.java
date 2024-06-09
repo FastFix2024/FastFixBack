@@ -1,6 +1,5 @@
 package fast_fix.security.sec_filter;
 
-import fast_fix.domain.dto.UserDto;
 import fast_fix.domain.entity.User;
 import fast_fix.security.AuthInfo;
 import fast_fix.security.sec_service.TokenService;

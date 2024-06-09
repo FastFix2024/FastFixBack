@@ -1,6 +1,5 @@
 package fast_fix.domain.dto;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 public class UserDto {
@@ -9,6 +8,7 @@ public class UserDto {
     private String username;
     private String email;
     private CarDetailsDto carDetails;
+    private boolean isConfirmed = false;
 
     public UserDto() {
     }
@@ -45,17 +45,25 @@ public class UserDto {
         this.carDetails = carDetails;
     }
 
+    public boolean isConfirmed() {
+        return isConfirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        isConfirmed = confirmed;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDto userDto = (UserDto) o;
-        return Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username) && Objects.equals(email, userDto.email);
+        return isConfirmed == userDto.isConfirmed && Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username) && Objects.equals(email, userDto.email) && Objects.equals(carDetails, userDto.carDetails);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email);
+        return Objects.hash(id, username, email, carDetails, isConfirmed);
     }
 
     @Override

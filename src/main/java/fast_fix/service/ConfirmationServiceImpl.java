@@ -2,6 +2,7 @@ package fast_fix.service;
 
 import fast_fix.domain.entity.ConfirmationCode;
 import fast_fix.domain.entity.User;
+import fast_fix.exceptions.ResourceNotFoundException;
 import fast_fix.repository.ConfirmationCodeRepository;
 import fast_fix.repository.UserRepository;
 import fast_fix.service.interfaces.ConfirmationService;
@@ -30,7 +31,7 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     public User confirmUser(String code) {
         ConfirmationCode confirmationCode = confirmationCodeRepository.findByCode(code);
         if (confirmationCode == null || confirmationCode.getExpired().isBefore(LocalDateTime.now())) {
-            return null;
+            throw new ResourceNotFoundException("Invalid confirmation code");
         }
 
         User user = confirmationCode.getUser();

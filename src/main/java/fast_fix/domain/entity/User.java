@@ -6,7 +6,6 @@ import jakarta.validation.constraints.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -58,7 +57,7 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     @Column(name = "is_confirmed")
-    private boolean confirmed;
+    private boolean confirmed = false;
 
     public Long getId() {
         return id;

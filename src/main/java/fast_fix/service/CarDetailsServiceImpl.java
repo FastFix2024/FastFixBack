@@ -2,7 +2,6 @@ package fast_fix.service;
 
 import fast_fix.domain.dto.CarDetailsDto;
 import fast_fix.domain.dto.CarInsuranceCompanyDto;
-import fast_fix.domain.dto.FuelStationDto;
 import fast_fix.domain.entity.CarDetails;
 import fast_fix.domain.entity.CarInsuranceCompany;
 import fast_fix.domain.entity.User;
