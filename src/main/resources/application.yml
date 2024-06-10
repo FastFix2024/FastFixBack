@@ -24,17 +24,20 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/fast_fix
-    username: postgres
+    username: admin
     driver-class-name: org.postgresql.Driver
-    password: qwerty007
+    password: admin
 
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
 
   jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
-        auto_quote_keyword: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
   mail:
     username: fastfix2024project@gmail.com
