@@ -3,8 +3,8 @@ spring:
     servlet:
       path: /api
 
-  profiles:
-    include: spaces
+#  profiles:
+#    include: spaces
 
   freemarker:
     template-loader-path: classpath:/templates/
