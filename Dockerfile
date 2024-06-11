@@ -1,8 +1,9 @@
 FROM maven:3.8.3-openjdk-17 as build
 
-WORKDIR /app
+WORKDIR /workspace/app
 
-COPY . .
+COPY pom.xml .
+COPY src src
 
 RUN mvn clean package
 
