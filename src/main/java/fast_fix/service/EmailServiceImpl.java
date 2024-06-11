@@ -66,7 +66,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendInsuranceChangedInfoEmail(User user) {
         MimeMessage message = sender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
+        MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
         String text = generateInsuranceChangedMessageText(user);
 
         try {
@@ -74,11 +74,12 @@ public class EmailServiceImpl implements EmailService {
             helper.setTo(user.getEmail());
             helper.setSubject("Insurance Changed");
             helper.setText(text, true);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         sender.send(message);
     }
+
     private String generateInsuranceChangedMessageText(User user) {
         try {
             Template template = mailConfiguration
@@ -98,7 +99,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendFuelParamInfoEmail(User user) {
         MimeMessage message = sender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
+        MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
         String text = generateFuelParamMessageText(user);
 
         try {
@@ -106,11 +107,12 @@ public class EmailServiceImpl implements EmailService {
             helper.setTo(user.getEmail());
             helper.setSubject("Fuel Param");
             helper.setText(text, true);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         sender.send(message);
     }
+
     private String generateFuelParamMessageText(User user) {
         try {
             Template template = mailConfiguration
@@ -125,10 +127,11 @@ public class EmailServiceImpl implements EmailService {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public void sendMaintenanceDateChangedEmail(User user) {
         MimeMessage message = sender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
+        MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
         String text = generateMaintenanceDateMessageText(user);
 
         try {
@@ -136,11 +139,12 @@ public class EmailServiceImpl implements EmailService {
             helper.setTo(user.getEmail());
             helper.setSubject("Technical Inspection");
             helper.setText(text, true);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         sender.send(message);
     }
+
     private String generateMaintenanceDateMessageText(User user) {
         try {
             Template template = mailConfiguration
@@ -159,7 +163,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendDeleteAccountInfoEmail(User user) {
         MimeMessage message = sender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
+        MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
         String text = generateDeleteAccountMessageText(user);
 
         try {
@@ -167,11 +171,12 @@ public class EmailServiceImpl implements EmailService {
             helper.setTo(user.getEmail());
             helper.setSubject("Account Deletion");
             helper.setText(text, true);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         sender.send(message);
     }
+
     private String generateDeleteAccountMessageText(User user) {
         try {
             Template template = mailConfiguration

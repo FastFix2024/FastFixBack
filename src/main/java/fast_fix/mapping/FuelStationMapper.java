@@ -7,5 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface FuelStationMapper {
     FuelStationDto toDto(FuelStationResponse.Station station);
+
     FuelStationResponse.Station toStation(FuelStationDto fuelStationDto);
 }

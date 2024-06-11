@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface CarInsuranceCompanyService {
     List<CarInsuranceCompanyDto> getAllCarInsuranceCompanies();
+
     CarInsuranceCompanyDto getCarInsuranceCompanyById(Long id);
 }

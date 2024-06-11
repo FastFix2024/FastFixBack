@@ -37,7 +37,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public OpenAPI openAPI(){
+    public OpenAPI openAPI() {
         return new OpenAPI().addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
                 .components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()))
                 .info(new Info()
@@ -51,11 +51,12 @@ public class SecurityConfig {
                         .license(new License().name("@FastFix").url("https://www.ait-tr.de/")));
     }
 
-    private SecurityScheme createAPIKeyScheme(){
+    private SecurityScheme createAPIKeyScheme() {
         return new SecurityScheme().type(SecurityScheme.Type.HTTP)
                 .bearerFormat("JWT")
                 .scheme("bearer");
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -79,12 +80,12 @@ public class SecurityConfig {
                         //getUserProfile (any)
                         .requestMatchers(HttpMethod.GET, "/api/users/{username}").hasAnyRole("USER", "ADMIN")
                         //getCarDetails
-                        .requestMatchers(HttpMethod.GET,"/api/car-details/{userId}").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/car-details/{userId}").authenticated()
                         //updateCarDetails of User
-                        .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/car-details/{userId}/**").authenticated()
                         //getCarDetails of User
-                        .requestMatchers(HttpMethod.GET,"/api/car-details/fuel-types", "/api/car-details/stations", "/api/car-details/insurance-companies").authenticated()
-                        .anyRequest().permitAll())
+                        .requestMatchers(HttpMethod.GET, "/api/car-details/fuel-types", "/api/car-details/stations", "/api/car-details/insurance-companies").authenticated()
+                        .anyRequest().authenticated())
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterAfter(tokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

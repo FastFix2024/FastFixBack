@@ -4,5 +4,6 @@ import fast_fix.domain.entity.User;
 
 public interface ConfirmationService {
     String generateConfirmationCode(User user);
+
     User confirmUser(String token);
 }

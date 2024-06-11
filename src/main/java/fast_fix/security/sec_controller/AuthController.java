@@ -55,12 +55,12 @@ public class AuthController {
 
             TokenResponseDto responseDto = authService.getAccessToken(refreshToken);
             if (responseDto.getAccessToken() != null) {
-            Cookie accessTokenCookie = new Cookie("Access-Token", responseDto.getAccessToken());
-            accessTokenCookie.setPath("/");
-            accessTokenCookie.setHttpOnly(true);
-            response.addCookie(accessTokenCookie);
+                Cookie accessTokenCookie = new Cookie("Access-Token", responseDto.getAccessToken());
+                accessTokenCookie.setPath("/");
+                accessTokenCookie.setHttpOnly(true);
+                response.addCookie(accessTokenCookie);
 
-            return ResponseEntity.ok(responseDto);
+                return ResponseEntity.ok(responseDto);
             } else {
                 return new ResponseEntity<>("Invalid refresh token", HttpStatus.UNAUTHORIZED);
             }

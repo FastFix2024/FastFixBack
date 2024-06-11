@@ -21,10 +21,12 @@ public class CarInsuranceCompanyServiceImpl implements CarInsuranceCompanyServic
     @Override
     public List<CarInsuranceCompanyDto> getAllCarInsuranceCompanies() {
         List<CarInsuranceCompany> companies = carInsuranceCompanyRepository.findAll();
-        return companies.stream().map(carInsuranceCompanyMapper::toDto).collect(Collectors.toList());    }
+        return companies.stream().map(carInsuranceCompanyMapper::toDto).collect(Collectors.toList());
+    }
 
     @Override
     public CarInsuranceCompanyDto getCarInsuranceCompanyById(Long id) {
         CarInsuranceCompany company = carInsuranceCompanyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Car insurance company not found"));
-        return carInsuranceCompanyMapper.toDto(company);    }
+        return carInsuranceCompanyMapper.toDto(company);
+    }
 }

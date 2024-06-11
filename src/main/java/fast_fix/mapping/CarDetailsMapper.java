@@ -7,5 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring", uses = CarInsuranceCompanyMapper.class)
 public interface CarDetailsMapper {
     CarDetailsDto toDto(CarDetails carDetails);
+
     CarDetails toEntity(CarDetailsDto carDetailsDto);
 }

@@ -1,11 +1,10 @@
-FROM maven:3.8.3-openjdk-17 as build
+FROM maven:3.8.0-openjdk-11 as build
 
-WORKDIR /workspace/app
+WORKDIR /app
 
-COPY pom.xml .
-COPY src src
+COPY . .
 
-RUN mvn clean packege
+RUN mvn clean package
 
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 

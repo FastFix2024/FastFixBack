@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface ConfirmationCodeRepository extends JpaRepository<ConfirmationCode, Long> {
     ConfirmationCode findByCode(String code);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM ConfirmationCode cc WHERE cc.user.id = :userId")

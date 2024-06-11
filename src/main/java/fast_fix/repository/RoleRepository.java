@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
     Role findByTitle(String title);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM UserRole ur WHERE ur.user.id = :userId")
