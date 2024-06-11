@@ -1,4 +1,4 @@
-#This is the remote application-prod.yml
+#This is the remote application.yml
 
 spring:
   mvc:
