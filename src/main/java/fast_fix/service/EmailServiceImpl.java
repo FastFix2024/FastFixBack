@@ -55,7 +55,7 @@ public class EmailServiceImpl implements EmailService {
 
             Map<String, Object> model = new HashMap<>();
             model.put("name", user.getUsername());
-            model.put("link", "http://localhost:8080/api/confirm?code=" + confirmationCode);
+            model.put("link", "https://fastfix-app-jcage.ondigitalocean.app/api/confirm?code=" + confirmationCode);
 
             return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         } catch (Exception e) {
