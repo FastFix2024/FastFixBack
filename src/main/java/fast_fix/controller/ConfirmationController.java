@@ -25,7 +25,7 @@ public class ConfirmationController {
 
     @Operation(summary = "Подтвердить email пользователя")
     @GetMapping
-    public ResponseEntity<String> confirmEmail(@RequestParam String code) {
+    public ResponseEntity<String> confirmEmail(@RequestParam("code") String code) {
         try {
             User user = service.confirmUser(code);
 
