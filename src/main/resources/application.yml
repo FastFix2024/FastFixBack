@@ -7,7 +7,7 @@ spring:
 
   freemarker:
     template-loader-path: classpath:/templates/
-    suffix: .html
+    suffix: .ftlh
     charset: UTF-8
     expose-request-attributes: true
     expose-session-attributes: true

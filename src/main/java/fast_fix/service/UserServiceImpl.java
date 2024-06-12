@@ -28,9 +28,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
     @Autowired
     private UserRepository userRepository;
@@ -84,7 +88,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User confirmUser(String code) {
-        return confirmationService.confirmUser(code);
+        logger.log(Level.INFO, "Attempting to confirm user with code: {0}", code);
+        try {
+            User user = confirmationService.confirmUser(code);
+            if (user != null) {
+                logger.log(Level.INFO, "User {0} confirmed successfully", user.getUsername());
+            } else {
+                logger.log(Level.WARNING, "Invalid confirmation code: {0}", code);
+            }
+            return user;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "An error occurred while confirming user with code: " + code, e);
+            throw new RuntimeException("An error occurred while confirming user", e);
+        }
     }
 
     @Override
