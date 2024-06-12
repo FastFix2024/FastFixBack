@@ -5,6 +5,8 @@ import fast_fix.exceptions.Response;
 import fast_fix.service.interfaces.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +51,7 @@ public class UserController {
 
     @Operation(summary = "Удалить текущего пользователя")
     @DeleteMapping("/my/profile")
-    public ResponseEntity<?> deleteUser(Principal principal) {
+    public ResponseEntity<?> deleteUser(Principal principal, HttpServletResponse response) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -58,7 +60,20 @@ public class UserController {
         UserDto currentUser = userService.getUserByUsername(principal.getName());
         if (currentUser != null) {
             userService.deleteUserById(currentUser.getId());
-            return ResponseEntity.ok(new Response("User deleted successfully"));
+
+            Cookie accessTokenCookie = new Cookie("Access-Token", null);
+            accessTokenCookie.setPath("/");
+            accessTokenCookie.setHttpOnly(true);
+            accessTokenCookie.setMaxAge(0);
+            response.addCookie(accessTokenCookie);
+
+            Cookie refreshTokenCookie = new Cookie("Refresh-Token", null);
+            refreshTokenCookie.setPath("/");
+            refreshTokenCookie.setHttpOnly(true);
+            refreshTokenCookie.setMaxAge(0);
+            response.addCookie(refreshTokenCookie);
+
+            return ResponseEntity.ok(new Response("User deleted successfully", currentUser.toString()));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

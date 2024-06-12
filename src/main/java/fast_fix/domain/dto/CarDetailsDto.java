@@ -1,11 +1,13 @@
 package fast_fix.domain.dto;
 
+import fast_fix.domain.entity.FuelType;
+
 import java.time.LocalDate;
 
 public class CarDetailsDto {
 
     private Long id;
-    private String fuelType;
+    private FuelType fuelType;
     private LocalDate lastMaintenanceDate;
     private CarInsuranceCompanyDto insuranceCompany;
 
@@ -20,11 +22,11 @@ public class CarDetailsDto {
         this.id = id;
     }
 
-    public String getFuelType() {
+    public FuelType getFuelType() {
         return fuelType;
     }
 
-    public void setFuelType(String fuelType) {
+    public void setFuelType(FuelType fuelType) {
         this.fuelType = fuelType;
     }
 

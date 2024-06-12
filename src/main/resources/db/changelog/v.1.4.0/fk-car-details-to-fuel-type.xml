@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="fk_car_details_to_fuel_type" author="dev_fastfix">
+
+        <addForeignKeyConstraint baseTableName="car_details"
+                                 baseColumnNames="fuel_type_id"
+                                 constraintName="fk_car_details_fuel_type"
+                                 referencedTableName="fuel_type"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

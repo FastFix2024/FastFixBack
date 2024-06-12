@@ -16,8 +16,9 @@ public class CarDetails {
     private Long id;
 
     @Schema(description = "Car fuel type")
-    @Column(name = "fuel_type")
-    private String fuelType;
+    @ManyToOne
+    @JoinColumn(name = "fuel_type_id")
+    private FuelType fuelType;
 
     @Schema(description = "Car maintenance date")
     @Column(name = "last_maintenance_date")
@@ -40,11 +41,11 @@ public class CarDetails {
         this.id = id;
     }
 
-    public String getFuelType() {
+    public FuelType getFuelType() {
         return fuelType;
     }
 
-    public void setFuelType(String fuelType) {
+    public void setFuelType(FuelType fuelType) {
         this.fuelType = fuelType;
     }
 

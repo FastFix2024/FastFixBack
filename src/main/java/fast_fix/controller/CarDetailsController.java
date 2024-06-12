@@ -1,9 +1,6 @@
 package fast_fix.controller;
 
-import fast_fix.domain.dto.CarDetailsDto;
-import fast_fix.domain.dto.CarInsuranceCompanyDto;
-import fast_fix.domain.dto.FuelStationDto;
-import fast_fix.domain.dto.UserDto;
+import fast_fix.domain.dto.*;
 import fast_fix.service.interfaces.CarDetailsService;
 import fast_fix.service.interfaces.TankerkoenigService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,11 +46,11 @@ public class CarDetailsController {
 
     @Operation(summary = "Обновить тип топлива пользователя")
     @PutMapping("/{userId}/fuel-type")
-    public ResponseEntity<CarDetailsDto> updateFuelType(@PathVariable Long userId, @RequestBody String fuelType) {
+    public ResponseEntity<CarDetailsDto> updateFuelType(@PathVariable Long userId, @RequestBody Long fuelTypeId) {
         if (!isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        CarDetailsDto updatedCarDetails = carDetailsService.updateFuelType(userId, fuelType);
+        CarDetailsDto updatedCarDetails = carDetailsService.updateFuelType(userId, fuelTypeId);
         return ResponseEntity.ok(updatedCarDetails);
     }
 
@@ -79,11 +76,11 @@ public class CarDetailsController {
 
     @Operation(summary = "Получить список типов топлива")
     @GetMapping("/fuel-types")
-    public ResponseEntity<List<String>> getFuelTypes() {
+    public ResponseEntity<List<FuelTypeDto>> getFuelTypes() {
         if (!isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        List<String> fuelTypes = carDetailsService.getFuelTypes();
+        List<FuelTypeDto> fuelTypes = carDetailsService.getFuelTypes();
         return ResponseEntity.ok(fuelTypes);
     }
 
@@ -102,12 +99,11 @@ public class CarDetailsController {
         Long userId = getCurrentUserId(principal);
         if (userId != null) {
             CarDetailsDto carDetails = carDetailsService.getCarDetails(userId);
-            fuelType = carDetails.getFuelType();
+            fuelType = carDetails.getFuelType().getName();
         }
 
         List<FuelStationDto> stations = tankerkoenigService.getStationsNearby(latitude, longitude, radius, fuelType);
 
-        // Создаем JSON объект для ответа
         Map<String, Object> response = new HashMap<>();
         response.put("latitude", latitude);
         response.put("longitude", longitude);

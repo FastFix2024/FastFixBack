@@ -2,14 +2,18 @@ package fast_fix.service;
 
 import fast_fix.domain.dto.CarDetailsDto;
 import fast_fix.domain.dto.CarInsuranceCompanyDto;
+import fast_fix.domain.dto.FuelTypeDto;
 import fast_fix.domain.entity.CarDetails;
 import fast_fix.domain.entity.CarInsuranceCompany;
+import fast_fix.domain.entity.FuelType;
 import fast_fix.domain.entity.User;
 import fast_fix.exceptions.ResourceNotFoundException;
 import fast_fix.mapping.CarDetailsMapper;
 import fast_fix.mapping.CarInsuranceCompanyMapper;
+import fast_fix.mapping.FuelTypeMapper;
 import fast_fix.repository.CarDetailsRepository;
 import fast_fix.repository.CarInsuranceCompanyRepository;
+import fast_fix.repository.FuelTypeRepository;
 import fast_fix.repository.UserRepository;
 import fast_fix.service.interfaces.CarDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +36,16 @@ public class CarDetailsServiceImpl implements CarDetailsService {
     private CarInsuranceCompanyRepository carInsuranceCompanyRepository;
 
     @Autowired
+    private FuelTypeRepository fuelTypeRepository;
+
+    @Autowired
     private CarDetailsMapper carDetailsMapper;
 
     @Autowired
     private CarInsuranceCompanyMapper carInsuranceCompanyMapper;
+
+    @Autowired
+    private FuelTypeMapper fuelTypeMapper;
 
     @Override
     public CarDetailsDto getCarDetails(Long userId) {
@@ -45,13 +55,14 @@ public class CarDetailsServiceImpl implements CarDetailsService {
     }
 
     @Override
-    public CarDetailsDto updateFuelType(Long userId, String fuelType) {
+    public CarDetailsDto updateFuelType(Long userId, Long fuelTypeId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         CarDetails carDetails = user.getCarDetails();
         if (carDetails == null) {
             carDetails = new CarDetails();
             user.setCarDetails(carDetails);
         }
+        FuelType fuelType = fuelTypeRepository.findById(fuelTypeId).orElseThrow(() -> new ResourceNotFoundException("FuelType not found"));
         carDetails.setFuelType(fuelType);
         carDetailsRepository.save(carDetails);
         return carDetailsMapper.toDto(carDetails);
@@ -86,8 +97,11 @@ public class CarDetailsServiceImpl implements CarDetailsService {
     }
 
     @Override
-    public List<String> getFuelTypes() {
-        return List.of("diesel", "e5", "e10");
+    public List<FuelTypeDto> getFuelTypes() {
+        return fuelTypeRepository.findAll()
+                .stream()
+                .map(fuelTypeMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
