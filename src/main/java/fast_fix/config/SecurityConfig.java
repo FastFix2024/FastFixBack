@@ -77,7 +77,7 @@ public class SecurityConfig {
                         //deleteUser
                         .requestMatchers(HttpMethod.DELETE, "/api/users/my/profile").authenticated()
                         //getUserProfile (any)
-                        .requestMatchers(HttpMethod.GET, "/api/users/{username}").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/users/{username}").permitAll()
                         //getCarDetails
                         .requestMatchers(HttpMethod.GET,"/api/car-details/{userId}").authenticated()
                         //updateCarDetails of User
