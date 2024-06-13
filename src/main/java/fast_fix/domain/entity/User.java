@@ -23,13 +23,16 @@ public class User implements UserDetails {
 
     @Schema(description = "Username", example = " ")
     @Column(name = "username", nullable = false, unique = true)
-    @Pattern(regexp = "^[A-Za-z]+$", message = "Username should contain only English letters")
+    @Pattern(regexp = "^(?![_\\s])[A-Za-z0-9]*[!@#$%^&*]?[A-Za-z0-9]*$",
+            message = "Username should contain English letters, digits, and at most one special character from !, @, #, $, %, ^, &, *. It should not start or end with space or underscore, and should not contain spaces or underscores.")
     private String username;
 
     @Schema(description = "Email", example = " ")
     @Column(name = "email", nullable = false, unique = true)
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
+    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+            message = "Email should not contain spaces or special characters other than ., -, _ in the local part before the '@'.")
     private String email;
 
     @Schema(description = "User Password", example = "Ab3$Ef7*")
