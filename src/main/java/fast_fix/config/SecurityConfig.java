@@ -84,7 +84,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT,"/api/car-details/{userId}/**").authenticated()
                         //getCarDetails of User
                         .requestMatchers(HttpMethod.GET,"/api/car-details/fuel-types", "/api/car-details/stations", "/api/car-details/insurance-companies").authenticated()
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterAfter(tokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
