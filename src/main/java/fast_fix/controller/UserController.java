@@ -1,21 +1,25 @@
 package fast_fix.controller;
 
+import fast_fix.domain.dto.ChangePasswordRequest;
 import fast_fix.domain.dto.UserDto;
 import fast_fix.exceptions.Response;
 import fast_fix.service.interfaces.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Map;
 
 @Tag(name = "User controller", description = "Controller for some operations with available users")
 @RestController
@@ -85,5 +89,22 @@ public class UserController {
     public ResponseEntity<UserDto> getUserProfile(@PathVariable String username) {
         UserDto userDto = userService.getUserProfileByUsername(username);
         return ResponseEntity.ok(userDto);
+    }
+
+    @Operation(summary = "Изменить пароль текущего пользователя")
+    @PutMapping("/my/profile/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody @Schema(example = "{ \"currentPassword\": \"string\", \"newPassword\": \"string\" }") ChangePasswordRequest passwordRequest, Principal principal) {
+        String currentPassword = passwordRequest.getCurrentPassword();
+        String newPassword = passwordRequest.getNewPassword();
+
+        try {
+            userService.changePassword(currentPassword, newPassword);
+            return ResponseEntity.ok(new Response("Password changed successfully."));
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new Response(e.getMessage()));
+        } catch (Exception e) {
+            e.printStackTrace(); // логирование полного стека исключений
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response("An error occurred while changing the password. " + e.getMessage()));
+        }
     }
 }

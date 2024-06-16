@@ -1,18 +1,14 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Technical Inspection</title>
+    <title>Technical Inspection Reminder</title>
 </head>
-
 <body>
-<h1 style="color: green">Напоминание о прохождении технического контроля автомобиля</h1>
-<h2>Добрый день, ${name}!</h2>
-<p>По предоставленным Вами данным, мы заметили, что срок проведения технического контроля вашего автомобиля истекает ${expiration_date}.</p>
-<p>Хотим напомнить Вам забронировать технический осмотр в ближайшее, удобное Вам время.</p>
-<p>Пожалуйста, не забудьте обновить данные в своём профиле.</p>
-<p>С наилучшими пожеланиями, команда FastFix.</p>
+<h1 style="color: green">Technical Inspection Reminder</h1>
+<h2>Hello, ${name}!</h2>
+<p>According to our records, the technical inspection for your car is due on ${expiration_date}.</p>
+<p>Please schedule a technical inspection at your earliest convenience.</p>
+<p>Best regards, FastFix Team.</p>
 </body>
-
 </html>

@@ -1,16 +1,13 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>New fuel for car</title>
+    <title>Fuel Parameters Change</title>
 </head>
-
 <body>
-<h1 style="color: green">Изменение параметров топлива в автомобиле</h1>
-<h2>Добрый день, ${name}!</h2>
-<p>Вы поменяли параметры топлива Вашего автомобиля.</p>
-<p>С наилучшими пожеланиями, команда FastFix.</p>
+<h1 style="color: green">Fuel Parameters Change</h1>
+<h2>Hello, ${name}!</h2>
+<p>The fuel parameters for your car have been successfully changed.</p>
+<p>Best regards, FastFix Team.</p>
 </body>
-
 </html>

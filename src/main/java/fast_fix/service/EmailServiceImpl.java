@@ -1,7 +1,6 @@
 package fast_fix.service;
 
 import fast_fix.domain.entity.User;
-import fast_fix.service.interfaces.ConfirmationService;
 import fast_fix.service.interfaces.EmailService;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
@@ -20,12 +19,10 @@ public class EmailServiceImpl implements EmailService {
 
     private JavaMailSender sender;
     private Configuration mailConfiguration;
-    private ConfirmationService confirmationService;
 
-    public EmailServiceImpl(JavaMailSender sender, Configuration mailConfiguration, ConfirmationService confirmationService) {
+    public EmailServiceImpl(JavaMailSender sender, Configuration mailConfiguration) {
         this.sender = sender;
         this.mailConfiguration = mailConfiguration;
-        this.confirmationService = confirmationService;
 
         mailConfiguration.setDefaultEncoding("UTF-8");
         mailConfiguration.setTemplateLoader(new ClassTemplateLoader(EmailServiceImpl.class, "/mail/"));
@@ -51,11 +48,105 @@ public class EmailServiceImpl implements EmailService {
 
     private String generateMessageText(User user, String confirmationCode) {
         try {
-            Template template = mailConfiguration.getTemplate("confirmation_registration_mail.ftlh");
+            Template template = mailConfiguration.getTemplate("confirmation_registration.ftlh");
 
             Map<String, Object> model = new HashMap<>();
             model.put("name", user.getUsername());
             model.put("link", "https://fastfix-app-jcage.ondigitalocean.app/api/confirm?code=" + confirmationCode);
+
+            return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void sendResetPasswordEmail(User user, String newPassword) {
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
+
+        try {
+            helper.setFrom("fastfix2024project@gmail.com");
+            helper.setTo(user.getEmail());
+            helper.setSubject("Reset Password");
+
+            String text = generateResetPasswordMessageText(user, newPassword);
+            helper.setText(text, true);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        sender.send(message);
+    }
+
+    private String generateResetPasswordMessageText(User user, String newPassword) {
+        try {
+            Template template = mailConfiguration.getTemplate("reset_password.ftlh");
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("name", user.getUsername());
+            model.put("newPassword", newPassword);
+
+            return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void sendPasswordChangedEmail(User user) {
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
+
+        try {
+            helper.setFrom("fastfix2024project@gmail.com");
+            helper.setTo(user.getEmail());
+            helper.setSubject("Password Change Confirmation");
+
+            String text = generatePasswordChangedMessageText(user);
+            helper.setText(text, true);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        sender.send(message);
+    }
+
+    private String generatePasswordChangedMessageText(User user) {
+        try {
+            Template template = mailConfiguration.getTemplate("info_password_changed.ftlh");
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("name", user.getUsername());
+
+            return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void sendEmailConfirmedEmail(User user) {
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
+
+        try {
+            helper.setFrom("fastfix2024project@gmail.com");
+            helper.setTo(user.getEmail());
+            helper.setSubject("Email Confirmation");
+
+            String text = generateEmailConfirmedMessageText(user);
+            helper.setText(text, true);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        sender.send(message);
+    }
+
+    private String generateEmailConfirmedMessageText(User user) {
+        try {
+            Template template = mailConfiguration.getTemplate("info_email_confirmed.ftlh");
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("name", user.getUsername());
 
             return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         } catch (Exception e) {

@@ -7,6 +7,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
 
+    User findUserByEmail(String email);
+
+    void save(User user);
+
     void registerUser(User user);
 
     User confirmUser(String code);
@@ -18,4 +22,8 @@ public interface UserService extends UserDetailsService {
     UserDto updateUserProfile(UserDto userDto);
 
     void deleteUserById(Long id);
+
+    void updatePassword(User user, String newPassword);
+
+    void changePassword(String currentPassword, String newPassword);
 }

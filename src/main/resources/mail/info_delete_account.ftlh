@@ -3,16 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>New E-mail</title>
+    <title>Account Deleted</title>
 </head>
-
 <body>
-<h1 style="color: green">Замена адреса электронной почты</h1>
-<h2>Добрый день, ${name}!</h2>
-<p>Нам жаль, что Вы решили удалить свой аккаунт.</p>
-<p>Мы обработаем все Ваши данные в кротчайщие сроки и удалим всю сохранившуюся у нас информацию о Вас.</p>
-<h5>Мы всё же будем очень рады, если Вы вернётесь к нам в будущем!</h5>
-<p>С наилучшими пожеланиями, команда FastFix.</p>
+<h1 style="color: green">Email Address Change</h1>
+<h2>Hello, ${name}!</h2>
+<p>We regret that you have decided to delete your account.</p>
+<p>We have processed all your data and deleted all the information we had about you.</p>
+<h5>We will be very happy if you return to us in the future!</h5>
+<p>Best regards, FastFix Team.</p>
 </body>
-
 </html>

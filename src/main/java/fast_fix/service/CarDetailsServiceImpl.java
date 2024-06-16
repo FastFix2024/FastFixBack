@@ -16,6 +16,7 @@ import fast_fix.repository.CarInsuranceCompanyRepository;
 import fast_fix.repository.FuelTypeRepository;
 import fast_fix.repository.UserRepository;
 import fast_fix.service.interfaces.CarDetailsService;
+import fast_fix.service.interfaces.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +48,9 @@ public class CarDetailsServiceImpl implements CarDetailsService {
     @Autowired
     private FuelTypeMapper fuelTypeMapper;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public CarDetailsDto getCarDetails(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -65,6 +69,7 @@ public class CarDetailsServiceImpl implements CarDetailsService {
         FuelType fuelType = fuelTypeRepository.findById(fuelTypeId).orElseThrow(() -> new ResourceNotFoundException("FuelType not found"));
         carDetails.setFuelType(fuelType);
         carDetailsRepository.save(carDetails);
+        emailService.sendFuelParamInfoEmail(user);
         return carDetailsMapper.toDto(carDetails);
     }
 
@@ -80,6 +85,7 @@ public class CarDetailsServiceImpl implements CarDetailsService {
                 .orElseThrow(() -> new ResourceNotFoundException("Insurance company not found"));
         carDetails.setInsuranceCompany(insuranceCompany);
         carDetailsRepository.save(carDetails);
+        emailService.sendInsuranceChangedInfoEmail(user);
         return carDetailsMapper.toDto(carDetails);
     }
 
@@ -93,6 +99,7 @@ public class CarDetailsServiceImpl implements CarDetailsService {
         }
         carDetails.setLastMaintenanceDate(lastMaintenanceDate);
         carDetailsRepository.save(carDetails);
+        emailService.sendMaintenanceDateChangedEmail(user);
         return carDetailsMapper.toDto(carDetails);
     }
 

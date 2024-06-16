@@ -67,6 +67,16 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
     public void registerUser(User user) {
         if (userRepository.findUserByEmail(user.getEmail()) != null) {
             throw new ConflictException("User with this email already exists");
@@ -93,6 +103,7 @@ public class UserServiceImpl implements UserService {
             User user = confirmationService.confirmUser(code);
             if (user != null) {
                 logger.log(Level.INFO, "User {0} confirmed successfully", user.getUsername());
+                emailService.sendEmailConfirmedEmail(user);
             } else {
                 logger.log(Level.WARNING, "Invalid confirmation code: {0}", code);
             }
@@ -158,6 +169,7 @@ public class UserServiceImpl implements UserService {
 
         // Удаляем пользователя
         userRepository.deleteById(userId);
+        emailService.sendDeleteAccountInfoEmail(userToDelete);
     }
 
     @Override
@@ -218,5 +230,36 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User not found");
         }
         return user;
+    }
+
+    @Override
+    public void updatePassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    public void changePassword(String currentPassword, String newPassword) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            logger.warning("Authentication is null or not authenticated.");
+            throw new AccessDeniedException("You must be logged in to change your password.");
+        }
+
+        String currentUsername = authentication.getName();
+        User user = userRepository.findUserByUsername(currentUsername);
+        if (user == null) {
+            logger.warning("User not found: " + currentUsername);
+            throw new ResourceNotFoundException("User not found.");
+        }
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            logger.warning("Current password is incorrect for user: " + currentUsername);
+            throw new AccessDeniedException("Current password is incorrect.");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        logger.info("Password changed successfully for user: " + currentUsername);
+
+        emailService.sendPasswordChangedEmail(user); // отправка письма о смене пароля
     }
 }

@@ -64,16 +64,16 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(x -> x
                         .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        //register
-                        .requestMatchers(HttpMethod.POST, "/api/register", "/api/auth/login").permitAll()
+                        //register, login, access, forgotPass
+                        .requestMatchers(HttpMethod.POST, "/api/register", "/api/auth/login", "api/auth/access", "api/auth/forgot-password").permitAll()
                         //logout
                         .requestMatchers(HttpMethod.POST, "/api/auth/logout").authenticated()
-                        //access
-                        .requestMatchers(HttpMethod.POST, "/api/auth/access").permitAll()
                         //getUserProfile
                         .requestMatchers(HttpMethod.GET, "/api/users/my/profile").authenticated()
                         //updateUserProfile
                         .requestMatchers(HttpMethod.PUT, "/api/users/my/profile").authenticated()
+                        //changePassword
+                        .requestMatchers(HttpMethod.PUT, "/api/users/my/profile/change-password").authenticated()
                         //deleteUser
                         .requestMatchers(HttpMethod.DELETE, "/api/users/my/profile").authenticated()
                         //getUserProfile (any)

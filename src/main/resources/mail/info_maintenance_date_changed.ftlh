@@ -1,17 +1,14 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>New Insurance Company</title>
 </head>
-
 <body>
-<h1 style="color: green">Замена страховой компании</h1>
-<h2>Добрый день, ${name}!</h2>
-<p>Дата Вашего последнего тех. осмотра была успешно изменена.</p>
-<p>Новая дата: ${last_maintenance_date}</p>
-<p>С наилучшими пожеланиями, команда FastFix.</p>
+<h1 style="color: green">Insurance Company Change</h1>
+<h2>Hello, ${name}!</h2>
+<p>The date of your last technical inspection has been successfully updated.</p>
+<p>New date: ${last_maintenance_date}</p>
+<p>Best regards, FastFix Team.</p>
 </body>
-
 </html>

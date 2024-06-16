@@ -1,9 +1,11 @@
 package fast_fix.security.sec_controller;
 
+import fast_fix.domain.dto.ForgotPasswordRequest;
 import fast_fix.domain.entity.User;
 import fast_fix.security.sec_dto.TokenResponseDto;
 import fast_fix.security.sec_service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Tag(name = "Authentication controller")
 @RestController
@@ -83,6 +87,19 @@ public class AuthController {
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setMaxAge(0);
         response.addCookie(refreshTokenCookie);
+    }
+
+    @Operation(summary = "Восстановление пароля")
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestBody @Schema(example = "{ \"email\": \"user@example.com\" }") ForgotPasswordRequest request) {
+        String email = request.getEmail();
+        boolean result = authService.resetPassword(email);
+
+        if (result) {
+            return ResponseEntity.ok("A new password was sent to your email");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with such email does not exist");
+        }
     }
 
     private String getTokenFromCookies(HttpServletRequest request, String cookieName) {
