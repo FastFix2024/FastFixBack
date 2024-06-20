@@ -30,7 +30,7 @@ public class InspectionReminderServiceImpl {
             if (carDetails != null && carDetails.getLastMaintenanceDate() != null) {
                 LocalDate inspectionDate = carDetails.getLastMaintenanceDate();
                 if (inspectionDate.plusMonths(11).isBefore(now) || inspectionDate.plusMonths(11).isEqual(now)) {
-                    emailService.sendMaintenanceDateChangedEmail(user);
+                    emailService.sendMaintenanceReminderEmail(user);
                 }
             }
         }
