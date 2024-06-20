@@ -28,16 +28,12 @@ public class ConfirmationController {
     public ResponseEntity<String> confirmEmail(@RequestParam("code") String code) {
         try {
             User user = service.confirmUser(code);
-
             if (user != null) {
-                logger.log(Level.INFO, "User {0} successfully confirmed", user.getUsername());
                 return ResponseEntity.ok("Thank you for confirming your email address!");
             } else {
-                logger.log(Level.WARNING, "Invalid confirmation code: {0}", code);
                 return ResponseEntity.status(400).body("Invalid confirmation code");
             }
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "An error occurred while confirming email", e);
             return ResponseEntity.status(500).body("An unexpected error occurred. Please try again later.");
         }
     }

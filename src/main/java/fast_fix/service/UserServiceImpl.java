@@ -98,18 +98,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User confirmUser(String code) {
-        logger.log(Level.INFO, "Attempting to confirm user with code: {0}", code);
         try {
             User user = confirmationService.confirmUser(code);
             if (user != null) {
-                logger.log(Level.INFO, "User {0} confirmed successfully", user.getUsername());
                 emailService.sendEmailConfirmedEmail(user);
             } else {
-                logger.log(Level.WARNING, "Invalid confirmation code: {0}", code);
             }
             return user;
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "An error occurred while confirming user with code: " + code, e);
             throw new RuntimeException("An error occurred while confirming user", e);
         }
     }
