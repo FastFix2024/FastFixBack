@@ -23,14 +23,13 @@ public class InspectionReminderServiceImpl {
     @Scheduled(fixedRate = 60000) // Ежедневный запуск в 12:00
     public void sendInspectionReminders() {
         LocalDate now = LocalDate.now();
-        LocalDate reminderDate = now.plusMonths(1);
 
         List<User> users = userRepository.findAll();
         for (User user : users) {
             CarDetails carDetails = user.getCarDetails();
             if (carDetails != null && carDetails.getLastMaintenanceDate() != null) {
-                LocalDate inspectionDate = carDetails.getLastMaintenanceDate().plusMonths(11);
-                if (inspectionDate.equals(reminderDate)) {
+                LocalDate inspectionDate = carDetails.getLastMaintenanceDate();
+                if (inspectionDate.plusMonths(11).isBefore(now) || inspectionDate.plusMonths(11).isEqual(now)) {
                     emailService.sendMaintenanceDateChangedEmail(user);
                 }
             }
