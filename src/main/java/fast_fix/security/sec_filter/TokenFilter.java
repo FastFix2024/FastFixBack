@@ -32,7 +32,22 @@ public class TokenFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        String token = getTokenFromRequest((HttpServletRequest) request);
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String requestPath = httpRequest.getRequestURI();
+
+        // Исключение путей, которые не требуют аутентификации
+        if (requestPath.startsWith("/api/register") ||
+                requestPath.startsWith("/api/auth/login") ||
+                requestPath.startsWith("/api/auth/access") ||
+                requestPath.startsWith("/api/auth/forgot-password") ||
+                requestPath.startsWith("/swagger-ui/") ||
+                requestPath.startsWith("/v3/api-docs/")) {
+
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String token = getTokenFromRequest(httpRequest);
         if (token != null) {
             if (tokenService.validateAccessToken(token)) {
                 Claims claims = tokenService.getAccessClaims(token);
@@ -40,7 +55,7 @@ public class TokenFilter extends GenericFilterBean {
                 authInfo.setAuthenticated(true);
                 SecurityContextHolder.getContext().setAuthentication(authInfo);
             } else {
-                String refreshToken = getTokenFromCookies((HttpServletRequest) request, "Refresh-Token");
+                String refreshToken = getTokenFromCookies(httpRequest, "Refresh-Token");
                 if (refreshToken != null && tokenService.validateRefreshToken(refreshToken)) {
                     Claims refreshClaims = tokenService.getRefreshClaims(refreshToken);
                     String username = refreshClaims.getSubject();
