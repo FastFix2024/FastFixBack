@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Password Change Confirmation</title>
+    <title>New Password</title>
 </head>
 <body>
 <h1 style="color: green">Password Change Confirmation</h1>

@@ -178,7 +178,7 @@ public class EmailServiceImpl implements EmailService {
 
             Map<String, Object> model = new HashMap<>();
             model.put("name", user.getUsername());
-            model.put("insurance_company", user.getCarDetails().getInsuranceCompany());
+            model.put("insurance_company", user.getCarDetails().getInsuranceCompany().getName());
 
             return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 

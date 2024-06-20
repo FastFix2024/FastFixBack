@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Email Address Change</title>
+    <title>New Email Address</title>
 </head>
 <body>
 <h1 style="color: green">Email Address Change</h1>

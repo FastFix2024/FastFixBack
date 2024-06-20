@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Fuel Parameters Change</title>
+    <title>New Fuel Parameters</title>
 </head>
 <body>
 <h1 style="color: green">Fuel Parameters Change</h1>

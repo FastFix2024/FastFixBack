@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Insurance Company Change</title>
+    <title>New Insurance Company</title>
 </head>
 <body>
 <h1 style="color: green">Insurance Company Change</h1>
