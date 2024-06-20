@@ -6,8 +6,8 @@
 </head>
 <body>
 <h1 style="color: green">Email Confirmation</h1>
-<h2>Hello, ${name}!</h2>
-<p>Your email has been successfully confirmed.</p>
+<h2>Hello and welcome, ${name}!</h2>
+<p>To confirm your email address, please follow this <a href="${link}">link</a></p>
 <p>Best regards, FastFix Team.</p>
 </body>
 </html>
