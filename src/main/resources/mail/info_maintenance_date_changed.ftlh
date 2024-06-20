@@ -8,7 +8,6 @@
 <h1 style="color: green">Insurance Company Change</h1>
 <h2>Hello, ${name}!</h2>
 <p>The date of your last technical inspection has been successfully updated.</p>
-<p>New date: ${last_maintenance_date}</p>
 <p>Best regards, FastFix Team.</p>
 </body>
 </html>
